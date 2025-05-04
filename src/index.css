@@ -1,0 +1,31 @@
+:root {
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  /* background-color: #242424; */
+}
+
+#root {
+  /* display: flex;
+  flex-direction: column; */
+  /* background-color: #242424; */
+}
+
+body ul {
+  list-style-type: none;
+  padding-left: 3px;
+}
+
+a {
+  text-decoration: none;
+  color: #111;
+}
+
+/* remove */
+.col-3 {
+  height: 20vh;
+  display: inline-block;
+}
+
+.col-6 {
+  display: inline-block;
+}

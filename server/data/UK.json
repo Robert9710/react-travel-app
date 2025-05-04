@@ -1,0 +1,22 @@
+{
+  "id": "106",
+  "articles": [
+    {
+      "id": "1600",
+      "title": "Edinburgh, Scotland",
+      "recommended": "February",
+      "content": "The Scottish capital is pretty magical year-round - in summer, the city comes alive with the Fringe Festival, and wintertime brings with it the promise of snow, sparkle and festive magic. But in February, the city experiences a blissful calm; the Christmas merrymakers have dispersed back home, and the Easter break hasn't yet begun, so the city gets a pocket of peace in between holiday seasons. You'll get the best table in the house at many of Edinburgh's top restaurants, crowd-free views of the Castle and hikes up Arthur's Seat, and still be able to enjoy the cosiness of a fireside pint at the city's best boozers and drinking dens."
+    },
+    {
+      "id": "1601",
+      "title": "Cotswolds",
+      "recommended": "February",
+      "content": "If there's one thing that can make a British winter appealing, it's the thought of getting cosy in the Cotswolds. Amid a quintessentially English landscape, publicans pull artisan ales, sipped by roaring fires. Frosty walks ramble past country manors and up green hills topped with Iron Age forts. But while its home to some of the most beautiful villages in the UK, this isn't back-in-time England. Clued-in movers and shakers have helped sow an ultra-modern crop of Michelin-starred restaurants in the Cotswolds between the organic spacs, antiques stores and tea rooms. Naturally, rates and reservations are more manageable in winter. Two of the best hotels in the Cotswolds that particularly embody contemporary village living: Soho Farmhouse (copper bathtubs; bottled Negronis), and Lady Bamford's trailblazing Daylesford farm and estate, where the organic ethos extends to everything from the farm shop and pub to wellness treatments."
+    },
+    {
+      "title": "",
+      "recommended": "",
+      "content": ""
+    }
+  ]
+}

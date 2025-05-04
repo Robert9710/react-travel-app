@@ -1,0 +1,23 @@
+{
+  "id": "102",
+  "articles": [
+    {
+      "id": "1200",
+      "title": "Val d'Isere",
+      "recommended": "January",
+      "content": "With New Year crowds gone and no school holidays on the horizon, January is a fine time to hit up the best ski resorts in Europe. And not only does French ski resort Val present the most reliable powder on the continent, but this St-Tropez-on-snow is only getting splashier. The spot is home to some of the best ski hotels and chalets in the region. And if Olympic downhills and Michelin-starred restaurants aren't doing it, there are plenty more inventive ways to get your kicks."
+    },
+    {
+      "id": "1201",
+      "title": "Courchevel",
+      "recommended": "February",
+      "content": "Courchevel is the superstar ski resort of the French Alps. Of its four villages, Courchevel 1850 is the highest, biggest and glitziest, drawing a jet-set crowd with its Michelin-star restaurants, super-smart chalets and hotels, posh aprés ski – oh yes, and its abundance of snowy slopes for all levels, on-piste and off, with a long season and 230 snow cannons to guarantee good snow. It’s brilliant for superstar and beginner skiers alike, so makes a great option for the February half term; families may prefer the slightly less high-glamour vibe of 1650."
+    },
+    {
+      "id": "1202",
+      "title": "Paris",
+      "recommended": "February",
+      "content": "The City of Love should be an obvious pick in February, but potential suitors are all-too-often put off by the weather. Très grosse erreur. Anyone who knows the French knows they scarper tout de suite in summer, shuttering restaurants, frustrating foreigners and not giving a tiny French fig. Come instead in winter, when everything’s open, visitors are fewer, reservations easier and rates lower. All the best stuff is indoors anyway: cute, candle-lit bistros; echoey art museums; bo-bo (bourgeois-boho) bars. South Pigalle – or SoPo – still sizzles as one of Paris’s hottest spots, where the best table is at Bouillon Pigalle. The queue around the block is worth it – three-course meals with drinks here can cost less than €25, practically unheard of within the list of the best restaurants in Paris."
+    }
+  ]
+}

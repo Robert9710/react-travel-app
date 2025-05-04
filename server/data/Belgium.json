@@ -1,0 +1,21 @@
+{
+  "id": "100",
+  "articles": [
+    {
+      "id": "1000",
+      "title": "Bruges",
+      "recommended": "January",
+      "content": "For snow, beer and chips. The beautiful little Belgian city is one of those rare places that is just as enticing in the bleak midwinter as in summer: pretty in the snow, “beautiful f**king fairytale stuff”, to quote the film In Bruges (which is all the research you need). And the snow is an excellent excuse for holing up somewhere because this city also has some of the most inviting reasons to stay indoors: interesting interiors, welcoming taverns full of good cheer and much Belgian beer, antiques and junk shops to poke around, gorgeous old guesthouses on the canals, candlelit bars and restaurants, moules-frites and cream-and-kirsch-laden puddings. A long weekend is enough time to see everything and put on a stone in weight."
+    },
+    {
+      "title": "",
+      "recommended": "",
+      "content": ""
+    },
+    {
+      "title": "",
+      "recommended": "",
+      "content": ""
+    }
+  ]
+}

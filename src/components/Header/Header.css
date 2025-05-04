@@ -1,0 +1,25 @@
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  /* background-color: #eee; */
+  border-bottom: 2px;
+}
+
+#header .home-icon {
+  height: 50px;
+  width: auto;
+}
+
+#header .menu-icon {
+  height: 30px;
+}
+
+#header .input-group {
+  width: auto;
+}
+
+#header .btn {
+  background-color: #dce1e7;
+}

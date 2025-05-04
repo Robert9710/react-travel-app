@@ -1,0 +1,11 @@
+.topic-block {
+  background-color: #ccc;
+  box-shadow: 3px 3px #ddd;
+  padding: 10px 20px;
+  height: 230px;
+}
+
+.topic-block > ul {
+  display: flex;
+  flex-direction: column;
+}

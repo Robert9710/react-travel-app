@@ -1,0 +1,17 @@
+{
+  "id": "103",
+  "articles": [
+    {
+      "id": "1300",
+      "title": "The Dolomites",
+      "recommended": "January, February",
+      "content": "While many skiers head straight for the French peaks between November and February, in-the-know winter sports fans and wellness enthusiasts go the extra mile and seek out the natural beauty of The Dolomites. It's a hiker's paradise during summer, but you'll need to don your skis and go off-piste for wild exploration over winter, thanks to considerable snowfall. Cortina d'Ampezzo hosted the 1956 Winter Olympics and is ideal for skiers of all abilities, becoming Italy's answer to St Moritz in recent decades. However, these peaks hide various charming towns, and it's not all about the slopes. Check into one of the region's sleekest spa hotels to unwind completely after the Christmas chaos."
+    },
+    {
+      "id": "1301",
+      "title": "Venice",
+      "recommended": "February",
+      "content": "February is carnival time in Venice, which makes it either the very best time to come, or the worst. Noblemen clink swords in St Mark's Square, courtesans cloaked in red silk drift down the Grand Canal on plumed gondolas, and gilded masks allow royalty to walk freely among the commoners. What seems like a Canaletto painting comes to life every year when revellers gather for three weeks of masked debauchery. Those seeking the quiet charms of the floating city will be disappointed, but if you dare to join the huddled masses you'll be rewarded with an otherworldly experience. You can flaunt your finery on the Rialto, dance the quadrilles at the Doge's ball and wake up the next morning in a luxurious four-poster bed in your very own Venetian palace wondering if it was all a dream."
+    }
+  ]
+}
