@@ -5,12 +5,19 @@ interface RequestObj {
   options?: object;
 }
 
-export default function useData(requestObj: RequestObj) {
-  const [data, setData] = useState(null);
+export default function useData<T>(requestObj: RequestObj) {
+  const [data, setData] = useState<T | null>(null);
   useEffect(() => {
-    fetch(requestObj.url, requestObj.options)
-      .then((response) => response.json())
-      .then((data) => setData(data));
-  }, [requestObj.url]);
+    async function fetchData() {
+      const response = await fetch(requestObj.url, requestObj.options);
+      setData(await response.json());
+    }
+    fetchData();
+  }, [requestObj.url, requestObj.options]);
   return data;
 }
+
+// async function fetchData<T>(requestObj: RequestObj): Promise<T> {
+//   const response = await fetch(requestObj.url, requestObj.options);
+//   return await response.json();
+// }

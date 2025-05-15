@@ -5,6 +5,7 @@ import Home from "./pages/Home/Home.tsx";
 import ViewArticle from "./pages/ViewArticle/ViewArticle.tsx";
 import BasePage from "./pages/BasePage/BasePage.tsx";
 import ViewTopic from "./pages/ViewTopic/ViewTopic.tsx";
+import CreateArticle from "./pages/CreateArticle/CreateArticle.tsx";
 
 const router = createBrowserRouter([
   {
@@ -13,17 +14,21 @@ const router = createBrowserRouter([
     children: [
       { index: true, Component: Home },
       {
-        path: "/topic/:topicName",
+        path: "/topic/:topicTitle",
         children: [
           {
             index: true,
             Component: ViewTopic,
           },
           {
-            path: "/topic/:topicName/article/:articleId/:articleName?",
+            path: "/topic/:topicTitle/article/:articleId/:articleName?",
             Component: ViewArticle,
           },
         ],
+      },
+      {
+        path: "/create",
+        Component: CreateArticle,
       },
     ],
   },

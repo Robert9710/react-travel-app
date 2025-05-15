@@ -4,10 +4,9 @@ import useData from "../../application/useData";
 import { Topics } from "../../application/types";
 
 export default function TopicsBlocks() {
-  const topicsData: Topics | null = useData({
+  const topicsData = useData<Topics>({
     url: "http://localhost:3000/topics",
   });
-
   const topicBlocks =
     topicsData &&
     topicsData.topics.map((topic, index) => (

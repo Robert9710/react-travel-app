@@ -10,6 +10,10 @@
   /* background-color: #242424; */
 }
 
+body::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
 body ul {
   list-style-type: none;
   padding-left: 3px;

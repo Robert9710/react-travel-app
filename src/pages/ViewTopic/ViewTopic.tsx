@@ -2,17 +2,17 @@ import { useNavigate, useParams } from "react-router";
 import TopicContent from "../../components/TopicContent/TopicContent";
 
 export default function ViewTopic() {
-  const { topicName } = useParams();
+  const { topicTitle } = useParams();
   const navigate = useNavigate();
-  if (!topicName) {
+  if (!topicTitle) {
     navigate("./error-page");
   } else
     return (
-      <>
+      <div id="view-topic" className="row">
         <div className="col-3"></div>
         <div className="col-6">
-          <TopicContent topicName={topicName} />
+          <TopicContent topicTitle={topicTitle} />
         </div>
-      </>
+      </div>
     );
 }

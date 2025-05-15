@@ -11,7 +11,9 @@ export default function Header() {
         </Link>
       </div>
       <div className="input-group">
-        <input type="text" className="form-control" />
+        <label>
+          <input type="text" className="form-control" />
+        </label>
         <button type="submit" className="btn btn-outline-secondary">
           Search
         </button>
