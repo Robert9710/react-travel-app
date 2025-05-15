@@ -1,30 +1,22 @@
 import "./RelatedArticlesList.css";
 import { Link } from "react-router";
 import useData from "../../application/useData";
+import {
+  ArticleProps,
+  ArticleIdentifiers,
+  RelatedArticles,
+} from "../../application/types";
 
-interface Props {
-  topicName: string;
-  articleId: string;
-}
-
-interface Article {
-  id: string;
-  title: string;
-}
-
-interface RelatedArticles {
-  articles?: [];
-}
-export default function RelatedArticlesList(props: Props) {
-  const relatedArticles: RelatedArticles = useData({
-    url: `http://localhost:3000/topic/${props.topicName}/article/${props.articleId}/related`,
+export default function RelatedArticlesList(props: ArticleProps) {
+  const relatedArticles = useData<RelatedArticles>({
+    url: `http://localhost:3000/topic/${props.topicTitle}/article/${props.articleId}/related`,
   });
   const articleElements =
-    relatedArticles.articles &&
-    relatedArticles.articles.map((article: Article) => (
+    relatedArticles &&
+    relatedArticles.articles.map((article: ArticleIdentifiers) => (
       <li key={article.id}>
         <Link
-          to={`/topic/${props.topicName}/article/${article.id}/${article.title}`}
+          to={`/topic/${props.topicTitle}/article/${article.id}/${article.title}`}
         >
           {article.title}
         </Link>

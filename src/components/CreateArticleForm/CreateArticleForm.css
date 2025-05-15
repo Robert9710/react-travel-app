@@ -1,0 +1,9 @@
+#create-article-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#create-article-form textarea {
+  height: 300px;
+}

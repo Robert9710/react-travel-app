@@ -3,19 +3,19 @@ import ArticleContent from "../../components/ArticleContent/ArticleContent";
 import RelatedArticlesList from "../../components/RelatedArticlesList/RelatedArticlesList";
 
 export default function ViewArticle() {
-  const { topicName, articleId } = useParams();
+  const { topicTitle, articleId } = useParams();
   const navigate = useNavigate();
 
-  if (!topicName || !articleId) {
+  if (!topicTitle || !articleId) {
     navigate("./error-page");
   } else
     return (
-      <>
+      <div id="view-article" className="row">
         <div className="col-3"></div>
         <div className="col-6">
-          <ArticleContent topicName={topicName} articleId={articleId} />
-          <RelatedArticlesList topicName={topicName} articleId={articleId} />
+          <ArticleContent topicTitle={topicTitle} articleId={articleId} />
+          <RelatedArticlesList topicTitle={topicTitle} articleId={articleId} />
         </div>
-      </>
+      </div>
     );
 }

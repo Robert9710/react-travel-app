@@ -4,19 +4,19 @@ import useData from "../../application/useData";
 import type { Topic } from "../../application/types";
 
 interface Props {
-  topicName: string;
+  topicTitle: string;
 }
 
 export default function TopicContent(props: Props) {
-  const topicData: Topic = useData({
-    url: `http://localhost:3000/topic/${props.topicName}`,
+  const topicData = useData<Topic>({
+    url: `http://localhost:3000/topic/${props.topicTitle}`,
   });
   const topicElements =
-    topicData.articles &&
+    topicData &&
     topicData.articles.map((article, index) => (
       <li key={index}>
         <Link
-          to={`/topic/${props.topicName}/article/${article.id}/${article.title}`}
+          to={`/topic/${props.topicTitle}/article/${article.id}/${article.title}`}
         >
           {article.title}
         </Link>
@@ -24,7 +24,7 @@ export default function TopicContent(props: Props) {
     ));
   return (
     <>
-      <h2>{props.topicName}</h2>
+      <h2>{props.topicTitle}</h2>
       <ul>{topicElements}</ul>
     </>
   );
