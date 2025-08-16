@@ -50,6 +50,64 @@ app.post("/create/topic", (req, res) => {
 });
 
 function init() {
+app.post("/create/article", (req, res) => {
+  fs.readFile(`./server/data/${req.body.topicName}.json`, (err, data) => {
+    let topicData = JSON.parse(data);
+    let id = 0;
+    topicData.articles.forEach((article) => {
+      if (parseInt(article.id) > id) {
+        id = article.id;
+      }
+    });
+    if (id === 0) {
+      id = (++id * 10 + topicData.id / 10) * 100;
+    }
+    topicData.articles.push({
+      id: (++id).toString(),
+      title: req.body.title,
+      recommended: req.body.recommended,
+      content: req.body.content,
+    });
+    fs.writeFile(
+      `./server/data/${req.body.topicName}.json`,
+      JSON.stringify(topicData),
+      {},
+      (err) => {}
+    );
+    res.status(204).send();
+  });
+});
+
+app.post("/create/topic", (req, res) => {
+  fs.readdir("./server/data", async (err, files) => {
+    const topics = files.map((file) => file.split(".")[0]);
+    const isDuplicateTopic = topics.find(
+      (topic) => topic === req.body.topicName
+    );
+    if (!isDuplicateTopic) {
+      let id = 0;
+      topics.forEach((topic) => {
+        const topicData = JSON.parse(
+          fs.readFileSync(`./server/data/${topic}.json`)
+        );
+        if (parseInt(topicData.id) > id) {
+          id = topicData.id;
+        }
+      });
+      fs.writeFile(
+        `./server/data/${req.body.topicName}.json`,
+        JSON.stringify({ id: (++id).toString(), articles: [] }),
+        {},
+        (err) => {}
+      );
+      res.status(204).send();
+    } else {
+      res.status(400).send();
+    }
+  });
+});
+
+function getArticlesInTopic(topicName) {
   return new Promise((resolve, reject) => {
     fs.readFile(`./server/data/Topics.json`, (err, data) => {
       const topics = JSON.parse(data);
