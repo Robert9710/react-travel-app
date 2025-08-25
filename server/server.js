@@ -14,12 +14,25 @@ app.get("/topic/:topicId/article/:articleId/related", async (req, res) => {
   res.json(getRelatedArticles(req.params.articleId, req.params.topicId));
 });
 
-app.get("/topic/:topicid/article/:articleId", (req, res) => {
+app.get("/topic/:topicId/article/:articleId", (req, res) => {
   res.json(getArticle(req.params.articleId, req.params.topicId));
 });
 
+app.get("/topic/:topicId/articles", (req, res) => {
+  res.json(getArticlesInTopic(req.params.topicId));
+});
+
 app.get("/topic/:topicId", async (req, res) => {
-  res.json(getTopic(req.params.topicId));
+  const topic = getTopic(req.params.topicId);
+  res.json({
+    topic: {
+      id: topic.id,
+      title: topic.name,
+    },
+    paginationInfo: {
+      count: topic.articles.length,
+    },
+  });
 });
 
 app.get("/topics", (req, res) => {
@@ -82,10 +95,13 @@ function increaseIds() {
 function getTopics() {
   return {
     topics: topics.map((topic) => ({
-      name: topic.name,
       id: topic.id,
+      name: topic.name,
       articleCount: topic.articles.length,
     })),
+    paginationInfo: {
+      count: topics.length,
+    },
   };
 }
 
@@ -108,15 +124,33 @@ function getArticle(articleId, topicId) {
 
 function getRelatedArticles(articleId, topicId) {
   const topic = topicId ? getTopic(topicId) : getTopicForArticle(articleId);
+  const relatedArticles = topic.articles.filter(
+    (article) => article.id !== articleId
+  );
   return {
-    relatedArticles: topic.articles.filter(
-      (article) => article.id !== articleId
-    ),
+    articles: relatedArticles.map((article) => ({
+      id: article.id,
+      title: article.title,
+    })),
+    paginationInfo: { count: relatedArticles.length },
   };
 }
 
 function getTopic(topicId) {
   return topics.find((topic) => topic.id === topicId);
+}
+
+function getArticlesInTopic(topicId) {
+  const topic = getTopic(topicId);
+  return {
+    articles: topic.articles.map((article) => ({
+      id: article.id,
+      title: article.title,
+    })),
+    paginationInfo: {
+      count: topic.articles.length,
+    },
+  };
 }
 
 function createTopic(topicName) {
@@ -170,19 +204,6 @@ function createArticle(topicId, title, content, recommendedMonths) {
     return false;
   }
 }
-
-// function getArticlesInTopic(topicId) {
-//   return new Promise((resolve, reject) => {
-//     fs.readFile(`./server/data/${topicName}.json`, (err, data) => {
-//       resolve(
-//         JSON.parse(data).articles.map((article) => ({
-//           id: article.id,
-//           title: article.title,
-//         }))
-//       );
-//     });
-//   });
-// }
 
 // async function getTopicAndArticles(topics) {
 //   return new Promise(async (resolve, reject) => {
