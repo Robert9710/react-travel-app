@@ -4,7 +4,7 @@ import cors from "cors";
 import fs from "fs";
 import { resolve } from "path";
 
-const [topics, nextTopicId, nextArticleId] = await init();
+let [topics, nextTopicId, nextArticleId] = await init();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,10 +27,8 @@ app.get("/topic/:topicId", async (req, res) => {
   res.json({
     topic: {
       id: topic.id,
-      title: topic.name,
-    },
-    paginationInfo: {
-      count: topic.articles.length,
+      name: topic.name,
+      articleCount: topic.articles.length,
     },
   });
 });
@@ -42,7 +40,7 @@ app.get("/topics", (req, res) => {
 app.post("/create/article", (req, res) => {
   const articleCreatedSuccessfully = createArticle(
     req.body.topicId,
-    req.body.title,
+    req.body.name,
     req.body.content,
     req.body.recommendedMonths
   );
@@ -60,6 +58,14 @@ app.post("/create/topic", (req, res) => {
   } else {
     res.status(400).send();
   }
+});
+
+app.get("/search/suggestions", (req, res) => {
+  res.json({ suggestions: getSearchSuggestions(req.query.q) });
+});
+
+app.get("/search", (req, res) => {
+  res.json(search(req.query.q));
 });
 
 function init() {
@@ -117,8 +123,10 @@ function getTopicForArticle(articleId) {
 
 function getArticle(articleId, topicId) {
   const topic = topicId ? getTopic(topicId) : getTopicForArticle(articleId);
+  const article = topic.articles.find((article) => article.id === articleId);
+  article.topicSummary = { id: topic.id, name: topic.name };
   return {
-    article: topic.articles.find((article) => article.id === articleId),
+    article: article,
   };
 }
 
@@ -130,7 +138,7 @@ function getRelatedArticles(articleId, topicId) {
   return {
     articles: relatedArticles.map((article) => ({
       id: article.id,
-      title: article.title,
+      name: article.name,
     })),
     paginationInfo: { count: relatedArticles.length },
   };
@@ -145,7 +153,7 @@ function getArticlesInTopic(topicId) {
   return {
     articles: topic.articles.map((article) => ({
       id: article.id,
-      title: article.title,
+      name: article.name,
     })),
     paginationInfo: {
       count: topic.articles.length,
@@ -157,8 +165,8 @@ function createTopic(topicName) {
   const isDuplicateTopic = !!topics.find((topic) => topic.name === topicName);
   if (!isDuplicateTopic) {
     topics.push({
-      name: topicName,
       id: nextTopicId,
+      name: topicName,
       articles: [],
     });
     fs.writeFile(
@@ -177,15 +185,15 @@ function createTopic(topicName) {
   }
 }
 
-function createArticle(topicId, title, content, recommendedMonths) {
+function createArticle(topicId, name, content, recommendedMonths) {
   const topic = topics.find((topic) => topic.id === topicId);
   const isDuplicateArticle = !!topic.articles.find(
-    (article) => article.title === title
+    (article) => article.name === name
   );
   if (!isDuplicateArticle) {
     topic.articles.push({
       id: nextArticleId,
-      title: title,
+      name: name,
       recommended: recommendedMonths,
       content: content,
     });
@@ -203,6 +211,51 @@ function createArticle(topicId, title, content, recommendedMonths) {
   } else {
     return false;
   }
+}
+
+function getSearchSuggestions(query) {
+  let results = [];
+  topics.forEach((topic) => {
+    if (topic.name.includes(query)) {
+      results.push({ resultType: "Topic", id: topic.id, name: topic.name });
+    }
+    topic.articles.forEach((article) => {
+      if (article.name.includes(query) || article.content.includes(query)) {
+        results.push({
+          resultType: "Article",
+          id: article.id,
+          name: article.name,
+          topicId: topic.id,
+        });
+      }
+    });
+  });
+  return results;
+}
+
+function search(query) {
+  let results = [];
+  topics.forEach((topic) => {
+    if (topic.name.includes(query)) {
+      results.push({
+        resultType: "Topic",
+        id: topic.id,
+        name: topic.name,
+        articleCount: topic.articles.length,
+      });
+    }
+    topic.articles.forEach((article) => {
+      if (article.name.includes(query) || article.content.includes(query)) {
+        results.push({
+          resultType: "Article",
+          id: article.id,
+          name: article.name,
+          topicId: topic.id,
+        });
+      }
+    });
+  });
+  return results;
 }
 
 // async function getTopicAndArticles(topics) {
