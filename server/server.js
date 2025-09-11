@@ -4,7 +4,7 @@ import cors from "cors";
 import fs from "fs";
 import { resolve } from "path";
 
-const [topics, nextTopicId, nextArticleId] = await init();
+let [topics, nextTopicId, nextArticleId] = await init();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -14,12 +14,23 @@ app.get("/topic/:topicId/article/:articleId/related", async (req, res) => {
   res.json(getRelatedArticles(req.params.articleId, req.params.topicId));
 });
 
-app.get("/topic/:topicid/article/:articleId", (req, res) => {
+app.get("/topic/:topicId/article/:articleId", (req, res) => {
   res.json(getArticle(req.params.articleId, req.params.topicId));
 });
 
+app.get("/topic/:topicId/articles", (req, res) => {
+  res.json(getArticlesInTopic(req.params.topicId));
+});
+
 app.get("/topic/:topicId", async (req, res) => {
-  res.json(getTopic(req.params.topicId));
+  const topic = getTopic(req.params.topicId);
+  res.json({
+    topic: {
+      id: topic.id,
+      name: topic.name,
+      articleCount: topic.articles.length,
+    },
+  });
 });
 
 app.get("/topics", (req, res) => {
@@ -29,7 +40,7 @@ app.get("/topics", (req, res) => {
 app.post("/create/article", (req, res) => {
   const articleCreatedSuccessfully = createArticle(
     req.body.topicId,
-    req.body.title,
+    req.body.name,
     req.body.content,
     req.body.recommendedMonths
   );
@@ -47,6 +58,14 @@ app.post("/create/topic", (req, res) => {
   } else {
     res.status(400).send();
   }
+});
+
+app.get("/search/suggestions", (req, res) => {
+  res.json({ suggestions: getSearchSuggestions(req.query.q) });
+});
+
+app.get("/search", (req, res) => {
+  res.json(search(req.query.q));
 });
 
 function init() {
@@ -82,10 +101,13 @@ function increaseIds() {
 function getTopics() {
   return {
     topics: topics.map((topic) => ({
-      name: topic.name,
       id: topic.id,
+      name: topic.name,
       articleCount: topic.articles.length,
     })),
+    paginationInfo: {
+      count: topics.length,
+    },
   };
 }
 
@@ -101,17 +123,24 @@ function getTopicForArticle(articleId) {
 
 function getArticle(articleId, topicId) {
   const topic = topicId ? getTopic(topicId) : getTopicForArticle(articleId);
+  const article = topic.articles.find((article) => article.id === articleId);
+  article.topicSummary = { id: topic.id, name: topic.name };
   return {
-    article: topic.articles.find((article) => article.id === articleId),
+    article: article,
   };
 }
 
 function getRelatedArticles(articleId, topicId) {
   const topic = topicId ? getTopic(topicId) : getTopicForArticle(articleId);
+  const relatedArticles = topic.articles.filter(
+    (article) => article.id !== articleId
+  );
   return {
-    relatedArticles: topic.articles.filter(
-      (article) => article.id !== articleId
-    ),
+    articles: relatedArticles.map((article) => ({
+      id: article.id,
+      name: article.name,
+    })),
+    paginationInfo: { count: relatedArticles.length },
   };
 }
 
@@ -119,12 +148,25 @@ function getTopic(topicId) {
   return topics.find((topic) => topic.id === topicId);
 }
 
+function getArticlesInTopic(topicId) {
+  const topic = getTopic(topicId);
+  return {
+    articles: topic.articles.map((article) => ({
+      id: article.id,
+      name: article.name,
+    })),
+    paginationInfo: {
+      count: topic.articles.length,
+    },
+  };
+}
+
 function createTopic(topicName) {
   const isDuplicateTopic = !!topics.find((topic) => topic.name === topicName);
   if (!isDuplicateTopic) {
     topics.push({
-      name: topicName,
       id: nextTopicId,
+      name: topicName,
       articles: [],
     });
     fs.writeFile(
@@ -143,15 +185,15 @@ function createTopic(topicName) {
   }
 }
 
-function createArticle(topicId, title, content, recommendedMonths) {
+function createArticle(topicId, name, content, recommendedMonths) {
   const topic = topics.find((topic) => topic.id === topicId);
   const isDuplicateArticle = !!topic.articles.find(
-    (article) => article.title === title
+    (article) => article.name === name
   );
   if (!isDuplicateArticle) {
     topic.articles.push({
       id: nextArticleId,
-      title: title,
+      name: name,
       recommended: recommendedMonths,
       content: content,
     });
@@ -171,18 +213,50 @@ function createArticle(topicId, title, content, recommendedMonths) {
   }
 }
 
-// function getArticlesInTopic(topicId) {
-//   return new Promise((resolve, reject) => {
-//     fs.readFile(`./server/data/${topicName}.json`, (err, data) => {
-//       resolve(
-//         JSON.parse(data).articles.map((article) => ({
-//           id: article.id,
-//           title: article.title,
-//         }))
-//       );
-//     });
-//   });
-// }
+function getSearchSuggestions(query) {
+  let results = [];
+  topics.forEach((topic) => {
+    if (topic.name.includes(query)) {
+      results.push({ resultType: "Topic", id: topic.id, name: topic.name });
+    }
+    topic.articles.forEach((article) => {
+      if (article.name.includes(query) || article.content.includes(query)) {
+        results.push({
+          resultType: "Article",
+          id: article.id,
+          name: article.name,
+          topicId: topic.id,
+        });
+      }
+    });
+  });
+  return results;
+}
+
+function search(query) {
+  let results = [];
+  topics.forEach((topic) => {
+    if (topic.name.includes(query)) {
+      results.push({
+        resultType: "Topic",
+        id: topic.id,
+        name: topic.name,
+        articleCount: topic.articles.length,
+      });
+    }
+    topic.articles.forEach((article) => {
+      if (article.name.includes(query) || article.content.includes(query)) {
+        results.push({
+          resultType: "Article",
+          id: article.id,
+          name: article.name,
+          topicId: topic.id,
+        });
+      }
+    });
+  });
+  return results;
+}
 
 // async function getTopicAndArticles(topics) {
 //   return new Promise(async (resolve, reject) => {
