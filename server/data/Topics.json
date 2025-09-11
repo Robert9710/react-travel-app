@@ -1,0 +1,247 @@
+[
+  { "name": "Austria", "id": "10", "articles": [] },
+  {
+    "name": "Belgium",
+    "id": "11",
+    "articles": [
+      {
+        "id": "100",
+        "name": "Bruges",
+        "recommendedMonths": "January",
+        "content": "For snow, beer and chips. The beautiful little Belgian city is one of those rare places that is just as enticing in the bleak midwinter as in summer: pretty in the snow, “beautiful f**king fairytale stuff”, to quote the film In Bruges (which is all the research you need). And the snow is an excellent excuse for holing up somewhere because this city also has some of the most inviting reasons to stay indoors: interesting interiors, welcoming taverns full of good cheer and much Belgian beer, antiques and junk shops to poke around, gorgeous old guesthouses on the canals, candlelit bars and restaurants, moules-frites and cream-and-kirsch-laden puddings. A long weekend is enough time to see everything and put on a stone in weight.",
+        "topicSummary": { "id": "11", "name": "Belgium" }
+      }
+    ]
+  },
+  {
+    "name": "Canada",
+    "id": "12",
+    "articles": [
+      {
+        "id": "101",
+        "name": "Montreal",
+        "recommendedMonths": "January",
+        "content": "If a rave in sub-zero temperatures sounds appealing, Montréal is for you. The city's annual January Igloofest tempts parka-clad party people outside with a line-up of world-class EDM acts. Elsewhere, the French château architecture looks fabulous with frosting, and you can go snowshoeing up Mount Royal for excellent city views (it's more of a hill, really, right in the middle of town). Mile End's hipsters have been replaced by good-looking young families, but its food institutions remain: warm up with classic smoked-meat sandwiches at Schwartz's Deli, or St-Viateur's hot-out-the-oven, hand-rolled bagels (thinner and sweeter than New York's). For a comforting treat in the cold, poutine is considered a delicacy – try it at Au Pied de Cochon or Garnde Manger. If you need to come in from the cold, there's the Underground City - a network of shops, museums and restaurants below downtown's core."
+      },
+      {
+        "id": "102",
+        "name": "Whistler",
+        "recommendedMonths": "March",
+        "content": "The granddaddy of North American ski resorts does winter sports on a supersized scale. Up in the awe-inspiring Pacific Ranges above Vancouver, Whistler gets phenomenal snow in a winter season that runs November–May. The best month of all is March when you can expect bluebird powder days; it’s sunnier yet there’s still heavy snowfall, slopes and lifts are less busy, and rates are cheaper. In a resort that has committed to becoming carbon-neutral (including building a hydro plant to produce enough energy to power ski lifts, restaurants and snow cannons), there are a whole bunch of restaurants run with a sustainability ethos. Fine-dining Alta Bistro is perhaps the smartest of them, and the greenest: as well as all-seasonal, all-local ingredients, everything is ethically sourced, bought from nearby farms and makers, right down to the sustainably farmed wine. Plus, all organic waste gets composted at a local farm and they use renewable hydroelectric power.",
+        "topicSummary": { "id": "12", "name": "Canada" }
+      }
+    ]
+  },
+  {
+    "name": "Denmark",
+    "id": "13",
+    "articles": [
+      {
+        "id": "103",
+        "name": "Copenhagen",
+        "recommendedMonths": "February",
+        "content": "Home of hygge, layering up is all part of the fun in the undisputed capital of Scandi-cool. The Danes’ design prowess has lately seen the city popularised as a hipster dreamland, but it’s been fabulous far longer than beanie-clad bicyclists have been on Instagram: leading-edge visual arts, high Nordic cooking and fancy coffee are all in the Danish DNA."
+      }
+    ]
+  },
+  {
+    "name": "Finland",
+    "id": "14",
+    "articles": [
+      {
+        "id": "104",
+        "name": "Lapland",
+        "recommendedMonths": "February",
+        "content": "February in Finnish Lapland might be bracing, but there’s plenty going on here that’s hot. How about hopping aboard the world’s only sauna gondola – a wooden cable car that treats passengers to a steamy ride over the slopes of Ylläs Ski Resort? Or working up a sweat by fat-biking across Ylläs National Park’s stark-white scenery (the thick treads help plucky cyclists pedal in deep snow). Of course, Christmas is high season here, but conditions are every bit as romantic in February, without the sky-high prices or crowds. Northern Lights stalkers also have a good chance of spotting those elusive, swirling illuminations – perhaps best viewed from the Aurora Domes at Harriniva, where igloo-like tents are fitted out with a transparent wall, wood burner and Champagne. Experiences with the Indigenous Sami people of Lapland are becoming ever more popular, but be sure your operator is providing a genuine connection with their culture (rather than a ‘show’). Done right, this kind of tourism helps boost a local economy that can only rely on a lucrative revenue stream – tourism – a few months of the year. Magnetic North Travel, for example, organises time with genuine reindeer herders and their families, so you get a real sense of their way of life."
+      }
+    ]
+  },
+  {
+    "name": "France",
+    "id": "15",
+    "articles": [
+      {
+        "id": "105",
+        "name": "Val d'Isere",
+        "recommendedMonths": "January",
+        "content": "With New Year crowds gone and no school holidays on the horizon, January is a fine time to hit up the best ski resorts in Europe. And not only does French ski resort Val present the most reliable powder on the continent, but this St-Tropez-on-snow is only getting splashier. The spot is home to some of the best ski hotels and chalets in the region. And if Olympic downhills and Michelin-starred restaurants aren't doing it, there are plenty more inventive ways to get your kicks.",
+        "topicSummary": { "id": "15", "name": "France" }
+      },
+      {
+        "id": "106",
+        "name": "Courchevel",
+        "recommendedMonths": "February",
+        "content": "Courchevel is the superstar ski resort of the French Alps. Of its four villages, Courchevel 1850 is the highest, biggest and glitziest, drawing a jet-set crowd with its Michelin-star restaurants, super-smart chalets and hotels, posh aprés ski – oh yes, and its abundance of snowy slopes for all levels, on-piste and off, with a long season and 230 snow cannons to guarantee good snow. It’s brilliant for superstar and beginner skiers alike, so makes a great option for the February half term; families may prefer the slightly less high-glamour vibe of 1650."
+      },
+      {
+        "id": "107",
+        "name": "Paris",
+        "recommendedMonths": "February",
+        "content": "The City of Love should be an obvious pick in February, but potential suitors are all-too-often put off by the weather. Très grosse erreur. Anyone who knows the French knows they scarper tout de suite in summer, shuttering restaurants, frustrating foreigners and not giving a tiny French fig. Come instead in winter, when everything’s open, visitors are fewer, reservations easier and rates lower. All the best stuff is indoors anyway: cute, candle-lit bistros; echoey art museums; bo-bo (bourgeois-boho) bars. South Pigalle – or SoPo – still sizzles as one of Paris’s hottest spots, where the best table is at Bouillon Pigalle. The queue around the block is worth it – three-course meals with drinks here can cost less than €25, practically unheard of within the list of the best restaurants in Paris."
+      },
+      {
+        "id": "108",
+        "name": "Chamonix",
+        "recommendedMonths": "March",
+        "content": "It doesn't get much more picturesque than this. Nestled into a mountainside just below Mont Blanc, the fairy tale town of Chamonix has everything you could dream of in a late-winter holiday. Here, church spires glisten with frost, cosy chalets light up with crackling fire, and branches of pine trees creak under the weight of snow. Visit in March, when most of the ski crowd have had their fill (or have heated further away for colder weather), and you'll have the slopes to yourself. There's still plenty of snow, but the weather is mild enough that you won't freeze during your lunchtime breaks on restaurant balconies. Accommodation is more affordable, too, whether you're looking for a cute Airbnb for a romantic getaway or a sleek new ski hotel for some fun apres drinks."
+      }
+    ]
+  },
+  { "name": "Germany", "id": "16", "articles": [] },
+  { "name": "Greece", "id": "17", "articles": [] },
+  {
+    "name": "Iceland",
+    "id": "18",
+    "articles": [
+      {
+        "id": "109",
+        "name": "Iceland",
+        "recommendedMonths": "March",
+        "content": "Iceland is a pretty spectacular place to visit, and March is the perfect time to do so. You'll avoid the madding crowds of the summer travellers and miss the piercing cold of winter – but you're still in for a decent chance of seeing the Aurora Borealis. Start in Reykjavik, where you can spend days hopping between the city's best restaurants and cosying up in candlelit bars before driving out to the wilderness to experience Iceland's lunar landscapes and volcanic beauty in all its glory."
+      }
+    ]
+  },
+  { "name": "Ireland", "id": "19", "articles": [] },
+  {
+    "name": "Italy",
+    "id": "20",
+    "articles": [
+      {
+        "id": "110",
+        "name": "The Dolomites",
+        "recommendedMonths": "January, February",
+        "content": "While many skiers head straight for the French peaks between November and February, in-the-know winter sports fans and wellness enthusiasts go the extra mile and seek out the natural beauty of The Dolomites. It's a hiker's paradise during summer, but you'll need to don your skis and go off-piste for wild exploration over winter, thanks to considerable snowfall. Cortina d'Ampezzo hosted the 1956 Winter Olympics and is ideal for skiers of all abilities, becoming Italy's answer to St Moritz in recent decades. However, these peaks hide various charming towns, and it's not all about the slopes. Check into one of the region's sleekest spa hotels to unwind completely after the Christmas chaos."
+      },
+      {
+        "id": "111",
+        "name": "Venice",
+        "recommendedMonths": "February",
+        "content": "February is carnival time in Venice, which makes it either the very best time to come, or the worst. Noblemen clink swords in St Mark's Square, courtesans cloaked in red silk drift down the Grand Canal on plumed gondolas, and gilded masks allow royalty to walk freely among the commoners. What seems like a Canaletto painting comes to life every year when revellers gather for three weeks of masked debauchery. Those seeking the quiet charms of the floating city will be disappointed, but if you dare to join the huddled masses you'll be rewarded with an otherworldly experience. You can flaunt your finery on the Rialto, dance the quadrilles at the Doge's ball and wake up the next morning in a luxurious four-poster bed in your very own Venetian palace wondering if it was all a dream."
+      },
+      {
+        "id": "112",
+        "name": "Rome",
+        "recommendedMonths": "March",
+        "content": "Rome is a city that caters to every type of traveller. History fanatics, hungry families, those in need of a good bottle of wine or art fiends – the Italian capital has it all. Eschewing the summer months is wise if you're looking to visit the city's main attractions, as you're likely to spend much of your time in long, never-ending queues or craning your neck at the back of impenetrable crowds. March is a much better shout – breezy spring weather makes for much more enjoyable trips to the sprawling Roman forum, Trevi Fountain and Colosseum, without the tourist hoards. Refuel at one of Rome's best restaurants – here are 42 of our favourites to check out on your spring holiday."
+      },
+      {
+        "id": "113",
+        "name": "Southeast Sicily",
+        "recommendedMonths": "January",
+        "content": "If you’re seeking the warmest place in Italy in March, look to southeast Sicily. This eternally awe-inspiring island has Europe’s sunniest city in modern Catania and Europe’s hottest spot in ancient Syracuse. While there’s little chance of a heatwave in March, you’ll still get eight hours of sunshine a day, and the temperate Mediterranean spring climate is ideal for exploring the area’s baroque cities – Modica, Ragusa, Noto – and Greek and Roman remains. On warmer days, the dunes and lagoons of Vendicari Nature Reserve harbour some of the best (and quietest) beaches in all of Italy, along with a great diversity of birdlife returning from Africa in springtime."
+      },
+      {
+        "id": "114",
+        "name": "Sorrento",
+        "recommendedMonths": "March",
+        "content": "Nothing brings a spring to the step quite like the sight of Italy’s glorious Amalfi coast. Particularly in March, when its vertiginous twists are bathed in a daily average eight hours of sun. Cliffs plunge into the Tyrrhenian Sea, topped with grand palazzos and smart hotels. Narrow, Roman lanes are stuffed with limoncello stalls flogging the boozy spoils of Sorrento’s famous fruit. Its snoozy air and pastel-coloured houses are pure Italian cinema: you might even swear you’ve seen a young Sophia Loren looking impossibly saucy by the quay. Do as the Italians do and spend the lazy, romantic days enjoying a long aperitivo. Don’t miss fresh fritto misto at Marina Grande, the town’s old fishing harbour, or Michelin-starred Il Buco in the cellars of an old monastery, where chef Peppe Aversa serves seasonal ingredients under a stone-hewn, vaulted ceiling. The sweet life, indeed."
+      }
+    ]
+  },
+  { "name": "Netherlands", "id": "21", "articles": [] },
+  {
+    "name": "Norway",
+    "id": "22",
+    "articles": [
+      {
+        "id": "115",
+        "name": "Tromsø",
+        "recommendedMonths": "March",
+        "content": "350 kilometres north of the Arctic Circle, this Norwegian city is a magical place to escape to in March. It's coming to the end of winter, so temperatures aren't as bitterly cold as the previous months, but travellers will still get the excitement of wrapping up in lots of layers and heading out to explore in the snow. Stroll through Tromsø to admire the generations-old wooden houses, each painted a different colour and stop by the Arctic Cathedral, an impressive architectural feat with a distinctive triangular shape and gorgeous stained-glass windows. You're still in with a good chance to spot the Northern Lights, too – head out on a tour to get away from any light pollution and wait with bated breath for the show to start."
+      }
+    ]
+  },
+  { "name": "Poland", "id": "23", "articles": [] },
+  {
+    "name": "Portugal",
+    "id": "24",
+    "articles": [
+      {
+        "id": "116",
+        "name": "Porto",
+        "recommendedMonths": "January",
+        "content": "There is no doubt about it: Portugal is booming. While the country's mild winters might not be scorching, they are quieter – and prices lower than usual, in a destination already beloved for being very affordable. Porto, Lisbon's little sister, has undergone its own creative renewal. Once-decaying medieval streets buzz with kerbside cafés and retooled townhouses, transformed into stylish hotels by local designers. The food scene is fizzing, there's more to Porto than sandwich shops and port wine tastings, from Michelin-starred menus to relaxed, wine-focused dining. And then there's the terraced port vineyards of the Douro Valley, 100km inland."
+      },
+      {
+        "id": "117",
+        "name": "Lisbon",
+        "recommendedMonths": "March",
+        "content": "If you're planning a trip to The City of Seven Hills, be prepared to return with aching muscles. Visiting in the spring is a wise decision – you'll avoid having to hike up hills in sweltering summer heat. In March, the temperatures are warm and the skies are blue, but it's far from overbearing. Opt for Lisbon to spend days exploring the glitzy interiors of the Palácio Nacional da Ajuda, gazing upwards in The Cathedral of Saint Mary Major, and strolling through the Botanical Gardens. But its the food that is most impressive here – work your way through our list of the very best restaurants in Lisbon."
+      }
+    ]
+  },
+  {
+    "name": "Spain",
+    "id": "25",
+    "articles": [
+      {
+        "id": "118",
+        "name": "Lanzarote, Canary Islands",
+        "recommendedMonths": "January",
+        "content": "It's no secret the Canary Islands offer reliable winter sun – but it may surprise that there's another side to Lanzarote. Skip the East Coast's gaudy mega-hotels and discover a very cool Canary. Much of the built landscape owes a debt to local architect César Manrique, who designed many of the island's must-see architectural feats: Jardín de Cactus, his magical cactus amphitheatre, or the home he designed for himself, where cave-like rooms are carved into lava bubbles (now home to the Fundacíon César Manrique). Speaking of which, the island's volcanic landscape is its own art project. Timanfaya National Park presents a ravishing patchwork of rainbow-hued earth. If climbing a volcano doesn't do it for you, get wet: dive underwater through the art park Museo Atlántico, or surf local favourite Famara beach, a dramatic stretch to the north."
+      },
+      {
+        "id": "119",
+        "name": "Ibiza",
+        "recommendedMonths": "February",
+        "content": "Winter on the White Isle isn’t as bonkers as it sounds. It’s the best time to experience Ibiza as the locals know it – almond trees flush pink-white with blossom; beach bars and pavement cafés are laid-back not lairy; and the tapas and drinks come cheap. Bargain isn’t a word too often associated with this Balearic, but without the club crowds, proprietors look to lure customers with deals. During winter nights, island restaurants participate in Gastrojueves – Gastro Thursdays – where meals are offered half-price. Craving a blowout? Small towns across Ibiza celebrate Carnival with parades early in the month; superclubs such as Pacha throw the after-parties. Really, though, it’s all about taking time to soak up the quieter side of Ibiza. Ibiza’s bohemian north is the best place to discover a more peaceful side to the island, and one of the smartest experiences here is found at Ibiza Horse Valley. This sanctuary rehabilitates mistreated animals and reintroduces them to riding, offering horseback trips to the White Isle’s untouched forest, remote mountaintops and secret beaches."
+      },
+      {
+        "id": "120",
+        "name": "Seville",
+        "recommendedMonths": "March",
+        "content": "If you're sick and tired of the cold weather, it's time to head south. Seville is one of the best European destinations for finding the first signs of sunshine after a long winter. Despite often being overlooked in favour of larger Spanish cities, it's got its own story to tell – a fascinating history, rich culture and beautiful architecture. It's also great for foodies; the Andalusian capital has its own flavour and style when it comes to Spanish cuisine. Visit El Rinconcillo for a true taste of Seville, where waiters will whisk over dish after dish of speciality dishes."
+      },
+      {
+        "id": "121",
+        "name": "Madrid",
+        "recommendedMonths": "March",
+        "content": "Come March, the winter season is officially over in Madrid. The sun comes out and the citizens of Spain's capital resume their usual activities of al-fresco tapas, sunset strolls through city parks and rooftop sangrias. Flowers burst into bloom, and temperatures are much more enjoyable than the sweltering summer. If you do find a cooler day, head indoors to explore the city's excellent art scene or hop between some of Madrid's boutique shops."
+      },
+      {
+        "id": "122",
+        "name": "Canary Islands",
+        "recommendedMonths": "March",
+        "content": "Spain's tiny golden islands off the coast of North Africa are heavenly in early spring. The days are getting longer and sunnier and there's no sign of the peak-season crowds. We're excited by Lanzarote's beautiful beaches, cool surf scene and amazing places to stay. We're captivated by Tenerife's unexpected lunar landscapes and intrigued by the unsung Canaries: a whistle-stop tour could take you through Santa Cruz de la Palma's whitewashed Renaissance palaces, La Gomera's plunging ravines and Fuencaliente's sleepy volcanic craters bathed in early morning mist. To help plan your trip, see our guide to the best Canary Islands to visit."
+      },
+      {
+        "id": "123",
+        "name": "Malaga",
+        "recommendedMonths": "March",
+        "content": "By March, Malaga is already sunny and warm enough for T-shirts and beach games, if not exactly scorchio quite yet. This pocket-sized city on Spain’s Sunshine Coast has had something of a renaissance of late; no longer just a hop-off point for Marbella and other beach resorts, it’s worth a trip in its own right. Not least for its youthful and exuberant food and creative scenes: buzzy, affordable restaurants run by rising stars are packed with locals year-round, Antonio Banderas has revived the Teatro del Soho, the Lego-like Centre Pompidou sits on the newly redeveloped port. Meanwhile, the Old Town has interesting galleries and artisan boutiques to be found on its squares and sidestreets, as well as a museum dedicated to Malaga’s most famous son, Picasso. Then, of course, there are the beaches, stretching out either side of the town, with beach bars serving up sundowners and seafood, day and night."
+      },
+      {
+        "id": "124",
+        "name": "Valencia",
+        "recommendedMonths": "March",
+        "content": "Spain’s third largest city celebrates spring in typically fiery Spanish style. Which is to say, it sets everything on fire. March’s week-long Las Fallas festival sees Valencia display a host of giant, satirical papier-mâché sculptures (often nodding to topical political scandals and celebrity meltdowns), before they’re paraded around town and spectacularly set ablaze on the final night. In the lead-up, the whole city’s a party: parades, music, ear-busting fireworks, plus the hipster Ruzafa district puts on its own dazzling festival of lights. Better still, this appealing cosmopolitan port city isn’t short of spectacles by day. Alongside almost 3km of beaches and a vibrant old town, there’s the awesome futuristic architecture of the City of Arts and Sciences, where buildings evoke the skeleton of a whale, a water lily, a giant eye and more. For more ideas, see our recommendations for things to do in Valencia."
+      }
+    ]
+  },
+  { "name": "Sweden", "id": "26", "articles": [] },
+  { "name": "Switzerland", "id": "27", "articles": [] },
+  {
+    "name": "UK",
+    "id": "28",
+    "articles": [
+      {
+        "id": "125",
+        "name": "Edinburgh, Scotland",
+        "recommendedMonths": "February",
+        "content": "The Scottish capital is pretty magical year-round - in summer, the city comes alive with the Fringe Festival, and wintertime brings with it the promise of snow, sparkle and festive magic. But in February, the city experiences a blissful calm; the Christmas merrymakers have dispersed back home, and the Easter break hasn't yet begun, so the city gets a pocket of peace in between holiday seasons. You'll get the best table in the house at many of Edinburgh's top restaurants, crowd-free views of the Castle and hikes up Arthur's Seat, and still be able to enjoy the cosiness of a fireside pint at the city's best boozers and drinking dens."
+      },
+      {
+        "id": "126",
+        "name": "Cotswolds",
+        "recommendedMonths": "February",
+        "content": "If there's one thing that can make a British winter appealing, it's the thought of getting cosy in the Cotswolds. Amid a quintessentially English landscape, publicans pull artisan ales, sipped by roaring fires. Frosty walks ramble past country manors and up green hills topped with Iron Age forts. But while its home to some of the most beautiful villages in the UK, this isn't back-in-time England. Clued-in movers and shakers have helped sow an ultra-modern crop of Michelin-starred restaurants in the Cotswolds between the organic spacs, antiques stores and tea rooms. Naturally, rates and reservations are more manageable in winter. Two of the best hotels in the Cotswolds that particularly embody contemporary village living: Soho Farmhouse (copper bathtubs; bottled Negronis), and Lady Bamford's trailblazing Daylesford farm and estate, where the organic ethos extends to everything from the farm shop and pub to wellness treatments."
+      },
+      {
+        "id": "127",
+        "name": "Cornwall",
+        "recommendedMonths": "March",
+        "content": "Cornwall is beautiful year-round, but visiting in March having entire sweeps of golden sands to yourself, the best tables at Cornwall's top restaurants, and lower prices on shoulder-season stays. Visit the Minack Theatre, brave the waters to paddleboard to St Michael's Mount or head inland for some of the country's best walks – Rough Tor is our favourite, with wild, rugged scenery and amazing views from the peak."
+      }
+    ]
+  }
+]
