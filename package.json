@@ -3,6 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "nodemonConfig": {
+    "watch": [
+      "server/server.js"
+    ]
+  },
   "scripts": {
     "dev": "vite",
     "serv": "nodemon server/server.js",
