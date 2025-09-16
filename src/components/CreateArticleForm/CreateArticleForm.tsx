@@ -25,9 +25,9 @@ export default function CreateArticleForm() {
   ];
   const topicOptions =
     topics &&
-    topics.topics.map((topic, index) => (
-      <option key={index} value={topic.title}>
-        {topic.title}
+    topics.topics.map((topic) => (
+      <option key={topic.id} value={topic.id}>
+        {topic.name}
       </option>
     ));
   const monthsOptions = months.map((month, index) => (
@@ -35,10 +35,10 @@ export default function CreateArticleForm() {
       {month}
     </option>
   ));
-  function getTopics() {
-    return fetch("http://localhost:3000/topics")
-      .then((response) => response.json())
-      .then((data) => setTopics(data));
+  async function getTopics() {
+    const response = await fetch("http://localhost:3000/topics");
+    const data = await response.json();
+    setTopics(data);
   }
   async function createArticle(formData: FormData) {
     window.scrollTo(0, 0);
@@ -48,8 +48,8 @@ export default function CreateArticleForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        topicName: formData.get("topicTitle"),
-        title: formData.get("articleTitle"),
+        topicId: formData.get("topicTitle"),
+        name: formData.get("articleTitle"),
         recommended: formData.get("recommendedMonth"),
         content: formData.get("content"),
       }),
@@ -64,8 +64,7 @@ export default function CreateArticleForm() {
       body: JSON.stringify({
         topicName: formData.get("newTopicTitle"),
       }),
-    });
-    getTopics();
+    }).then(() => getTopics());
   }
   return (
     <div id="create-article-form">
@@ -133,7 +132,11 @@ export default function CreateArticleForm() {
                     name="newTopicTitle"
                   />
                 </label>
-                <button type="submit" className="btn btn-primary">
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
                   Create Topic
                 </button>
               </form>

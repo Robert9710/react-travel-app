@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 40px;
+  padding: 10px 50px;
   background-color: #eee;
   border-bottom: 2px;
 }
@@ -26,4 +26,36 @@
 
 #header .dropdown-toogle {
   background-color: transparent;
+}
+
+#header .search-suggestions-dropdown {
+  position: absolute;
+  top: 40px;
+  background-color: #fff;
+  width: 100%;
+}
+
+#header .search-suggestions-dropdown-item-container {
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+  padding: 5px;
+}
+
+#header .search-suggestions-dropdown-item {
+  display: inline-flex;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#header .search-suggestions-dropdown-item-icon {
+  max-height: 25px;
+  margin-left: 10px;
+}
+
+#header .search-suggestions-dropdown-item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 10px;
 }

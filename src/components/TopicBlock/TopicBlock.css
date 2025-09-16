@@ -1,11 +1,19 @@
 .topic-block {
-  background-color: #ccc;
-  box-shadow: 3px 3px #ddd;
+  background-color: var(--primary-component-bg-color);
+  box-shadow: 5px 5px #ddd;
   padding: 10px 20px;
   height: 230px;
+  display: flex;
+  flex-direction: column;
 }
 
 .topic-block > ul {
   display: flex;
   flex-direction: column;
+  flex-grow: 2;
+}
+
+.topic-block .article-count {
+  margin-bottom: 0;
+  align-self: flex-end;
 }

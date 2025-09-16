@@ -1,31 +1,40 @@
 import "./TopicContent.css";
 import { Link } from "react-router";
 import useData from "../../application/useData";
-import type { Topic } from "../../application/types";
+import type { Articles, Topic } from "../../application/types";
 
 interface Props {
-  topicTitle: string;
+  topicId: string;
 }
 
 export default function TopicContent(props: Props) {
-  const topicData = useData<Topic>({
-    url: `http://localhost:3000/topic/${props.topicTitle}`,
+  const topic = useData<{ topic: Topic }>({
+    url: `http://localhost:3000/topic/${props.topicId}`,
   });
-  const topicElements =
-    topicData &&
-    topicData.articles.map((article, index) => (
-      <li key={index}>
-        <Link
-          to={`/topic/${props.topicTitle}/article/${article.id}/${article.title}`}
-        >
-          {article.title}
-        </Link>
-      </li>
-    ));
-  return (
-    <>
-      <h2>{props.topicTitle}</h2>
-      <ul>{topicElements}</ul>
-    </>
-  );
+  const topicArticles = useData<Articles>({
+    url: `http://localhost:3000/topic/${props.topicId}/articles`,
+  });
+  if (topicArticles && topicArticles.articles.length > 0) {
+    return (
+      <div id="topic-content">
+        <h2 className="topic-name">{topic && topic.topic.name}</h2>
+        <h5 className="article-count">
+          {topicArticles.articles.length}&nbsp;
+          {(topicArticles.articles.length > 1 ? "articles" : "article") +
+            " in this topic"}
+        </h5>
+        <ul>
+          {topicArticles.articles.map((article, index) => (
+            <li key={index}>
+              <Link
+                to={`/topic/${props.topicId}/article/${article.id}/${article.name}`}
+              >
+                {article.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }

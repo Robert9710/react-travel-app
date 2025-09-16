@@ -1,0 +1,9 @@
+#article-content {
+  border: var(--primary-border);
+  padding: 30px;
+}
+
+#article-content .article-text {
+  border-bottom: var(--primary-border);
+  padding-bottom: 20px;
+}

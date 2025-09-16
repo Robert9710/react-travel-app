@@ -3,6 +3,9 @@
   flex-direction: column;
   gap: 30px;
 }
+#create-article-form .btn {
+  margin-top: 10px;
+}
 
 #create-article-form textarea {
   height: 300px;
