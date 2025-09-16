@@ -4,14 +4,17 @@ import useData from "../../application/useData";
 import { Topics } from "../../application/types";
 
 export default function TopicsBlocks() {
-  const topicsData = useData<Topics>({
+  const topics = useData<Topics>({
     url: "http://localhost:3000/topics",
   });
-  const topicBlocks =
-    topicsData &&
-    topicsData.topics.map((topic, index) => (
-      <TopicBlock key={index} title={topic.title} articles={topic.articles} />
-    ));
-
-  return <div id="topic-blocks">{topicBlocks}</div>;
+  if (topics) {
+    return (
+      <div id="topic-blocks">
+        {topics.topics.map(
+          (topic, index) =>
+            topic.articleCount > 0 && <TopicBlock key={index} topic={topic} />
+        )}
+      </div>
+    );
+  }
 }

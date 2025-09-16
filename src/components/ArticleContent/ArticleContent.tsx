@@ -1,14 +1,20 @@
 import useData from "../../application/useData";
 import { Article, ArticleProps } from "../../application/types";
+import "./ArticleContent.css";
 
 export default function ArticleContent(props: ArticleProps) {
-  const article = useData<Article>({
-    url: `http://localhost:3000/topic/${props.topicTitle}/article/${props.articleId}`,
+  const article = useData<{ article: Article }>({
+    url: `http://localhost:3000/topic/${props.topicId}/article/${props.articleId}`,
   });
-  return (
-    <>
-      <h2>{article && article.title}</h2>
-      <div>{article && article.content}</div>
-    </>
-  );
+  if (article) {
+    return (
+      <div id="article-content">
+        <h2 className="article-name">{article.article.name}</h2>
+        <h6 className="recommended-month">
+          Recommended month(s): {article.article.recommendedMonths}
+        </h6>
+        <div className="article-text">{article.article.content}</div>
+      </div>
+    );
+  }
 }

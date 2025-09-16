@@ -1,0 +1,9 @@
+#related-articles-list {
+  margin-top: 40px;
+}
+
+#related-articles-list .articles-list-item-container {
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  border-bottom: var(--primary-border);
+}

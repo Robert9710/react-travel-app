@@ -1,0 +1,9 @@
+#article-breadcrumb {
+  margin-bottom: 20px;
+}
+
+#article-breadcrumb .breadcrumb-separator {
+  max-height: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+}

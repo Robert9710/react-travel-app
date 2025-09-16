@@ -1,26 +1,49 @@
-export interface ArticleIdentifiers {
+type PaginationInfo = {
+  count: number;
+};
+
+export interface ArticleDetails {
   id: string;
-  title: string;
+  name: string;
 }
 
-export interface Article extends ArticleIdentifiers {
+export interface Article extends ArticleDetails {
+  recommendedMonths: string;
   content: string;
+  topicSummary: { id: string; name: string };
 }
 
-export interface RelatedArticles {
-  articles: ArticleIdentifiers[];
+export interface Articles {
+  articles: ArticleDetails[];
+  paginationInfo: PaginationInfo;
+}
+
+export interface ArticleProps {
+  topicId: string;
+  articleId: string;
 }
 
 export interface Topic {
-  title: string;
-  articles: ArticleIdentifiers[];
+  id: string;
+  name: string;
+  articleCount: number;
 }
 
 export interface Topics {
   topics: Topic[];
+  paginationInfo: PaginationInfo;
 }
 
-export interface ArticleProps {
-  topicTitle: string;
-  articleId: string;
-}
+type GeneralSearchSuggestion = {
+  resultType: string;
+  id: string;
+  name: string;
+};
+
+export type ArticleSearchSuggestion = GeneralSearchSuggestion & {
+  topicId: string;
+};
+
+export type SearchSuggestion =
+  | GeneralSearchSuggestion
+  | ArticleSearchSuggestion;
