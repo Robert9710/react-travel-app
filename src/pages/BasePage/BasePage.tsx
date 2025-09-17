@@ -9,7 +9,9 @@ export default function BasePage() {
     // <AppContext.Provider value={applicationService}>
     <>
       <Header />
-      <Outlet />
+      <div id="body-container">
+        <Outlet />
+      </div>
       <Footer />
     </>
     // </AppContext.Provider>
