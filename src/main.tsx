@@ -6,6 +6,7 @@ import ViewArticle from "./pages/ViewArticle/ViewArticle.tsx";
 import BasePage from "./pages/BasePage/BasePage.tsx";
 import ViewTopic from "./pages/ViewTopic/ViewTopic.tsx";
 import CreateArticle from "./pages/CreateArticle/CreateArticle.tsx";
+import SearchResults from "./pages/SearchResults/SearchResults.tsx";
 
 const router = createBrowserRouter([
   {
@@ -14,14 +15,14 @@ const router = createBrowserRouter([
     children: [
       { index: true, Component: Home },
       {
-        path: "/topic/:topicTitle",
+        path: "/topic/:topicId",
         children: [
           {
             index: true,
             Component: ViewTopic,
           },
           {
-            path: "/topic/:topicTitle/article/:articleId/:articleName?",
+            path: "/topic/:topicId/article/:articleId/:articleName?",
             Component: ViewArticle,
           },
         ],
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
         path: "/create",
         Component: CreateArticle,
       },
+      { path: "/search", Component: SearchResults },
     ],
   },
 ]);
