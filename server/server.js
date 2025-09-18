@@ -15,20 +15,40 @@ app.use(cors());
 
 app.get("/topic/:topicId/article/:articleId/related", async (req, res) => {
   res.json(
-    articleFactory.getRelatedArticles(req.params.articleId, req.params.topicId)
+    articleFactory.getRelatedArticles({
+      articleId: req.params.articleId,
+      topicId: req.params.topicId,
+      pagenum: req.query.pagenum,
+      pagesize: req.query.pagesize,
+    })
   );
 });
 
-app.get("/topic/:topicId/article/:articleId", (req, res) => {
-  res.json(articleFactory.getArticle(req.params.articleId, req.params.topicId));
+app.get("/topic/{:topicId}/article/:articleId", (req, res) => {
+  if (req.params.articleId !== "undefined") {
+    res.json(
+      articleFactory.getArticle({
+        articleId: req.params.articleId,
+        topicId: req.params.topicId,
+      })
+    );
+  } else {
+    res.json("Error");
+  }
 });
 
 app.get("/topic/:topicId/articles", (req, res) => {
-  res.json(articleFactory.getArticlesInTopic(req.params.topicId));
+  res.json(
+    articleFactory.getArticlesInTopic({
+      topicId: req.params.topicId,
+      pagenum: req.query.pagenum,
+      pagesize: req.query.pagesize,
+    })
+  );
 });
 
 app.get("/topic/:topicId", async (req, res) => {
-  const topic = topicFactory.getTopic(req.params.topicId);
+  const topic = topicFactory.getTopic({ topicId: req.params.topicId });
   res.json({
     topic: {
       id: topic.id,
@@ -39,16 +59,21 @@ app.get("/topic/:topicId", async (req, res) => {
 });
 
 app.get("/topics", (req, res) => {
-  res.json(topicFactory.getTopics());
+  res.json(
+    topicFactory.getTopics({
+      pagenum: req.query.pagenum,
+      pagesize: req.query.pagesize,
+    })
+  );
 });
 
 app.post("/create/article", (req, res) => {
-  const articleCreatedSuccessfully = articleFactory.createArticle(
-    req.body.topicId,
-    req.body.name,
-    req.body.content,
-    req.body.recommendedMonths
-  );
+  const articleCreatedSuccessfully = articleFactory.createArticle({
+    topicId: req.body.topicId,
+    name: req.body.name,
+    content: req.body.content,
+    recommendedMonths: req.body.recommendedMonths,
+  });
   if (articleCreatedSuccessfully) {
     res.status(204).send();
   } else {
@@ -57,7 +82,9 @@ app.post("/create/article", (req, res) => {
 });
 
 app.post("/create/topic", (req, res) => {
-  const topicCreatedSuccessfully = topicFactory.createTopic(req.body.topicName);
+  const topicCreatedSuccessfully = topicFactory.createTopic({
+    topicName: req.body.topicName,
+  });
   if (topicCreatedSuccessfully) {
     res.status(204).send();
   } else {
@@ -66,11 +93,22 @@ app.post("/create/topic", (req, res) => {
 });
 
 app.get("/search/suggestions", (req, res) => {
-  res.json({ suggestions: searchFactory.getSearchSuggestions(req.query.q) });
+  res.json(
+    searchFactory.getSearchSuggestions({
+      query: req.query.q,
+      maxCount: req.query.maxCount,
+    })
+  );
 });
 
 app.get("/search", (req, res) => {
-  res.json(searchFactory.search(req.query.q));
+  res.json(
+    searchFactory.search({
+      query: req.query.q,
+      pagenum: req.query.pagenum,
+      pagesize: req.query.pagesize,
+    })
+  );
 });
 
 app.listen(3000);

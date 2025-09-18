@@ -1,40 +1,52 @@
 import { topics } from "../server.js";
+import { paginateResults } from "../utils.js";
 import fs from "fs";
 
 class TopicFactory {
-  getTopics = () => {
-    return {
-      topics: topics.map((topic) => ({
+  getTopics = (reqObj) => {
+    const returnTopics = paginateResults({
+      results: topics.map((topic) => ({
         id: topic.id,
         name: topic.name,
         articleCount: topic.articles.length,
       })),
+      pagenum: reqObj.pagenum,
+      pagesize: reqObj.pagesize,
+    });
+    return {
+      topics: returnTopics,
       paginationInfo: {
-        count: topics.length,
+        count: returnTopics.length,
+        pagenum: reqObj.pagenum || 1,
+        pagesize: reqObj.pagesize || returnTopics.length,
       },
     };
   };
 
-  getTopicForArticle = (articleId) => {
+  getTopicForArticle = (reqObj) => {
     for (const topic of topics) {
       for (const article of topic.articles) {
-        if (article.id === articleId) {
+        if (article.id === reqObj.articleId) {
           return topic;
         }
       }
     }
   };
 
-  getTopic = (topicId) => {
-    return topics.find((topic) => topic.id === topicId);
+  getTopic = (reqObj) => {
+    return topics.find((topic) => {
+      return topic.id === reqObj.topicId;
+    });
   };
 
-  createTopic = (topicName) => {
-    const isDuplicateTopic = !!topics.find((topic) => topic.name === topicName);
+  createTopic = (reqObj) => {
+    const isDuplicateTopic = !!topics.find(
+      (topic) => topic.name === reqObj.topicName
+    );
     if (!isDuplicateTopic) {
       topics.push({
         id: getNextTopicId(),
-        name: topicName,
+        name: reqObj.topicName,
         articles: [],
       });
       fs.writeFile(`./server/data/Topics.json`, JSON.stringify(topics));
