@@ -1,0 +1,13 @@
+#topic-tree {
+  border: var(--primary-border);
+  background-color: var(--primary-component-bg-color);
+  box-shadow: 3px 3px #ddd;
+  padding: 20px;
+}
+
+#topic-tree .topics-item-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: var(--primary-border);
+}
