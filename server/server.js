@@ -19,7 +19,7 @@ app.get("/topic/:topicId/article/:articleId/related", async (req, res) => {
   );
 });
 
-app.get("/topic/:topicId/article/:articleId", (req, res) => {
+app.get("/topic/{:topicId}/article/:articleId", (req, res) => {
   res.json(articleFactory.getArticle(req.params.articleId, req.params.topicId));
 });
 

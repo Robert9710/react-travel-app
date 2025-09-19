@@ -1,6 +1,7 @@
+import "./ArticleContent.css";
 import useData from "../../application/useData";
 import { Article, ArticleProps } from "../../application/types";
-import "./ArticleContent.css";
+import ArticleActions from "../ArticleActions/ArticleActions";
 
 export default function ArticleContent(props: ArticleProps) {
   const article = useData<{ article: Article }>({
@@ -14,6 +15,7 @@ export default function ArticleContent(props: ArticleProps) {
           Recommended month(s): {article.article.recommendedMonths}
         </h6>
         <div className="article-text">{article.article.content}</div>
+        <ArticleActions articleId={props.articleId} />
       </div>
     );
   }

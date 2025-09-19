@@ -1,3 +1,4 @@
+import BookmarksPreviewList from "../../components/BookmarksPreviewList/BookmarksPreviewList";
 import TopicBlocks from "../../components/TopicBlocks/TopicBlocks";
 import TopicTree from "../../components/TopicTree/TopicTree";
 
@@ -10,7 +11,9 @@ export default function Home() {
       <div className="col-6">
         <TopicBlocks />
       </div>
-      <div className="col-3"></div>
+      <div className="col-3">
+        <BookmarksPreviewList />
+      </div>
     </div>
   );
 }

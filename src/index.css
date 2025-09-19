@@ -1,13 +1,37 @@
 :root {
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  /* background-color: #242424; */
+  /* Variables */
+  --primary-bg-color: light-dark(#fff, #121212);
+  --secondary-bg-color: light-dark(#121212, #fff);
+  --primary-component-bg-color: #eee;
+  --primary-border: 1px solid #ccc;
+
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--primary-bg-color);
+}
+
+p {
+  margin: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
 }
 
 #root {
-  /* display: flex;
-  flex-direction: column; */
-  /* background-color: #242424; */
+  /* Used to keep footer at the bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+#body-container {
+  padding: 50px;
+  /* Keep footer at the bottom */
+  flex-grow: 2;
 }
 
 body::-webkit-scrollbar {
@@ -16,20 +40,14 @@ body::-webkit-scrollbar {
 
 body ul {
   list-style-type: none;
-  padding-left: 3px;
+  padding-left: 0px;
+}
+
+li {
+  margin-bottom: 2px;
 }
 
 a {
   text-decoration: none;
   color: #111;
-}
-
-/* remove */
-.col-3 {
-  height: 20vh;
-  display: inline-block;
-}
-
-.col-6 {
-  display: inline-block;
 }

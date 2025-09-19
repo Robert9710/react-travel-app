@@ -114,6 +114,9 @@ export default function Header() {
           <li className="dropdown-item">
             <Link to="/create">Create Article</Link>
           </li>
+          <li className="dropdown-item">
+            <Link to="/bookmarks">Bookmarks</Link>
+          </li>
         </ul>
       </div>
     </div>
