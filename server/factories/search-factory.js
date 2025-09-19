@@ -1,14 +1,18 @@
 import { topics } from "../server.js";
+import { paginateResults } from "../utils.js";
 
 class SearchFactory {
-  getSearchSuggestions = (query) => {
+  getSearchSuggestions = (reqObj) => {
     let results = [];
     topics.forEach((topic) => {
-      if (topic.name.includes(query)) {
+      if (topic.name.includes(reqObj.query)) {
         results.push({ resultType: "Topic", id: topic.id, name: topic.name });
       }
       topic.articles.forEach((article) => {
-        if (article.name.includes(query) || article.content.includes(query)) {
+        if (
+          article.name.includes(reqObj.query) ||
+          article.content.includes(reqObj.query)
+        ) {
           results.push({
             resultType: "Article",
             id: article.id,
@@ -18,14 +22,18 @@ class SearchFactory {
         }
       });
     });
-    return results;
+    if (reqObj.maxCount) {
+      results = paginateResults(results, reqObj.maxCount);
+    }
+    return { suggestions: results };
   };
 
-  search = (query) => {
-    let results = [];
+  search = (reqObj) => {
+    let articlesFound = [];
+    let topicsFound = [];
     topics.forEach((topic) => {
-      if (topic.name.includes(query)) {
-        results.push({
+      if (topic.name.includes(reqObj.query)) {
+        topicsFound.push({
           resultType: "Topic",
           id: topic.id,
           name: topic.name,
@@ -33,8 +41,11 @@ class SearchFactory {
         });
       }
       topic.articles.forEach((article) => {
-        if (article.name.includes(query) || article.content.includes(query)) {
-          results.push({
+        if (
+          article.name.includes(reqObj.query) ||
+          article.content.includes(reqObj.query)
+        ) {
+          articlesFound.push({
             resultType: "Article",
             id: article.id,
             name: article.name,
@@ -43,7 +54,30 @@ class SearchFactory {
         }
       });
     });
-    return results;
+    let results = {
+      articles: paginateResults({
+        results: articlesFound,
+        pagenum: reqObj.pagenum,
+        pagesize: reqObj.pagesize,
+      }),
+    };
+    if (results.articles.length < reqObj.pagesize) {
+      results.topics = paginateResults({
+        results: topicsFound,
+        pagenum: results.articles.length > 0 ? 1 : reqObj.pagenum,
+        pagesize: reqObj.pagesize - results.articles.length,
+      });
+    }
+    return {
+      articles: results.articles,
+      topics: results.topics,
+      paginationInfo: {
+        count: results.articles.length + results.topics.length,
+        pagenum: reqObj.pagenum || 1,
+        pagesize:
+          reqObj.pagesize || results.articles.length + results.topics.length,
+      },
+    };
   };
 }
 
