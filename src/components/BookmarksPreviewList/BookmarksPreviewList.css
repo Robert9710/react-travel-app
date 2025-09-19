@@ -1,0 +1,4 @@
+#bookmarks-preview-list .bookmarks-list-item-container {
+  padding: 5px;
+  border-bottom: var(--primary-border);
+}

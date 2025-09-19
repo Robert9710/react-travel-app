@@ -7,6 +7,7 @@ import BasePage from "./pages/BasePage/BasePage.tsx";
 import ViewTopic from "./pages/ViewTopic/ViewTopic.tsx";
 import CreateArticle from "./pages/CreateArticle/CreateArticle.tsx";
 import SearchResults from "./pages/SearchResults/SearchResults.tsx";
+import Bookmarks from "./pages/Bookmarks/Bookmarks.tsx";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
         Component: CreateArticle,
       },
       { path: "/search", Component: SearchResults },
+      { path: "/bookmarks", Component: Bookmarks },
     ],
   },
 ]);

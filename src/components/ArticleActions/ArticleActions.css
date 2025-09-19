@@ -1,0 +1,8 @@
+#article-actions button {
+  background-color: transparent;
+  border: none;
+}
+#article-actions .bookmark-icon,
+#article-actions .remove-bookmark-icon {
+  height: 20px;
+}

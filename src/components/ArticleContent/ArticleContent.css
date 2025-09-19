@@ -1,4 +1,6 @@
 #article-content {
+  display: flex;
+  flex-direction: column;
   border: var(--primary-border);
   padding: 30px;
 }
@@ -6,4 +8,9 @@
 #article-content .article-text {
   border-bottom: var(--primary-border);
   padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+#article-content #article-actions {
+  align-self: flex-end;
 }

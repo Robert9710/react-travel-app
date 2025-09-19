@@ -25,16 +25,7 @@ app.get("/topic/:topicId/article/:articleId/related", async (req, res) => {
 });
 
 app.get("/topic/{:topicId}/article/:articleId", (req, res) => {
-  if (req.params.articleId !== "undefined") {
-    res.json(
-      articleFactory.getArticle({
-        articleId: req.params.articleId,
-        topicId: req.params.topicId,
-      })
-    );
-  } else {
-    res.json("Error");
-  }
+  res.json(articleFactory.getArticle(req.params.articleId, req.params.topicId));
 });
 
 app.get("/topic/:topicId/articles", (req, res) => {
