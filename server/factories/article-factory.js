@@ -34,7 +34,7 @@ class ArticleFactory {
         name: article.name,
       })),
       paginationInfo: {
-        count: relatedArticles.length,
+        count: topic.articles.length - 1,
         pagenum: reqObj.pagenum || 1,
         pagesize: reqObj.pagesize || relatedArticles.length,
       },
@@ -56,7 +56,7 @@ class ArticleFactory {
       paginationInfo: {
         count: topic.articles.length,
         pagenum: reqObj.pagenum || 1,
-        pagesize: reqObj.pagesize || topic.articles.length,
+        pagesize: reqObj.pagesize || articles.length,
       },
     };
   };

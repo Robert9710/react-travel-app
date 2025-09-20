@@ -1,5 +1,7 @@
 type PaginationInfo = {
   count: number;
+  pagenum: number;
+  pagesize: number;
 };
 
 export interface ArticleDetails {
@@ -34,16 +36,16 @@ export interface Topics {
   paginationInfo: PaginationInfo;
 }
 
-type GeneralSearchSuggestion = {
-  resultType: string;
+export type TopicSearchSuggestion = Topic;
+
+export type ArticleSearchSuggestion = {
   id: string;
   name: string;
-};
-
-export type ArticleSearchSuggestion = GeneralSearchSuggestion & {
   topicId: string;
 };
 
-export type SearchSuggestion =
-  | GeneralSearchSuggestion
-  | ArticleSearchSuggestion;
+export type SearchSuggestions = {
+  articles: ArticleSearchSuggestion[];
+  topics: TopicSearchSuggestion[];
+  paginationInfo: PaginationInfo;
+};

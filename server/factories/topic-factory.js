@@ -16,7 +16,7 @@ class TopicFactory {
     return {
       topics: returnTopics,
       paginationInfo: {
-        count: returnTopics.length,
+        count: topics.length,
         pagenum: reqObj.pagenum || 1,
         pagesize: reqObj.pagesize || returnTopics.length,
       },
