@@ -23,7 +23,7 @@ class SearchFactory {
       });
     });
     if (reqObj.maxCount) {
-      results = paginateResults(results, reqObj.maxCount);
+      results = paginateResults({ results, pagesize: reqObj.maxCount });
     }
     return { suggestions: results };
   };
@@ -31,10 +31,10 @@ class SearchFactory {
   search = (reqObj) => {
     let articlesFound = [];
     let topicsFound = [];
+    let results = { articles: [], topics: [] };
     topics.forEach((topic) => {
       if (topic.name.includes(reqObj.query)) {
         topicsFound.push({
-          resultType: "Topic",
           id: topic.id,
           name: topic.name,
           articleCount: topic.articles.length,
@@ -46,7 +46,6 @@ class SearchFactory {
           article.content.includes(reqObj.query)
         ) {
           articlesFound.push({
-            resultType: "Article",
             id: article.id,
             name: article.name,
             topicId: topic.id,
@@ -54,14 +53,17 @@ class SearchFactory {
         }
       });
     });
-    let results = {
-      articles: paginateResults({
+    if (articlesFound.length > 0) {
+      results.articles = paginateResults({
         results: articlesFound,
         pagenum: reqObj.pagenum,
         pagesize: reqObj.pagesize,
-      }),
-    };
-    if (results.articles.length < reqObj.pagesize) {
+      });
+    }
+    if (
+      (!reqObj.pagesize || results.articles.length < reqObj.pagesize) &&
+      topicsFound.length > 0
+    ) {
       results.topics = paginateResults({
         results: topicsFound,
         pagenum: results.articles.length > 0 ? 1 : reqObj.pagenum,
@@ -72,7 +74,7 @@ class SearchFactory {
       articles: results.articles,
       topics: results.topics,
       paginationInfo: {
-        count: results.articles.length + results.topics.length,
+        count: articlesFound.length + topicsFound.length,
         pagenum: reqObj.pagenum || 1,
         pagesize:
           reqObj.pagesize || results.articles.length + results.topics.length,

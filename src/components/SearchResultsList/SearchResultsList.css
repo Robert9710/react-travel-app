@@ -17,13 +17,24 @@
   color: #fff;
 }
 
+#search-results-list .search-results-item-container {
+  margin-bottom: 20px;
+}
+
 #search-results-list .search-results-item {
   display: flex;
   width: auto;
   margin: 10px 40px;
+  padding-bottom: 10px;
   border-bottom: var(--primary-border);
   white-space: nowrap;
   overflow: hidden;
+}
+
+#search-results-list .search-results-item-container:last-child {
+  .search-results-item {
+    border-bottom: 0;
+  }
 }
 
 #search-results-list .search-results-item-icon {
