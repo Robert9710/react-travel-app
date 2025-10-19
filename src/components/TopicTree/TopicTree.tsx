@@ -1,12 +1,15 @@
 import { Link } from "react-router";
 import { Topics } from "../../application/types";
-import useData from "../../application/useData";
 import "./TopicTree.css";
+import { useEffect, useState } from "react";
+import topicFactory from "../../factories/topic-factory";
 
 export default function TopicTree() {
-  const topics = useData<Topics>({
-    url: "http://localhost:3000/topics",
-  });
+  const [topics, setTopics] = useState<Topics>();
+  useEffect(() => {
+    topicFactory.getTopics().then((data) => setTopics(data));
+  }, []);
+  useEffect(() => {}, []);
   if (topics) {
     return (
       <div id="topic-tree">

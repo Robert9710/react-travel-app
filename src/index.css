@@ -1,5 +1,8 @@
 :root {
   /* Variables */
+  --primary-color: light-dark(#111, #fff);
+  --secondary-color: light-dark(#fff, #111);
+  --default-bg-color: transparent;
   --primary-bg-color: light-dark(#fff, #121212);
   --secondary-bg-color: light-dark(#121212, #fff);
   --primary-component-bg-color: #eee;

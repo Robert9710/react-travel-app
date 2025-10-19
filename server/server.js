@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.get("/topic/:topicId/article/:articleId/related", async (req, res) => {
+app.get("/topic/{:topicId}/article/:articleId/related", async (req, res) => {
   res.json(
     articleFactory.getRelatedArticles({
       articleId: req.params.articleId,
@@ -90,7 +90,7 @@ app.post("/create/topic", (req, res) => {
 
 app.get("/search/suggestions", (req, res) => {
   res.json(
-    searchFactory.getSearchSuggestions({
+    searchFactory.search({
       query: req.query.q,
       maxCount: req.query.maxCount,
     })

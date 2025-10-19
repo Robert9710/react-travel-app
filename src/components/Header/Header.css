@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 50px;
-  background-color: #eee;
+  background-color: var(--primary-component-bg-color);
   border-bottom: 2px;
 }
 
@@ -21,17 +21,17 @@
 }
 
 #header .btn {
-  background-color: #dce1e7;
+  background-color: var(--primary-component-bg-color);
 }
 
 #header .dropdown-toogle {
-  background-color: transparent;
+  background-color: var(--default-bg-color);
 }
 
 #header .search-suggestions-dropdown {
   position: absolute;
   top: 40px;
-  background-color: #fff;
+  background-color: var(--primary-bg-color);
   width: 100%;
 }
 

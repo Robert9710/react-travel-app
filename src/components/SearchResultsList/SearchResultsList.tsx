@@ -1,14 +1,19 @@
-import useData from "../../application/useData";
+// import useData from "../../application/useData";
 import "./SearchResultsList.css";
 import article from "../../icons/article.svg";
 import topic from "../../icons/topic.svg";
 import { Link } from "react-router";
 import { SearchSuggestions } from "../../application/types";
+import { useEffect, useState } from "react";
+import searchFactory from "../../factories/search-factory";
 
 export default function SearchResultsList(props: { query: string }) {
-  const searchResults = useData<SearchSuggestions>({
-    url: `http://localhost:3000/search?q=${props.query}`,
-  });
+  const [searchResults, setSearchResults] = useState<SearchSuggestions>();
+  useEffect(() => {
+    searchFactory
+      .getSearchResults({ query: props.query, pagenum: 1, pagesize: 5 })
+      .then((data) => setSearchResults(data));
+  }, [props.query]);
   if (searchResults) {
     return (
       <div id="search-results-list">

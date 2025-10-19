@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { Topics } from "../../application/types";
 import "./CreateArticleForm.css";
+import topicFactory from "../../factories/topic-factory";
+import articleFactory from "../../factories/article-factory";
 export default function CreateArticleForm() {
   const [topics, setTopics] = useState<Topics | null>(null);
-  // const topicsData = useData<Topics>({
-  //   url: "http://localhost:3000/topics",
-  // });
   useEffect(() => {
     getTopics();
   }, []);
@@ -36,42 +35,38 @@ export default function CreateArticleForm() {
     </option>
   ));
   async function getTopics() {
-    const response = await fetch("http://localhost:3000/topics");
-    const data = await response.json();
-    setTopics(data);
+    setTopics(await topicFactory.getTopics());
   }
   async function createArticle(formData: FormData) {
     window.scrollTo(0, 0);
-    await fetch("http://localhost:3000/create/article", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        topicId: formData.get("topicTitle"),
-        name: formData.get("articleTitle"),
-        recommended: formData.get("recommendedMonth"),
-        content: formData.get("content"),
-      }),
-    });
+    const topicName = formData.get("topicName")?.toString();
+    const articleName = formData.get("articleName")?.toString();
+    const recommendedMonth = formData.get("recommendedMonth")?.toString();
+    const content = formData.get("content")?.toString();
+    if (topicName && articleName && recommendedMonth && content) {
+      articleFactory.createArticle({
+        topicName: topicName,
+        articleName: articleName,
+        recommendedMonth: recommendedMonth,
+        content: content,
+      });
+    } else {
+      //Show error message
+    }
   }
-  function createNewTopic(formData: FormData) {
-    fetch("http://localhost:3000/create/topic", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        topicName: formData.get("newTopicTitle"),
-      }),
-    }).then(() => getTopics());
+  async function createNewTopic(formData: FormData) {
+    const topicName = formData.get("topicName")?.toString();
+    if (topicName) {
+      topicFactory.createTopic({ newTopicName: topicName });
+      await getTopics();
+    }
   }
   return (
     <div id="create-article-form">
       <form action={createArticle}>
         <label>
           Topic
-          <select className="form-control" name="topicTitle">
+          <select className="form-control" name="topicName">
             {topicOptions}
           </select>
           <button
@@ -84,8 +79,8 @@ export default function CreateArticleForm() {
           </button>
         </label>
         <label>
-          Article Title
-          <input className="form-control" type="text" name="articleTitle" />
+          Article Name
+          <input className="form-control" type="text" name="articleName" />
         </label>
         <label>
           Recommended Month
@@ -126,10 +121,10 @@ export default function CreateArticleForm() {
                 <label>
                   Topic Name
                   <input
-                    id="new-topic-title"
+                    id="new-topic-name"
                     className="form-control"
                     type="text"
-                    name="newTopicTitle"
+                    name="newTopicName"
                   />
                 </label>
                 <button

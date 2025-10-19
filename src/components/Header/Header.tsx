@@ -5,40 +5,32 @@ import article from "../../icons/article.svg";
 import topic from "../../icons/topic.svg";
 import "./Header.css";
 import { useState } from "react";
-import {
-  ArticleSearchSuggestion,
-  SearchSuggestion,
-} from "../../application/types";
+import { SearchSuggestions } from "../../application/types";
+import searchFactory from "../../factories/search-factory";
 export default function Header() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchSuggestions, setSearchSuggestions] = useState<
-    SearchSuggestion[]
-  >([]);
+  const [searchSuggestions, setSearchSuggestions] =
+    useState<SearchSuggestions>();
   async function getSearchSuggestions(query: string) {
-    const response = await fetch(
-      `http://localhost:3000/search/suggestions?q=${query}`
+    const maxCount = 5;
+    setSearchSuggestions(
+      await searchFactory.getSearchSuggestions({ query, maxCount })
     );
-    setSearchSuggestions((await response.json()).suggestions);
   }
   function updateSearchQuery(newQuery: string) {
     setSearchQuery(newQuery);
     if (newQuery.length >= 2) {
       getSearchSuggestions(newQuery);
     } else {
-      setSearchSuggestions([]);
+      setSearchSuggestions(undefined);
     }
   }
   function performSearch() {
     if (searchQuery) {
-      setSearchSuggestions([]);
+      setSearchSuggestions(undefined);
       navigate(`/search?query=${searchQuery}`);
     }
-  }
-  function isArticleSuggestion(
-    suggestion: SearchSuggestion
-  ): suggestion is ArticleSearchSuggestion {
-    return (suggestion as ArticleSearchSuggestion).topicId !== undefined;
   }
 
   return (
@@ -68,35 +60,56 @@ export default function Header() {
           Search
         </button>
         {/* Search suggestions list*/}
-        <ul className="search-suggestions-dropdown">
-          {searchSuggestions.map((suggestion, index) => (
-            <li
-              className="search-suggestions-dropdown-item-container"
-              key={index}
-            >
-              <Link
-                className="search-suggestions-dropdown-item"
-                to={`/topic/${
-                  isArticleSuggestion(suggestion)
-                    ? `${suggestion.topicId}/article/${suggestion.id}`
-                    : `${suggestion.id}`
-                }`}
-                onClick={() => {
-                  setSearchQuery("");
-                  setSearchSuggestions([]);
-                }}
+        {searchSuggestions && (
+          <ul className="search-suggestions-dropdown">
+            {searchSuggestions.articles.map((suggestion, index) => (
+              <li
+                className="search-suggestions-dropdown-item-container"
+                key={index}
               >
-                <img
-                  className="search-suggestions-dropdown-item-icon"
-                  src={isArticleSuggestion(suggestion) ? article : topic}
-                ></img>
-                <p className="search-suggestions-dropdown-item-text">
-                  {suggestion.name}
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ul>
+                <Link
+                  className="search-suggestions-dropdown-item"
+                  to={`/topic/${suggestion.topicId}/article/${suggestion.id}`}
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSearchSuggestions(undefined);
+                  }}
+                >
+                  <img
+                    className="search-suggestions-dropdown-item-icon"
+                    src={article}
+                  ></img>
+                  <p className="search-suggestions-dropdown-item-text">
+                    {suggestion.name}
+                  </p>
+                </Link>
+              </li>
+            ))}
+            {searchSuggestions.topics.map((suggestion, index) => (
+              <li
+                className="search-suggestions-dropdown-item-container"
+                key={index}
+              >
+                <Link
+                  className="search-suggestions-dropdown-item"
+                  to={`/topic/${suggestion.id}`}
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSearchSuggestions(undefined);
+                  }}
+                >
+                  <img
+                    className="search-suggestions-dropdown-item-icon"
+                    src={topic}
+                  ></img>
+                  <p className="search-suggestions-dropdown-item-text">
+                    {suggestion.name}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       {/* Menu */}
       <div id="header-menu" className="input-group-prepend">

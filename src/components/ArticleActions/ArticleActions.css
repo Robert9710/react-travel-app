@@ -1,5 +1,5 @@
 #article-actions button {
-  background-color: transparent;
+  background-color: var(--default-bg-color);
   border: none;
 }
 #article-actions .bookmark-icon,
