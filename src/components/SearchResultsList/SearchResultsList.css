@@ -13,8 +13,8 @@
 #search-results-list .search-results-count {
   margin: 5px;
   padding: 3px 10px;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--secondary-bg-color);
+  color: var(--secondary-color);
 }
 
 #search-results-list .search-results-item-container {

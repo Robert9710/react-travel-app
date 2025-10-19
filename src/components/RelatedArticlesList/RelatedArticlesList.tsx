@@ -1,16 +1,25 @@
 import "./RelatedArticlesList.css";
 import { Link } from "react-router";
-import useData from "../../application/useData";
 import {
   ArticleProps,
   ArticleDetails,
   Articles,
 } from "../../application/types";
+import { useEffect, useState } from "react";
+import articleFactory from "../../factories/article-factory";
 
 export default function RelatedArticlesList(props: ArticleProps) {
-  const relatedArticles = useData<Articles>({
-    url: `http://localhost:3000/topic/${props.topicId}/article/${props.articleId}/related`,
-  });
+  const [relatedArticles, setRelatedArticles] = useState<Articles>();
+  useEffect(() => {
+    articleFactory
+      .getRelatedArticles({
+        articleId: props.articleId,
+        topicId: props.topicId,
+      })
+      .then((response) => {
+        setRelatedArticles(response);
+      });
+  }, [props.articleId, props.topicId]);
   if (relatedArticles && relatedArticles.articles.length > 0) {
     return (
       <div id="related-articles-list">

@@ -1,18 +1,22 @@
 import "./TopicBlocks.css";
 import TopicBlock from "../TopicBlock/TopicBlock";
-import useData from "../../application/useData";
 import { Topics } from "../../application/types";
+import { useEffect, useState } from "react";
+import topicFactory from "../../factories/topic-factory";
 
 export default function TopicsBlocks() {
-  const topics = useData<Topics>({
-    url: "http://localhost:3000/topics",
-  });
+  const [topics, setTopics] = useState<Topics>();
+  useEffect(() => {
+    topicFactory.getTopics().then((data) => setTopics(data));
+  }, []);
   if (topics) {
     return (
       <div id="topic-blocks">
         {topics.topics.map(
-          (topic, index) =>
-            topic.articleCount > 0 && <TopicBlock key={index} topic={topic} />
+          (topic) =>
+            topic.articleCount > 0 && (
+              <TopicBlock key={topic.id} topic={topic} />
+            )
         )}
       </div>
     );

@@ -1,16 +1,16 @@
 import "./TopicBlock.css";
 import { Link } from "react-router";
 import { Articles, Topic } from "../../application/types";
-import useData from "../../application/useData";
+import { useEffect, useState } from "react";
+import articleFactory from "../../factories/article-factory";
 
-interface TopicBlock {
-  title: string;
-  articles: { id: string; title: string }[];
-}
 export default function TopicBlock(props: { topic: Topic }) {
-  const articles = useData<Articles>({
-    url: `http://localhost:3000/topic/${props.topic.id}/articles`,
-  });
+  const [articles, setArticles] = useState<Articles>();
+  useEffect(() => {
+    articleFactory
+      .getArticlesInTopic({ topicId: props.topic.id })
+      .then((data) => setArticles(data));
+  }, [props.topic.id]);
   if (articles) {
     return (
       <div className="col-5 topic-block">

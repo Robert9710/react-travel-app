@@ -32,6 +32,9 @@ class SearchFactory {
     let articlesFound = [];
     let topicsFound = [];
     let results = { articles: [], topics: [] };
+    if (reqObj.maxCount) {
+      reqObj.pagesize = reqObj.maxCount;
+    }
     topics.forEach((topic) => {
       if (topic.name.includes(reqObj.query)) {
         topicsFound.push({

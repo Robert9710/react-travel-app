@@ -3,7 +3,7 @@
   padding: 20px;
 }
 #bookmarks-list .bookmarks-list-item-remove-button {
-  background-color: transparent;
+  background-color: var(--default-bg-color);
   border: none;
 }
 #bookmarks-list .remove-bookmark-icon {

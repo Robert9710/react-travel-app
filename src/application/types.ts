@@ -21,7 +21,7 @@ export interface Articles {
 }
 
 export interface ArticleProps {
-  topicId: string;
+  topicId?: string;
   articleId: string;
 }
 
