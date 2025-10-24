@@ -11,6 +11,17 @@ class BookmarkFactory {
     const index = bookmarks.indexOf(reqObj.bookmarkId);
     bookmarks.splice(index, 1);
     this.bookmarksStorage({ bookmarks });
+    return true;
+  }
+  getBookmarks(reqObj: { pagenum?: number; pagesize: number }) {
+    const bookmarks = this.bookmarksStorage();
+    return {
+      bookmarks: bookmarks.slice(
+        ((reqObj.pagenum || 1) - 1) * reqObj.pagesize,
+        (reqObj.pagenum || 1) * reqObj.pagesize
+      ),
+      bookmarksCount: bookmarks.length,
+    };
   }
   isArticleBookmarked(reqObj: { articleId: string }) {
     const bookmarks = this.bookmarksStorage();

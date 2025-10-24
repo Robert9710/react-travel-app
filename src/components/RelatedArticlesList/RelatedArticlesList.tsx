@@ -7,19 +7,22 @@ import {
 } from "../../application/types";
 import { useEffect, useState } from "react";
 import articleFactory from "../../factories/article-factory";
+import config from "./config.json";
 
 export default function RelatedArticlesList(props: ArticleProps) {
+  const numberOfArticlesPerPage = config.numberOfArticlesPerPage;
   const [relatedArticles, setRelatedArticles] = useState<Articles>();
   useEffect(() => {
     articleFactory
       .getRelatedArticles({
         articleId: props.articleId,
         topicId: props.topicId,
+        pagesize: numberOfArticlesPerPage,
       })
       .then((response) => {
         setRelatedArticles(response);
       });
-  }, [props.articleId, props.topicId]);
+  }, [numberOfArticlesPerPage, props.articleId, props.topicId]);
   if (relatedArticles && relatedArticles.articles.length > 0) {
     return (
       <div id="related-articles-list">

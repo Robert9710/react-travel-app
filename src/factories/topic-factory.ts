@@ -7,8 +7,17 @@ class TopicFactory {
     );
     return await response.json();
   }
-  async getTopics() {
-    const response = await fetch(`${appConfig.Variables.apiDomain}/topics`);
+  async getTopics(reqObj: { pagenum?: number; pagesize: number });
+  async getTopics();
+  async getTopics(reqObj?: { pagenum?: number; pagesize: number }) {
+    let queryParams = "";
+    if (reqObj?.pagesize) {
+      queryParams +=
+        "pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
+    }
+    const response = await fetch(
+      `${appConfig.Variables.apiDomain}/topics?${queryParams}`
+    );
     return await response.json();
   }
   async createTopic(reqObj: { newTopicName: string }) {

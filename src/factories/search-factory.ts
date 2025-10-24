@@ -12,8 +12,13 @@ class SearchFactory {
     pagenum: number;
     pagesize: number;
   }) {
+    let queryParams = "q=" + reqObj.query;
+    if (reqObj.pagesize) {
+      queryParams +=
+        "&pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
+    }
     const response = await fetch(
-      `${appConfig.Variables.apiDomain}/search?q=${reqObj.query}`
+      `${appConfig.Variables.apiDomain}/search?${queryParams}`
     );
     return await response.json();
   }

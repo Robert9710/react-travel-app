@@ -1,0 +1,16 @@
+#pagination {
+  /* align component in the center */
+  width: fit-content;
+  margin: auto;
+}
+
+#pagination .page-number {
+  background-color: #fff;
+  color: var(--brand-color);
+  margin-left: 5px;
+}
+
+#pagination .page-number.active {
+  background-color: var(--brand-color);
+  color: #fff;
+}

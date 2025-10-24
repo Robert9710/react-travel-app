@@ -1,6 +1,7 @@
 #search-results-list {
   border: var(--primary-border);
-  /* Align with header menu */
+  /* Leave space between page number(s) and border bottom */
+  padding-bottom: 20px;
 }
 
 #search-results-list .heading {

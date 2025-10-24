@@ -7,7 +7,11 @@ import "./Header.css";
 import { useState } from "react";
 import { SearchSuggestions } from "../../application/types";
 import searchFactory from "../../factories/search-factory";
+import config from "./config.json";
+
 export default function Header() {
+  const showBookmarksLink = config.showBookmarksLink;
+  const showCreateArticleLink = config.showCreateArticleLink;
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] =
@@ -125,10 +129,10 @@ export default function Header() {
             <Link to="/">Home</Link>
           </li>
           <li className="dropdown-item">
-            <Link to="/create">Create Article</Link>
+            {showCreateArticleLink && <Link to="/create">Create Article</Link>}
           </li>
           <li className="dropdown-item">
-            <Link to="/bookmarks">Bookmarks</Link>
+            {showBookmarksLink && <Link to="/bookmarks">Bookmarks</Link>}
           </li>
         </ul>
       </div>
