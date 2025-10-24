@@ -12,7 +12,7 @@ export function init() {
 export function paginateResults(reqObj) {
   if (Array.isArray(reqObj.results)) {
     if (reqObj.pagesize) {
-      if (!reqObj.pagenum) {
+      if (!reqObj.pagenum || reqObj.pagenum === "undefined") {
         reqObj.pagenum = 1;
       }
       return reqObj.results.slice(

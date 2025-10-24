@@ -17,17 +17,33 @@ class ArticleFactory {
   async getRelatedArticles(reqObj: {
     articleId: string;
     topicId?: string;
+    pagenum?: number;
+    pagesize?: number;
   }): Promise<Articles> {
+    let queryParams = "";
+    if (reqObj.pagesize) {
+      queryParams =
+        "pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
+    }
     const response = await fetch(
       `${appConfig.Variables.apiDomain}/topic/${reqObj.topicId || ""}/article/${
         reqObj.articleId
-      }/related`
+      }/related?${queryParams}`
     );
     return await response.json();
   }
-  async getArticlesInTopic(reqObj: { topicId: string }): Promise<Articles> {
+  async getArticlesInTopic(reqObj: {
+    topicId: string;
+    pagenum?: number;
+    pagesize?: number;
+  }): Promise<Articles> {
+    let queryParams = "";
+    if (reqObj.pagesize) {
+      queryParams +=
+        "pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
+    }
     const response = await fetch(
-      `${appConfig.Variables.apiDomain}/topic/${reqObj.topicId}/articles`
+      `${appConfig.Variables.apiDomain}/topic/${reqObj.topicId}/articles?${queryParams}`
     );
     return await response.json();
   }

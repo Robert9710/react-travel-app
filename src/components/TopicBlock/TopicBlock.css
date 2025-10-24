@@ -1,19 +1,32 @@
-.topic-block {
-  background-color: var(--primary-component-bg-color);
-  box-shadow: 5px 5px #ddd;
-  padding: 10px 20px;
-  height: 230px;
+#topic-block {
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 0px 10px 3px #ddd;
+  border-radius: 10px;
+  padding: 10px 20px;
+  height: fit-content;
+  /* Add margin so that only 3 blocks fit in 1 row */
+  margin-right: 1px;
 }
 
-.topic-block > ul {
+#topic-block .topic-articles {
   display: flex;
   flex-direction: column;
   flex-grow: 2;
+  height: fit-content;
 }
 
-.topic-block .article-count {
+#topic-block .topic-articles .topic-article-container {
+  height: 0;
+  overflow: hidden;
+  transition: height 1s;
+}
+
+#topic-block:hover .topic-articles .topic-article-container {
+  height: 26px;
+}
+
+#topic-block .article-count {
   margin-bottom: 0;
   align-self: flex-end;
 }

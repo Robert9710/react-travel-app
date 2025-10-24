@@ -64,12 +64,13 @@ class SearchFactory {
       });
     }
     if (
-      (!reqObj.pagesize || results.articles.length < reqObj.pagesize) &&
+      (!reqObj.pagesize ||
+        results.articles.length < reqObj.pagesize * reqObj.pagenum) &&
       topicsFound.length > 0
     ) {
       results.topics = paginateResults({
         results: topicsFound,
-        pagenum: results.articles.length > 0 ? 1 : reqObj.pagenum,
+        pagenum: articlesFound.length > 0 ? 1 : reqObj.pagenum,
         pagesize: reqObj.pagesize - results.articles.length,
       });
     }

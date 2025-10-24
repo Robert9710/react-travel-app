@@ -1,7 +1,5 @@
 #topic-tree {
-  border: var(--primary-border);
-  background-color: var(--primary-component-bg-color);
-  box-shadow: 3px 3px #ddd;
+  box-shadow: 0 0 10px 3px #ddd;
   padding: 20px;
 }
 

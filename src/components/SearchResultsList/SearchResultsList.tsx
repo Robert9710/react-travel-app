@@ -1,4 +1,3 @@
-// import useData from "../../application/useData";
 import "./SearchResultsList.css";
 import article from "../../icons/article.svg";
 import topic from "../../icons/topic.svg";
@@ -6,14 +5,24 @@ import { Link } from "react-router";
 import { SearchSuggestions } from "../../application/types";
 import { useEffect, useState } from "react";
 import searchFactory from "../../factories/search-factory";
+import config from "./config.json";
+import Pagination from "../Pagination/Pagination";
 
 export default function SearchResultsList(props: { query: string }) {
+  const numberOfSearchResultsPerPage = config.numberOfSearchResultsPerPage;
+  const [pagenum, setPagenum] = useState(1);
   const [searchResults, setSearchResults] = useState<SearchSuggestions>();
   useEffect(() => {
     searchFactory
-      .getSearchResults({ query: props.query, pagenum: 1, pagesize: 5 })
-      .then((data) => setSearchResults(data));
-  }, [props.query]);
+      .getSearchResults({
+        query: props.query,
+        pagenum: pagenum,
+        pagesize: numberOfSearchResultsPerPage,
+      })
+      .then((data) => {
+        setSearchResults(data);
+      });
+  }, [numberOfSearchResultsPerPage, pagenum, props.query]);
   if (searchResults) {
     return (
       <div id="search-results-list">
@@ -50,6 +59,12 @@ export default function SearchResultsList(props: { query: string }) {
             </li>
           ))}
         </ul>
+        <Pagination
+          totalNumberOfItems={searchResults.paginationInfo.count}
+          numberOfItemsPerPage={numberOfSearchResultsPerPage}
+          pagenum={pagenum}
+          setPagenum={setPagenum}
+        />
       </div>
     );
   }

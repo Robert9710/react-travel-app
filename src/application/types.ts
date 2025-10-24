@@ -1,8 +1,8 @@
-type PaginationInfo = {
+export interface PaginationInfo {
   count: number;
   pagenum: number;
   pagesize: number;
-};
+}
 
 export interface ArticleDetails {
   id: string;

@@ -5,3 +5,11 @@
 #topic-content .article-count {
   margin-bottom: 20px;
 }
+
+#topic-content .show-more-button {
+  background-color: var(--brand-color);
+  border: none;
+  border-radius: 50px;
+  color: var(--secondary-color);
+  padding: 5px 10px;
+}
