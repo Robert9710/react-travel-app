@@ -1,7 +1,7 @@
 #topic-block {
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 0px 10px 3px #ddd;
+  box-shadow: var(--box-shadow-1);
   border-radius: 10px;
   padding: 10px 20px;
   height: fit-content;

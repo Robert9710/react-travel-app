@@ -1,5 +1,5 @@
 #topic-tree {
-  box-shadow: 0 0 10px 3px #ddd;
+  box-shadow: var(--box-shadow-1);
   padding: 20px;
 }
 
@@ -7,5 +7,5 @@
   margin-top: 10px;
   margin-bottom: 10px;
   padding-bottom: 5px;
-  border-bottom: var(--primary-border);
+  border-bottom: var(--border-1);
 }

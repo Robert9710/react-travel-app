@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 50px;
-  background-color: var(--primary-component-bg-color);
+  background-color: var(--lagoon-color);
   border-bottom: 2px;
 }
 
@@ -18,20 +18,31 @@
 
 #header .input-group {
   width: auto;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+#header .input-group .form-control,
+.btn {
+  border-radius: 0;
 }
 
 #header .btn {
-  background-color: var(--primary-component-bg-color);
+  background-color: var(--bg-color-1);
+  border: none;
+  border-left: 1px solid;
+  color: var(--color-1);
 }
 
 #header .dropdown-toogle {
-  background-color: var(--default-bg-color);
+  background-color: transparent;
+  border: none;
 }
 
 #header .search-suggestions-dropdown {
   position: absolute;
   top: 40px;
-  background-color: var(--primary-bg-color);
+  background-color: var(--bg-color-1);
   width: 100%;
 }
 

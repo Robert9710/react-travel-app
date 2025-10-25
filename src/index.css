@@ -1,18 +1,18 @@
 :root {
   /* Variables */
-  --primary-color: light-dark(#111, #fff);
-  --secondary-color: light-dark(#fff, #111);
-  --default-bg-color: transparent;
-  --primary-bg-color: light-dark(#fff, #121212);
-  --secondary-bg-color: light-dark(#121212, #fff);
-  --primary-component-bg-color: #eee;
-  --primary-border: 1px solid #ccc;
-
+  --lagoon-color: #0e847f;
+  --bg-color-1: light-dark(#fff, #121212);
+  --bg-color-2: light-dark(#121212, #fff);
+  --border-1: 1px solid #333;
+  --box-shadow-1: 0 0 10px 3px #ddd;
+  --color-1: light-dark(#111, #fff);
+  --color-2: light-dark(#fff, #111);
+  --item-separator-1: 1px solid #333;
   color-scheme: light;
 }
 
 body {
-  background-color: var(--primary-bg-color);
+  background-color: var(--bg-color-1);
 }
 
 p {
@@ -53,4 +53,16 @@ li {
 a {
   text-decoration: none;
   color: #111;
+}
+
+a:hover {
+  color: var(--lagoon-color);
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: transparent;
+}
+
+.dropdown-menu .dropdown-item:active {
+  background-color: transparent;
 }
