@@ -5,5 +5,5 @@
 #related-articles-list .articles-list-item-container {
   padding-bottom: 5px;
   margin-bottom: 10px;
-  border-bottom: var(--primary-border);
+  border-bottom: var(--border-1);
 }

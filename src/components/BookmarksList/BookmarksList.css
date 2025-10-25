@@ -1,9 +1,9 @@
 #bookmarks-list {
-  border: var(--primary-border);
+  box-shadow: var(--box-shadow-1);
   padding: 20px;
 }
 #bookmarks-list .bookmarks-list-item-remove-button {
-  background-color: var(--default-bg-color);
+  background-color: transparent;
   border: none;
 }
 #bookmarks-list .remove-bookmark-icon {

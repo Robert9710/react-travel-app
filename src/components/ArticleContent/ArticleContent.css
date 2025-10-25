@@ -1,12 +1,12 @@
 #article-content {
+  box-shadow: var(--box-shadow-1);
   display: flex;
   flex-direction: column;
-  border: var(--primary-border);
   padding: 30px;
 }
 
 #article-content .article-text {
-  border-bottom: var(--primary-border);
+  border-bottom: var(--item-separator-1);
   padding-bottom: 20px;
   margin-bottom: 10px;
 }

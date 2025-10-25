@@ -5,12 +5,12 @@
 }
 
 #pagination .page-number {
-  background-color: #fff;
-  color: var(--brand-color);
+  background-color: var(--bg-color-1);
+  color: var(--lagoon-color);
   margin-left: 5px;
 }
 
 #pagination .page-number.active {
-  background-color: var(--brand-color);
-  color: #fff;
+  background-color: var(--lagoon-color);
+  color: var(--color-2);
 }

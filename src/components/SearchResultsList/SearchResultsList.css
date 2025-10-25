@@ -1,5 +1,6 @@
 #search-results-list {
-  border: var(--primary-border);
+  box-shadow: var(--box-shadow-1);
+  padding-top: 10px;
   /* Leave space between page number(s) and border bottom */
   padding-bottom: 20px;
 }
@@ -14,8 +15,8 @@
 #search-results-list .search-results-count {
   margin: 5px;
   padding: 3px 10px;
-  background-color: var(--secondary-bg-color);
-  color: var(--secondary-color);
+  background-color: var(--bg-color-2);
+  color: var(--color-2);
 }
 
 #search-results-list .search-results-item-container {
@@ -27,7 +28,7 @@
   width: auto;
   margin: 10px 40px;
   padding-bottom: 10px;
-  border-bottom: var(--primary-border);
+  border-bottom: var(--border-1);
   white-space: nowrap;
   overflow: hidden;
 }
