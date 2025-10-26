@@ -2,13 +2,19 @@ import { Article, Articles } from "../application/types";
 import appConfig from "../application/config.json";
 
 class ArticleFactory {
+  #apiDomain;
+  constructor() {
+    this.#apiDomain =
+      process.env.NODE_ENV === "development"
+        ? appConfig.DevVariables.apiDomain
+        : appConfig.ProdVariables.apiDomain;
+  }
   async getArticle(reqObj: {
     articleId: string;
     topicId?: string;
   }): Promise<{ article: Article }> {
-    console.log();
     const response = await fetch(
-      `${appConfig.Variables.apiDomain}/topic/${reqObj.topicId || ""}/article/${
+      `${this.#apiDomain}/topic/${reqObj.topicId || ""}/article/${
         reqObj.articleId
       }`
     );
@@ -26,7 +32,7 @@ class ArticleFactory {
         "pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
     }
     const response = await fetch(
-      `${appConfig.Variables.apiDomain}/topic/${reqObj.topicId || ""}/article/${
+      `${this.#apiDomain}/topic/${reqObj.topicId || ""}/article/${
         reqObj.articleId
       }/related?${queryParams}`
     );
@@ -43,7 +49,7 @@ class ArticleFactory {
         "pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
     }
     const response = await fetch(
-      `${appConfig.Variables.apiDomain}/topic/${reqObj.topicId}/articles?${queryParams}`
+      `${this.#apiDomain}/topic/${reqObj.topicId}/articles?${queryParams}`
     );
     return await response.json();
   }
@@ -53,21 +59,18 @@ class ArticleFactory {
     recommendedMonth: string;
     content: string;
   }) {
-    const response = await fetch(
-      `${appConfig.Variables.apiDomain}/create/article`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          topicId: reqObj.topicName,
-          name: reqObj.articleName,
-          recommended: reqObj.recommendedMonth,
-          content: reqObj.content,
-        }),
-      }
-    );
+    const response = await fetch(`${this.#apiDomain}/create/article`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        topicId: reqObj.topicName,
+        name: reqObj.articleName,
+        recommended: reqObj.recommendedMonth,
+        content: reqObj.content,
+      }),
+    });
     response.json();
   }
 }
