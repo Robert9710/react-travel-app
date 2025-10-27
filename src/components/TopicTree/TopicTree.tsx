@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { Topics } from "../../application/types";
-// @ts-ignore
+
 import "./TopicTree.css";
 import { useEffect, useState } from "react";
 import topicFactory from "../../factories/topic-factory";
@@ -8,7 +8,6 @@ import topicFactory from "../../factories/topic-factory";
 export default function TopicTree() {
   const [topics, setTopics] = useState<Topics>();
   useEffect(() => {
-    // @ts-ignore
     topicFactory.getTopics().then((data) => setTopics(data));
   }, []);
   useEffect(() => {}, []);

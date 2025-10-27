@@ -1,7 +1,10 @@
-// @ts-ignore
 import "./Pagination.css";
-// @ts-ignore
-export default function Pagination(props) {
+export default function Pagination(props: {
+  totalNumberOfItems: number;
+  numberOfItemsPerPage: number;
+  pagenum: number;
+  setPagenum: (pagenum: number) => void;
+}) {
   const numberOfPages = parseInt(
     Math.ceil(props.totalNumberOfItems / props.numberOfItemsPerPage).toString()
   );

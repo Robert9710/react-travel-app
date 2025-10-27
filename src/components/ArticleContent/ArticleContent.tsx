@@ -1,4 +1,3 @@
-// @ts-ignore
 import "./ArticleContent.css";
 import { Article } from "../../application/types";
 import ArticleActions from "../ArticleActions/ArticleActions";
