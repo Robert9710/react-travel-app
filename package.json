@@ -16,6 +16,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/node": "^24.9.1",
     "bootstrap": "^5.3.5",
     "cors": "^2.8.5",
     "express": "^5.1.0",
