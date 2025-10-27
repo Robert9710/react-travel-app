@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router";
-// @ts-ignore
+
 import homeIcon from "../../icons/home.svg";
-// @ts-ignore
+
 import menuIcon from "../../icons/menu.svg";
-// @ts-ignore
+
 import article from "../../icons/article.svg";
-// @ts-ignore
+
 import topic from "../../icons/topic.svg";
-// @ts-ignore
+
 import "./Header.css";
 import { useState } from "react";
 import { SearchSuggestions } from "../../application/types";
@@ -17,14 +17,18 @@ import config from "./config.json";
 export default function Header() {
   const showBookmarksLink = config.showBookmarksLink;
   const showCreateArticleLink = config.showCreateArticleLink;
+  const searchSuggestionsMaxCount = config.searchSuggestionsMaxCount;
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] =
     useState<SearchSuggestions>();
+
   async function getSearchSuggestions(query: string) {
-    const maxCount = 5;
     setSearchSuggestions(
-      await searchFactory.getSearchSuggestions({ query, maxCount })
+      await searchFactory.getSearchSuggestions({
+        query,
+        maxCount: searchSuggestionsMaxCount,
+      })
     );
   }
   function updateSearchQuery(newQuery: string) {

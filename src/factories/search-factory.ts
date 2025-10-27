@@ -1,4 +1,5 @@
 import appConfig from "../application/config.json";
+import { SearchSuggestions } from "../application/types";
 
 class SearchFactory {
   #apiDomain;
@@ -20,7 +21,7 @@ class SearchFactory {
     query: string;
     pagenum: number;
     pagesize: number;
-  }) {
+  }): Promise<SearchSuggestions> {
     let queryParams = "q=" + reqObj.query;
     if (reqObj.pagesize) {
       queryParams +=

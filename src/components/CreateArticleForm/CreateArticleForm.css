@@ -6,7 +6,31 @@
 #create-article-form .btn {
   margin-top: 10px;
 }
-
+#create-article-form .create-topic-button,
+.create-article-button {
+  background-color: var(--lagoon-color);
+  border: 1px solid var(--lagoon-color);
+  border-radius: 10px;
+  color: var(--color-2);
+}
 #create-article-form textarea {
   height: 300px;
+}
+
+#create-article-form #new-topic-name {
+  margin-top: 10px;
+}
+
+#create-article-form #create-topic-modal .btn-primary {
+  background-color: var(--lagoon-color);
+  border: 1px solid var(--lagoon-color);
+  border-radius: 10px;
+  color: var(--color-2);
+}
+
+#create-article-form #create-topic-modal .btn-secondary {
+  background-color: var(--bg-color-1);
+  border: 1px solid var(--lagoon-color);
+  border-radius: 10px;
+  color: var(--lagoon-color);
 }

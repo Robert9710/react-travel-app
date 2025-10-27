@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Topics } from "../../application/types";
-// @ts-ignore
+
 import "./CreateArticleForm.css";
 import topicFactory from "../../factories/topic-factory";
 import articleFactory from "../../factories/article-factory";
@@ -71,7 +71,7 @@ export default function CreateArticleForm() {
             {topicOptions}
           </select>
           <button
-            className="btn btn-outline-secondary"
+            className="btn create-topic-button"
             onClick={(e) => e.preventDefault()}
             data-bs-toggle="modal"
             data-bs-target="#create-topic-modal"
@@ -93,7 +93,7 @@ export default function CreateArticleForm() {
           Article Content
           <textarea className="form-control" name="content" />
         </label>
-        <button type="submit" className="btn btn-outline-secondary">
+        <button type="submit" className="btn create-article-button">
           Create
         </button>
       </form>
@@ -128,16 +128,16 @@ export default function CreateArticleForm() {
                     name="newTopicName"
                   />
                 </label>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  data-bs-dismiss="modal"
-                >
-                  Create Topic
-                </button>
               </form>
             </div>
             <div className="modal-footer">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                data-bs-dismiss="modal"
+              >
+                Create Topic
+              </button>
               <button
                 type="button"
                 className="btn btn-secondary"
