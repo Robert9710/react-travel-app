@@ -1,18 +1,21 @@
 import { Link } from "react-router";
-import useData from "../../application/useData";
-import { Article } from "../../application/types";
+import { useQuery } from "@tanstack/react-query";
+import articleFactory from "../../factories/article-factory";
 
 export default function Bookmark(props: { articleId: string }) {
-  const articleDetails = useData<{ article: Article }>({
-    url: `http://localhost:3000/topic//article/${props.articleId}`,
+  const { data: bookmarkDetails } = useQuery({
+    queryKey: ["bookmarkData", props.articleId],
+    queryFn: async () => {
+      return await articleFactory.getArticle({ articleId: props.articleId });
+    },
   });
-  if (articleDetails) {
+  if (bookmarkDetails) {
     return (
       <Link
         className="bookmarks-list-item"
-        to={`/topic/${articleDetails.article.topicSummary.id}/article/${articleDetails.article.id}/${articleDetails.article.name}`}
+        to={`/topic/${bookmarkDetails.article.topicSummary.id}/article/${bookmarkDetails.article.id}/${bookmarkDetails.article.name}`}
       >
-        {articleDetails.article.name}
+        {bookmarkDetails.article.name}
       </Link>
     );
   }

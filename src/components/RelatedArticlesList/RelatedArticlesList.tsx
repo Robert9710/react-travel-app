@@ -1,29 +1,26 @@
-// @ts-ignore
 import "./RelatedArticlesList.css";
 import { Link } from "react-router";
-import {
-  ArticleProps,
-  ArticleDetails,
-  Articles,
-} from "../../application/types";
-import { useEffect, useState } from "react";
+import { ArticleProps, ArticleDetails } from "../../application/types";
 import articleFactory from "../../factories/article-factory";
 import config from "./config.json";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "../Loader/Loader";
 
 export default function RelatedArticlesList(props: ArticleProps) {
   const numberOfArticlesPerPage = config.numberOfArticlesPerPage;
-  const [relatedArticles, setRelatedArticles] = useState<Articles>();
-  useEffect(() => {
-    articleFactory
-      .getRelatedArticles({
+  const { isPending, data: relatedArticles } = useQuery({
+    queryKey: ["relatedArticlesData", props.articleId, props.topicId],
+    queryFn: async () =>
+      await articleFactory.getRelatedArticles({
         articleId: props.articleId,
         topicId: props.topicId,
         pagesize: numberOfArticlesPerPage,
-      })
-      .then((response) => {
-        setRelatedArticles(response);
-      });
-  }, [numberOfArticlesPerPage, props.articleId, props.topicId]);
+      }),
+  });
+
+  if (isPending) {
+    return <Loader />;
+  }
   if (relatedArticles && relatedArticles.articles.length > 0) {
     return (
       <div id="related-articles-list">
