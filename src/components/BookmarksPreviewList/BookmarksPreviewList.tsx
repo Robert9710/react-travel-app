@@ -1,4 +1,5 @@
 import bookmarkFactory from "../../factories/bookmark-factory";
+// @ts-ignore
 import "./BookmarksPreviewList.css";
 import Bookmark from "../Bookmark/Bookmark";
 import config from "./config.json";

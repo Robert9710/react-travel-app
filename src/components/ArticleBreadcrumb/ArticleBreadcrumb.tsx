@@ -1,6 +1,8 @@
 import { Link } from "react-router";
 import { Article } from "../../application/types";
+// @ts-ignore
 import "./ArticleBreadcrumb.css";
+// @ts-ignore
 import chevronRight from "../../icons/chevron-right.svg";
 
 export default function ArticleBreadcrumb(props: { article: Article }) {

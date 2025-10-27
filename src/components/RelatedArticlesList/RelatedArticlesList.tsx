@@ -1,3 +1,4 @@
+// @ts-ignore
 import "./RelatedArticlesList.css";
 import { Link } from "react-router";
 import {

@@ -1,8 +1,13 @@
 import { Link, useNavigate } from "react-router";
+// @ts-ignore
 import homeIcon from "../../icons/home.svg";
+// @ts-ignore
 import menuIcon from "../../icons/menu.svg";
+// @ts-ignore
 import article from "../../icons/article.svg";
+// @ts-ignore
 import topic from "../../icons/topic.svg";
+// @ts-ignore
 import "./Header.css";
 import { useState } from "react";
 import { SearchSuggestions } from "../../application/types";

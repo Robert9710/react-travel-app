@@ -1,3 +1,4 @@
+// @ts-ignore
 import "./TopicBlocks.css";
 import TopicBlock from "../TopicBlock/TopicBlock";
 import { Topics } from "../../application/types";
@@ -11,6 +12,7 @@ export default function TopicsBlocks() {
   useEffect(() => {
     topicFactory
       .getTopics({ pagesize: numberOfTopicsToShow })
+      // @ts-ignore
       .then((data) => setTopics(data));
   }, [numberOfTopicsToShow]);
   if (topics) {

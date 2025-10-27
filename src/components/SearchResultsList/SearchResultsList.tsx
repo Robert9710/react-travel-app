@@ -1,5 +1,8 @@
+// @ts-ignore
 import "./SearchResultsList.css";
+// @ts-ignore
 import article from "../../icons/article.svg";
+// @ts-ignore
 import topic from "../../icons/topic.svg";
 import { Link } from "react-router";
 import { SearchSuggestions } from "../../application/types";

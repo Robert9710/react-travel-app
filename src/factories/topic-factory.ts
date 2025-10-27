@@ -1,4 +1,5 @@
 import appConfig from "../application/config.json";
+import { Topics } from "../application/types";
 
 class TopicFactory {
   #apiDomain;
@@ -12,9 +13,15 @@ class TopicFactory {
     const response = await fetch(`${this.#apiDomain}/topic/${reqObj.topicId}`);
     return await response.json();
   }
-  async getTopics(reqObj: { pagenum?: number; pagesize: number });
-  async getTopics();
-  async getTopics(reqObj?: { pagenum?: number; pagesize: number }) {
+  async getTopics(reqObj: {
+    pagenum?: number;
+    pagesize: number;
+  }): Promise<Topics>;
+  async getTopics(): Promise<Topics>;
+  async getTopics(reqObj?: {
+    pagenum?: number;
+    pagesize: number;
+  }): Promise<Topics> {
     let queryParams = "";
     if (reqObj?.pagesize) {
       queryParams +=

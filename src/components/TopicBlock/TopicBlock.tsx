@@ -1,3 +1,4 @@
+// @ts-ignore
 import "./TopicBlock.css";
 import { Link } from "react-router";
 import { Articles, Topic } from "../../application/types";
