@@ -1,5 +1,7 @@
 import bookmarkFactory from "../../factories/bookmark-factory";
+// @ts-ignore
 import removeIcon from "../../icons/remove.svg";
+// @ts-ignore
 import "./BookmarksList.css";
 import Bookmark from "../Bookmark/Bookmark";
 import { useEffect, useState } from "react";

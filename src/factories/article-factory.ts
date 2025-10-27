@@ -6,8 +6,10 @@ class ArticleFactory {
   constructor() {
     this.#apiDomain =
       process.env.NODE_ENV === "development"
-        ? appConfig.DevVariables.apiDomain
-        : appConfig.ProdVariables.apiDomain;
+        ? // @ts-ignore
+          appConfig.DevVariables.apiDomain
+        : // @ts-ignore
+          appConfig.ProdVariables.apiDomain;
   }
   async getArticle(reqObj: {
     articleId: string;

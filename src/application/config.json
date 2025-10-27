@@ -1,1 +1,4 @@
-{ "Variables": { "apiDomain": "http://localhost:3000" } }
+{
+  "DevVariables": { "apiDomain": "http://localhost:3000" },
+  "ProdVariables": { "apiDomain": "https://react-travel-app-bksz.onrender.com" }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Topics } from "../../application/types";
+// @ts-ignore
 import "./CreateArticleForm.css";
 import topicFactory from "../../factories/topic-factory";
 import articleFactory from "../../factories/article-factory";
