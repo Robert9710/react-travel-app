@@ -1,4 +1,5 @@
 {
   "showCreateArticleLink": true,
-  "showBookmarksLink": true
+  "showBookmarksLink": true,
+  "searchSuggestionsMaxCount": 5
 }

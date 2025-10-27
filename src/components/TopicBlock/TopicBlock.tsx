@@ -1,22 +1,24 @@
-// @ts-ignore
 import "./TopicBlock.css";
 import { Link } from "react-router";
-import { Articles, Topic } from "../../application/types";
-import { useEffect, useState } from "react";
+import { Topic } from "../../application/types";
 import articleFactory from "../../factories/article-factory";
 import config from "./config.json";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "../Loader/Loader";
 
 export default function TopicBlock(props: { topic: Topic }) {
   const numberOfArticlesToShow = config.numberOfArticlesToShow;
-  const [articles, setArticles] = useState<Articles>();
-  useEffect(() => {
-    articleFactory
-      .getArticlesInTopic({
+  const { isPending, data: articles } = useQuery({
+    queryKey: ["topicArticlesData", props.topic.id],
+    queryFn: async () =>
+      await articleFactory.getArticlesInTopic({
         topicId: props.topic.id,
         pagesize: numberOfArticlesToShow,
-      })
-      .then((data) => setArticles(data));
-  }, [numberOfArticlesToShow, props.topic.id]);
+      }),
+  });
+  if (isPending) {
+    <Loader />;
+  }
   if (articles) {
     return (
       <div id="topic-block" className="col-3">

@@ -1,23 +1,23 @@
-// @ts-ignore
 import "./ArticleActions.css";
-// @ts-ignore
 import bookmarkIcon from "../../icons/bookmark.svg";
-// @ts-ignore
 import removeBookmarkIcon from "../../icons/remove-bookmark.svg";
 import bookmarkFactory from "../../factories/bookmark-factory";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import config from "./config.json";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ArticleActions(props: { articleId: string }) {
   const showBookmarkButton = config.showBookmarkButton;
-  const [isArticleBookmarked, setIsArticleBookmarked] = useState(() =>
-    bookmarkFactory.isArticleBookmarked({ articleId: props.articleId })
-  );
-  useEffect(() => {
-    setIsArticleBookmarked(
-      bookmarkFactory.isArticleBookmarked({ articleId: props.articleId })
-    );
-  }, [props.articleId]);
+  const [isArticleBookmarked, setIsArticleBookmarked] = useState<boolean>();
+  useQuery({
+    queryKey: ["isBookmarked", props.articleId],
+    queryFn: () => {
+      setIsArticleBookmarked(
+        bookmarkFactory.isArticleBookmarked({ articleId: props.articleId })
+      );
+      return true;
+    },
+  });
   function addBookmark() {
     bookmarkFactory.addBookmark({ bookmarkId: props.articleId });
     setIsArticleBookmarked(

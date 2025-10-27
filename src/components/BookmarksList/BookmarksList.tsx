@@ -1,19 +1,24 @@
 import bookmarkFactory from "../../factories/bookmark-factory";
-// @ts-ignore
+
 import removeIcon from "../../icons/remove.svg";
-// @ts-ignore
+
 import "./BookmarksList.css";
 import Bookmark from "../Bookmark/Bookmark";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import config from "./config.json";
 import Pagination from "../Pagination/Pagination";
+import { useQuery } from "@tanstack/react-query";
 
 export default function BookmarksList() {
   const numberOfBookmarksPerPage = config.numberOfBookmarksPerPage;
   const [pagenum, setPagenum] = useState(1);
   const [totalNumberOfBookmarks, setTotalNumberOfBookmarks] = useState(0);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
-  useEffect(() => getBookmarks(), [pagenum]);
+  useQuery({
+    queryKey: ["bookmarksData", pagenum],
+    queryFn: getBookmarks,
+  });
+
   function removeBookmark(bookmarkId: string) {
     const bookmarkRemoved = bookmarkFactory.removeBookmark({
       bookmarkId: bookmarkId,
@@ -30,6 +35,7 @@ export default function BookmarksList() {
     });
     setBookmarks(bookmarks.bookmarks);
     setTotalNumberOfBookmarks(bookmarks.bookmarksCount);
+    return true;
   }
 
   return (

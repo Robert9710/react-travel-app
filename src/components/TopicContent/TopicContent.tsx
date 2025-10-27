@@ -1,4 +1,3 @@
-// @ts-ignore
 import "./TopicContent.css";
 import { Link } from "react-router";
 import {

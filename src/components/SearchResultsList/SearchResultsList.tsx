@@ -1,31 +1,33 @@
-// @ts-ignore
 import "./SearchResultsList.css";
-// @ts-ignore
+
 import article from "../../icons/article.svg";
-// @ts-ignore
+
 import topic from "../../icons/topic.svg";
 import { Link } from "react-router";
-import { SearchSuggestions } from "../../application/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import searchFactory from "../../factories/search-factory";
 import config from "./config.json";
 import Pagination from "../Pagination/Pagination";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "../Loader/Loader";
 
 export default function SearchResultsList(props: { query: string }) {
   const numberOfSearchResultsPerPage = config.numberOfSearchResultsPerPage;
   const [pagenum, setPagenum] = useState(1);
-  const [searchResults, setSearchResults] = useState<SearchSuggestions>();
-  useEffect(() => {
-    searchFactory
-      .getSearchResults({
+
+  const { isPending, data: searchResults } = useQuery({
+    queryKey: ["searchResultsData", props.query, pagenum],
+    queryFn: async () =>
+      await searchFactory.getSearchResults({
         query: props.query,
         pagenum: pagenum,
         pagesize: numberOfSearchResultsPerPage,
-      })
-      .then((data) => {
-        setSearchResults(data);
-      });
-  }, [numberOfSearchResultsPerPage, pagenum, props.query]);
+      }),
+  });
+
+  if (isPending) {
+    return <Loader />;
+  }
   if (searchResults) {
     return (
       <div id="search-results-list">
