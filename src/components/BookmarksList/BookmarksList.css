@@ -2,15 +2,21 @@
   box-shadow: var(--box-shadow-1);
   padding: 20px;
 }
-#bookmarks-list .bookmarks-list-item-remove-button {
-  background-color: transparent;
-  border: none;
-}
-#bookmarks-list .remove-bookmark-icon {
-  height: 20px;
-}
+
 #bookmarks-list .bookmarks-list-item-container {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
+  .bookmarks-list-item {
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bookmarks-list-item-remove-button {
+    background-color: transparent;
+    border: none;
+  }
+}
+#bookmarks-list .remove-bookmark-icon {
+  height: 20px;
 }

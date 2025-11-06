@@ -11,7 +11,7 @@ export default function ViewTopic() {
   } else
     return (
       <div id="view-topic" className="row">
-        <div className="col-3">
+        <div className="col-3 d-none d-sm-block">
           <TopicTree />
         </div>
         <div className="col-6">

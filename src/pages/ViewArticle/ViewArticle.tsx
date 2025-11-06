@@ -14,10 +14,10 @@ export default function ViewArticle() {
   } else
     return (
       <div id="view-article" className="row">
-        <div className="col-3">
+        <div className="col-3 d-none d-sm-block">
           <TopicTree />
         </div>
-        <div className="col-9">
+        <div className="col-12 col-sm-9">
           <ArticleBreadcrumb article={article.article} />
           <ArticleContent article={article.article} articleId={articleId} />
           <RelatedArticlesList topicId={topicId} articleId={articleId} />

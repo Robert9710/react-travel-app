@@ -4,7 +4,7 @@ import article from "../../icons/article.svg";
 
 import topic from "../../icons/topic.svg";
 import { Link } from "react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import searchFactory from "../../factories/search-factory";
 import config from "./config.json";
 import Pagination from "../Pagination/Pagination";
@@ -14,6 +14,11 @@ import Loader from "../Loader/Loader";
 export default function SearchResultsList(props: { query: string }) {
   const numberOfSearchResultsPerPage = config.numberOfSearchResultsPerPage;
   const [pagenum, setPagenum] = useState(1);
+  const ref = useRef(props.query);
+  if (ref.current !== props.query) {
+    setPagenum(1);
+    ref.current = props.query;
+  }
 
   const { isPending, data: searchResults } = useQuery({
     queryKey: ["searchResultsData", props.query, pagenum],
