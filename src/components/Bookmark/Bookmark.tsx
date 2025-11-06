@@ -12,7 +12,7 @@ export default function Bookmark(props: { articleId: string }) {
   if (bookmarkDetails) {
     return (
       <Link
-        className="bookmarks-list-item"
+        className="bookmarks-list-item col-9 col-md-10 col-lg-11"
         to={`/topic/${bookmarkDetails.article.topicSummary.id}/article/${bookmarkDetails.article.id}/${bookmarkDetails.article.name}`}
       >
         {bookmarkDetails.article.name}

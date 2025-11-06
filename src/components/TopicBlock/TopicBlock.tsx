@@ -21,10 +21,12 @@ export default function TopicBlock(props: { topic: Topic }) {
   }
   if (articles) {
     return (
-      <div id="topic-block" className="col-3">
-        <Link to={`/topic/${props.topic.id}`}>
-          <h3>{props.topic.name}</h3>
-        </Link>
+      <div id="topic-block" className="col-12 col-sm-5 col-lg-3">
+        <div className="topic-heading-container">
+          <Link to={`/topic/${props.topic.id}`}>
+            <h3>{props.topic.name}</h3>
+          </Link>
+        </div>
         <ul className="topic-articles">
           {articles.articles.map((article, index) => (
             <li key={index} className="topic-article-container">

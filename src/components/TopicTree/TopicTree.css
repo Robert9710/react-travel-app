@@ -1,11 +1,14 @@
 #topic-tree {
   box-shadow: var(--box-shadow-1);
   padding: 20px;
-}
-
-#topic-tree .topics-item-container {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding-bottom: 5px;
-  border-bottom: var(--border-1);
+  .topics-item-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: var(--border-1);
+    .topics-item-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }

@@ -17,11 +17,48 @@ import config from "./config.json";
 export default function Header() {
   const showBookmarksLink = config.showBookmarksLink;
   const showCreateArticleLink = config.showCreateArticleLink;
+  return (
+    <div id="header">
+      {/* Home Link */}
+      <div className="logo-container">
+        <Link to="/">
+          <img className="home-icon" src={homeIcon}></img>
+        </Link>
+      </div>
+      {/* Search field */}
+      <SearchField />
+      {/* Menu */}
+      <div id="header-menu" className="input-group-prepend">
+        <button
+          type="button"
+          className="dropdown-toogle"
+          data-bs-toggle="dropdown"
+        >
+          <img className="menu-icon" src={menuIcon}></img>
+        </button>
+        <ul className="dropdown-menu">
+          <li className="dropdown-item">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="dropdown-item">
+            {showCreateArticleLink && <Link to="/create">Create Article</Link>}
+          </li>
+          <li className="dropdown-item">
+            {showBookmarksLink && <Link to="/bookmarks">Bookmarks</Link>}
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function SearchField() {
   const searchSuggestionsMaxCount = config.searchSuggestionsMaxCount;
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] =
     useState<SearchSuggestions>();
+  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
 
   async function getSearchSuggestions(query: string) {
     setSearchSuggestions(
@@ -47,21 +84,16 @@ export default function Header() {
   }
 
   return (
-    <div id="header">
-      {/* Home Link */}
-      <div>
-        <Link to="/">
-          <img className="home-icon" src={homeIcon}></img>
-        </Link>
-      </div>
-      {/* Search field */}
+    <div id="search-field" className=" col-md-4 mx-auto">
       <div className="input-group">
-        <label>
+        <label className="form-control-label">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => updateSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && performSearch()}
+            onBlur={() => setShowSearchSuggestions(false)}
+            onFocus={() => setShowSearchSuggestions(true)}
             className="form-control"
           />
         </label>
@@ -73,77 +105,58 @@ export default function Header() {
           Search
         </button>
         {/* Search suggestions list*/}
-        {searchSuggestions && (
-          <ul className="search-suggestions-dropdown">
-            {searchSuggestions.articles.map((suggestion, index) => (
-              <li
-                className="search-suggestions-dropdown-item-container"
-                key={index}
-              >
-                <Link
-                  className="search-suggestions-dropdown-item"
-                  to={`/topic/${suggestion.topicId}/article/${suggestion.id}`}
-                  onClick={() => {
-                    setSearchQuery("");
-                    setSearchSuggestions(undefined);
-                  }}
+        {showSearchSuggestions &&
+          (searchSuggestions?.topics.length ||
+            searchSuggestions?.articles.length) && (
+            <ul className="search-suggestions-dropdown">
+              {searchSuggestions.articles.map((suggestion, index) => (
+                <li
+                  className="search-suggestions-dropdown-item-container"
+                  key={index}
                 >
-                  <img
-                    className="search-suggestions-dropdown-item-icon"
-                    src={article}
-                  ></img>
-                  <p className="search-suggestions-dropdown-item-text">
-                    {suggestion.name}
-                  </p>
-                </Link>
-              </li>
-            ))}
-            {searchSuggestions.topics.map((suggestion, index) => (
-              <li
-                className="search-suggestions-dropdown-item-container"
-                key={index}
-              >
-                <Link
-                  className="search-suggestions-dropdown-item"
-                  to={`/topic/${suggestion.id}`}
-                  onClick={() => {
-                    setSearchQuery("");
-                    setSearchSuggestions(undefined);
-                  }}
+                  <Link
+                    className="search-suggestions-dropdown-item"
+                    to={`/topic/${suggestion.topicId}/article/${suggestion.id}`}
+                    onClick={() => {
+                      setSearchQuery("");
+                      setSearchSuggestions(undefined);
+                    }}
+                  >
+                    <img
+                      className="search-suggestions-dropdown-item-icon"
+                      src={article}
+                    ></img>
+                    <p className="search-suggestions-dropdown-item-text">
+                      {suggestion.name}
+                    </p>
+                  </Link>
+                </li>
+              ))}
+              {searchSuggestions.topics.map((suggestion, index) => (
+                <li
+                  className="search-suggestions-dropdown-item-container"
+                  key={index}
                 >
-                  <img
-                    className="search-suggestions-dropdown-item-icon"
-                    src={topic}
-                  ></img>
-                  <p className="search-suggestions-dropdown-item-text">
-                    {suggestion.name}
-                  </p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      {/* Menu */}
-      <div id="header-menu" className="input-group-prepend">
-        <button
-          type="button"
-          className="dropdown-toogle"
-          data-bs-toggle="dropdown"
-        >
-          <img className="menu-icon" src={menuIcon}></img>
-        </button>
-        <ul className="dropdown-menu">
-          <li className="dropdown-item">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="dropdown-item">
-            {showCreateArticleLink && <Link to="/create">Create Article</Link>}
-          </li>
-          <li className="dropdown-item">
-            {showBookmarksLink && <Link to="/bookmarks">Bookmarks</Link>}
-          </li>
-        </ul>
+                  <Link
+                    className="search-suggestions-dropdown-item"
+                    to={`/topic/${suggestion.id}`}
+                    onClick={() => {
+                      setSearchQuery("");
+                      setSearchSuggestions(undefined);
+                    }}
+                  >
+                    <img
+                      className="search-suggestions-dropdown-item-icon"
+                      src={topic}
+                    ></img>
+                    <p className="search-suggestions-dropdown-item-text">
+                      {suggestion.name}
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
       </div>
     </div>
   );
