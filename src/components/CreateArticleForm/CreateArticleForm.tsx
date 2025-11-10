@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import "./CreateArticleForm.css";
 import topicFactory from "../../factories/topic-factory";
 import articleFactory from "../../factories/article-factory";
-import Select, { SelectInstance } from "react-select";
+import Select, { SelectInstance, StylesConfig } from "react-select";
 import AsyncSelect from "react-select/async";
 import { FieldValues, useForm } from "react-hook-form";
 import CreateTopicModal from "../CreateTopicModal/CreateTopicModal";
@@ -25,22 +25,43 @@ export default function CreateArticleForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
-  const selectStyles = {
+  const selectStyles: StylesConfig<
+    {
+      label: string;
+      value: string;
+    },
+    false
+  > = {
     control: (styles) => ({
       ...styles,
       boxShadow: "none",
       ":focus-within": { borderColor: "#ccc" },
     }),
-    option: (styles, state) => {
-      return {
-        ...styles,
-        backgroundColor: state.isSelected
-          ? "var(--lagoon-color)"
-          : "transparent",
-        ":active": { backgroundColor: "transparent" },
-        ":hover": { color: !state.isSelected && "var(--lagoon-color)" },
-      };
+    option: (styles, state) => ({
+      ...styles,
+      backgroundColor: state.isSelected ? "var(--lagoon-color)" : "transparent",
+      ":active": { backgroundColor: "transparent" },
+      ":hover": { color: !state.isSelected ? "var(--lagoon-color)" : "" },
+    }),
+  };
+  const multiSelectStyles: StylesConfig<
+    {
+      label: string;
+      value: string;
     },
+    true
+  > = {
+    control: (styles) => ({
+      ...styles,
+      boxShadow: "none",
+      ":focus-within": { borderColor: "#ccc" },
+    }),
+    option: (styles, state) => ({
+      ...styles,
+      backgroundColor: state.isSelected ? "var(--lagoon-color)" : "transparent",
+      ":active": { backgroundColor: "transparent" },
+      ":hover": { color: !state.isSelected ? "var(--lagoon-color)" : "" },
+    }),
   };
   const months = [
     { value: "January", label: "January" },
@@ -126,13 +147,14 @@ export default function CreateArticleForm() {
           <Select
             options={months}
             isMulti
+            //@ts-ignore
             ref={recommendedMonthsRef}
             onChange={(selected) => {
               if (Array.isArray(selected)) {
                 setRecommendedMonths(selected?.map((sel) => sel.value));
               }
             }}
-            styles={selectStyles}
+            styles={multiSelectStyles}
           />
         </label>
         <label>
