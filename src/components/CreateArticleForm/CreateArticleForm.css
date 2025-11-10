@@ -13,8 +13,18 @@
   border-radius: 10px;
   color: var(--color-2);
 }
+#create-article-form .create-article-button:hover {
+  background-color: var(--lagoon-color);
+  color: var(--color-2);
+}
+
 #create-article-form textarea {
   height: 300px;
+}
+
+#create-article-form .validation-error {
+  color: #ff3333;
+  font-size: 12px;
 }
 
 #create-article-form #new-topic-name {

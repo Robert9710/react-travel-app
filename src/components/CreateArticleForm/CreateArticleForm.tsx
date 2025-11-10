@@ -1,78 +1,127 @@
-import { useEffect, useState } from "react";
-import { Topics } from "../../application/types";
-
+import { useRef, useState } from "react";
 import "./CreateArticleForm.css";
 import topicFactory from "../../factories/topic-factory";
 import articleFactory from "../../factories/article-factory";
+import Select, { SelectInstance, StylesConfig } from "react-select";
+import AsyncSelect from "react-select/async";
+import { FieldValues, useForm } from "react-hook-form";
+import CreateTopicModal from "../CreateTopicModal/CreateTopicModal";
+
 export default function CreateArticleForm() {
-  const [topics, setTopics] = useState<Topics | null>(null);
-  useEffect(() => {
-    getTopics();
-  }, []);
+  const [recommendedMonths, setRecommendedMonths] = useState<null | string[]>(
+    null
+  );
+  const [topicName, setTopicName] = useState("");
+  const topicNameRef = useRef<SelectInstance<{
+    value: string;
+    label: string;
+  }> | null>(null);
+  const recommendedMonthsRef = useRef<SelectInstance<{
+    value: string;
+    label: string;
+  }> | null>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
+  const selectStyles: StylesConfig<
+    {
+      label: string;
+      value: string;
+    },
+    false
+  > = {
+    control: (styles) => ({
+      ...styles,
+      boxShadow: "none",
+      ":focus-within": { borderColor: "#ccc" },
+    }),
+    option: (styles, state) => ({
+      ...styles,
+      backgroundColor: state.isSelected ? "var(--lagoon-color)" : "transparent",
+      ":active": { backgroundColor: "transparent" },
+      ":hover": { color: !state.isSelected ? "var(--lagoon-color)" : "" },
+    }),
+  };
+  const multiSelectStyles: StylesConfig<
+    {
+      label: string;
+      value: string;
+    },
+    true
+  > = {
+    control: (styles) => ({
+      ...styles,
+      boxShadow: "none",
+      ":focus-within": { borderColor: "#ccc" },
+    }),
+    option: (styles, state) => ({
+      ...styles,
+      backgroundColor: state.isSelected ? "var(--lagoon-color)" : "transparent",
+      ":active": { backgroundColor: "transparent" },
+      ":hover": { color: !state.isSelected ? "var(--lagoon-color)" : "" },
+    }),
+  };
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    { value: "January", label: "January" },
+    { value: "February", label: "February" },
+    { value: "March", label: "March" },
+    { value: "April", label: "April" },
+    { value: "May", label: "May" },
+    { value: "June", label: "June" },
+    { value: "July", label: "July" },
+    { value: "August", label: "August" },
+    { value: "September", label: "September" },
+    { value: "October", label: "October" },
+    { value: "November", label: "November" },
+    { value: "December", label: "December" },
   ];
-  const topicOptions =
-    topics &&
-    topics.topics.map((topic) => (
-      <option key={topic.id} value={topic.id}>
-        {topic.name}
-      </option>
-    ));
-  const monthsOptions = months.map((month, index) => (
-    <option key={index} value={month}>
-      {month}
-    </option>
-  ));
   async function getTopics() {
-    setTopics(await topicFactory.getTopics());
+    const topics = await topicFactory.getTopics();
+    return topics.topics.map((topic) => ({
+      value: topic.id,
+      label: topic.name,
+    }));
   }
-  async function createArticle(formData: FormData) {
-    window.scrollTo(0, 0);
-    const topicName = formData.get("topicName")?.toString();
-    const articleName = formData.get("articleName")?.toString();
-    const recommendedMonth = formData.get("recommendedMonth")?.toString();
-    const content = formData.get("content")?.toString();
-    if (topicName && articleName && recommendedMonth && content) {
+  function createArticle(formData: FieldValues) {
+    const articleName = formData.articleName;
+    const content = formData.content;
+    if (
+      topicName &&
+      articleName &&
+      recommendedMonths &&
+      recommendedMonths.length > 0 &&
+      content
+    ) {
+      window.scrollTo(0, 0);
+      topicNameRef.current?.clearValue();
+      recommendedMonthsRef.current?.clearValue();
       articleFactory.createArticle({
-        topicName: topicName,
-        articleName: articleName,
-        recommendedMonth: recommendedMonth,
-        content: content,
+        topicName,
+        articleName,
+        recommendedMonths,
+        content,
       });
-    } else {
-      //Show error message
-    }
-  }
-  async function createNewTopic(formData: FormData) {
-    const topicName = formData.get("topicName")?.toString();
-    if (topicName) {
-      topicFactory.createTopic({ newTopicName: topicName });
-      await getTopics();
     }
   }
   return (
     <div id="create-article-form">
-      <form action={createArticle}>
+      <form noValidate onSubmit={handleSubmit(createArticle)}>
         <label>
           Topic
-          <select className="form-control" name="topicName">
-            {topicOptions}
-          </select>
+          <AsyncSelect
+            defaultOptions
+            loadOptions={getTopics}
+            ref={topicNameRef}
+            onChange={(selected) => selected && setTopicName(selected.value)}
+            styles={selectStyles}
+          />
           <button
             className="btn create-topic-button"
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
             data-bs-toggle="modal"
             data-bs-target="#create-topic-modal"
           >
@@ -80,75 +129,49 @@ export default function CreateArticleForm() {
           </button>
         </label>
         <label>
-          Article Name
-          <input className="form-control" type="text" name="articleName" />
+          Article Title
+          <input
+            type="text"
+            className="form-control"
+            // onKeyDown={(e) => e.preventDefault()}
+            {...register("articleName", {
+              required: true,
+            })}
+          />
+          {errors.articleName && (
+            <p className="validation-error">*Article title cannot be empty</p>
+          )}
         </label>
         <label>
-          Recommended Month
-          <select className="form-control" name="recommendedMonth">
-            {monthsOptions}
-          </select>
+          Recommended Months
+          <Select
+            options={months}
+            isMulti
+            //@ts-ignore
+            ref={recommendedMonthsRef}
+            onChange={(selected) => {
+              if (Array.isArray(selected)) {
+                setRecommendedMonths(selected?.map((sel) => sel.value));
+              }
+            }}
+            styles={multiSelectStyles}
+          />
         </label>
         <label>
           Article Content
-          <textarea className="form-control" name="content" />
+          <textarea
+            className="form-control"
+            {...register("content", { required: true })}
+          />
+          {errors.content && (
+            <p className="validation-error">*Article content cannot be empty</p>
+          )}
         </label>
         <button type="submit" className="btn create-article-button">
           Create
         </button>
       </form>
-      {/* Modal */}
-      <div
-        className="modal fade"
-        id="create-topic-modal"
-        aria-labelledby="createTopicModal"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="create-topic-modal-title">
-                Create New Topic
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <form action={createNewTopic}>
-                <label>
-                  Topic Name
-                  <input
-                    id="new-topic-name"
-                    className="form-control"
-                    type="text"
-                    name="newTopicName"
-                  />
-                </label>
-              </form>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                data-bs-dismiss="modal"
-              >
-                Create Topic
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CreateTopicModal />
     </div>
   );
 }

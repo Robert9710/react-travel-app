@@ -18,8 +18,8 @@ export default function ViewArticle() {
           <TopicTree />
         </div>
         <div className="col-12 col-sm-9">
-          <ArticleBreadcrumb article={article.article} />
-          <ArticleContent article={article.article} articleId={articleId} />
+          <ArticleBreadcrumb article={article} />
+          <ArticleContent article={article} articleId={articleId} />
           <RelatedArticlesList topicId={topicId} articleId={articleId} />
         </div>
       </div>

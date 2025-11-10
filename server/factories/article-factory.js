@@ -68,12 +68,16 @@ class ArticleFactory {
     );
     if (!isDuplicateArticle) {
       topic.articles.push({
-        id: getNextArticleId(),
+        id: this.getNextArticleId(),
         name: reqObj.name,
-        recommended: reqObj.recommendedMonths,
+        recommendedMonths: reqObj.recommendedMonths,
         content: reqObj.content,
       });
-      fs.writeFile(`./server/data/Topics.json`, JSON.stringify(topics));
+      fs.writeFile(
+        `./server/data/Topics.json`,
+        JSON.stringify(topics),
+        (err) => {}
+      );
       return true;
     } else {
       return false;
