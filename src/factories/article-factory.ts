@@ -12,13 +12,14 @@ class ArticleFactory {
   async getArticle(reqObj: {
     articleId: string;
     topicId?: string;
-  }): Promise<{ article: Article }> {
+  }): Promise<Article> {
     const response = await fetch(
       `${this.#apiDomain}/topic/${reqObj.topicId || ""}/article/${
         reqObj.articleId
       }`
     );
-    return await response.json();
+    const article = (await response.json()).article;
+    return this.processArticleData(article);
   }
   async getRelatedArticles(reqObj: {
     articleId: string;
@@ -56,7 +57,7 @@ class ArticleFactory {
   async createArticle(reqObj: {
     topicName: string;
     articleName: string;
-    recommendedMonth: string;
+    recommendedMonths: string[];
     content: string;
   }) {
     const response = await fetch(`${this.#apiDomain}/create/article`, {
@@ -67,11 +68,24 @@ class ArticleFactory {
       body: JSON.stringify({
         topicId: reqObj.topicName,
         name: reqObj.articleName,
-        recommended: reqObj.recommendedMonth,
+        recommendedMonths: reqObj.recommendedMonths,
         content: reqObj.content,
       }),
     });
     response.json();
+  }
+  processArticleData(article: Article): Article {
+    if (Array.isArray(article?.recommendedMonths)) {
+      article.recommendedMonths = article.recommendedMonths.reduce(
+        (monthsString: string, month: string, index: number) => {
+          return index !== 0
+            ? monthsString + ", " + month
+            : monthsString + month;
+        },
+        ""
+      );
+    }
+    return article;
   }
 }
 

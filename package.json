@@ -24,7 +24,9 @@
     "fs": "^0.0.1-security",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router": "^7.5.0"
+    "react-hook-form": "^7.66.0",
+    "react-router": "^7.5.0",
+    "react-select": "^5.10.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

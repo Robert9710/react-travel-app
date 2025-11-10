@@ -106,8 +106,9 @@ function SearchField() {
         </button>
         {/* Search suggestions list*/}
         {showSearchSuggestions &&
-          (searchSuggestions?.topics.length ||
-            searchSuggestions?.articles.length) && (
+          searchSuggestions &&
+          (searchSuggestions?.topics.length > 0 ||
+            searchSuggestions?.articles.length > 0) && (
             <ul className="search-suggestions-dropdown">
               {searchSuggestions.articles.map((suggestion, index) => (
                 <li

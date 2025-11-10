@@ -45,11 +45,15 @@ class TopicFactory {
     );
     if (!isDuplicateTopic) {
       topics.push({
-        id: getNextTopicId(),
+        id: this.getNextTopicId(),
         name: reqObj.topicName,
         articles: [],
       });
-      fs.writeFile(`./server/data/Topics.json`, JSON.stringify(topics));
+      fs.writeFile(
+        `./server/data/Topics.json`,
+        JSON.stringify(topics),
+        (err) => {}
+      );
       return true;
     } else {
       return false;
