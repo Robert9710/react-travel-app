@@ -1,5 +1,4 @@
 import bookmarkFactory from "../../factories/bookmark-factory";
-
 import "./BookmarksPreviewList.css";
 import Bookmark from "../Bookmark/Bookmark";
 import config from "./config.json";

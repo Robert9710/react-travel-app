@@ -4,10 +4,7 @@ import appConfig from "../application/config.json";
 class ArticleFactory {
   #apiDomain;
   constructor() {
-    this.#apiDomain =
-      process.env.NODE_ENV === "development"
-        ? appConfig.DevVariables.apiDomain
-        : appConfig.ProdVariables.apiDomain;
+    this.#apiDomain = appConfig.apiDomain;
   }
   async getArticle(reqObj: {
     articleId: string;

@@ -36,3 +36,8 @@
   margin-bottom: 0;
   align-self: flex-end;
 }
+
+#topic-block .article-count.placeholder {
+  position: relative;
+  top: 35px;
+}

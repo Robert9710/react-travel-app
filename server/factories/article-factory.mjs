@@ -1,6 +1,6 @@
-import { topics } from "../server.js";
-import topicFactory from "./topic-factory.js";
-import { paginateResults } from "../utils.js";
+import { topics } from "../server.mjs";
+import topicFactory from "./topic-factory.mjs";
+import { paginateResults } from "../utils.mjs";
 import fs from "fs";
 
 class ArticleFactory {
@@ -51,6 +51,8 @@ class ArticleFactory {
       pagenum: reqObj.pagenum,
       pagesize: reqObj.pagesize,
     });
+    reqObj.pagenum = parseInt(reqObj.pagenum);
+    reqObj.pagesize = parseInt(reqObj.pagesize);
     return {
       articles: articles,
       paginationInfo: {

@@ -1,71 +1,77 @@
 import bookmarkFactory from "../../factories/bookmark-factory";
-
-import removeIcon from "../../icons/remove.svg";
-
 import "./BookmarksList.css";
 import Bookmark from "../Bookmark/Bookmark";
 import { useState } from "react";
 import config from "./config.json";
 import Pagination from "../Pagination/Pagination";
 import { useQuery } from "@tanstack/react-query";
+import removeIcon from "../../icons/remove.svg";
 
 export default function BookmarksList() {
   const numberOfBookmarksPerPage = config.numberOfBookmarksPerPage;
   const [pagenum, setPagenum] = useState(1);
-  const [totalNumberOfBookmarks, setTotalNumberOfBookmarks] = useState(0);
-  const [bookmarks, setBookmarks] = useState<string[]>([]);
-  useQuery({
+  const { refetch, data: bookmarks } = useQuery({
     queryKey: ["bookmarksData", pagenum],
-    queryFn: getBookmarks,
+    queryFn: () =>
+      bookmarkFactory.getBookmarks({
+        pagenum: pagenum,
+        pagesize: numberOfBookmarksPerPage,
+      }),
   });
 
   function removeBookmark(bookmarkId: string) {
     const bookmarkRemoved = bookmarkFactory.removeBookmark({
       bookmarkId: bookmarkId,
     });
-    if (bookmarkRemoved && bookmarks.length === 1 && pagenum > 1) {
+    if (bookmarkRemoved && bookmarks?.bookmarks.length === 1 && pagenum > 1) {
       setPagenum((oldPagenum) => oldPagenum - 1);
     }
-    getBookmarks();
-  }
-  function getBookmarks() {
-    const bookmarks = bookmarkFactory.getBookmarks({
-      pagenum: pagenum,
-      pagesize: numberOfBookmarksPerPage,
-    });
-    setBookmarks(bookmarks.bookmarks);
-    setTotalNumberOfBookmarks(bookmarks.bookmarksCount);
-    return true;
+    refetch();
   }
 
+  if (bookmarks) {
+    return (
+      <div id="bookmarks-list">
+        <h3>Bookmarks</h3>
+        {bookmarks.bookmarksCount > 0 ? (
+          <ul className="bookmarks-list">
+            {bookmarks.bookmarks.map((bookmark) => (
+              <li className="bookmarks-list-item-container" key={bookmark}>
+                <Bookmark articleId={bookmark}>
+                  <RemoveBookmarkButton
+                    articleId={bookmark}
+                    removeBookmark={removeBookmark}
+                  />
+                </Bookmark>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div>
+            <span>No Bookmarks</span>
+          </div>
+        )}
+        <Pagination
+          totalNumberOfItems={bookmarks.bookmarksCount}
+          numberOfItemsPerPage={numberOfBookmarksPerPage}
+          pagenum={pagenum}
+          setPagenum={setPagenum}
+        />
+      </div>
+    );
+  }
+}
+
+function RemoveBookmarkButton(props: {
+  articleId: string;
+  removeBookmark: (bookmarkId: string) => void;
+}) {
   return (
-    <div id="bookmarks-list">
-      <h3>Bookmarks</h3>
-      {totalNumberOfBookmarks > 0 ? (
-        <ul className="bookmarks-list">
-          {bookmarks.map((bookmark) => (
-            <li className="bookmarks-list-item-container" key={bookmark}>
-              <Bookmark articleId={bookmark} />
-              <button
-                className="bookmarks-list-item-remove-button"
-                onClick={() => removeBookmark(bookmark)}
-              >
-                <img className="remove-bookmark-icon" src={removeIcon}></img>
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div>
-          <span>No Bookmarks</span>
-        </div>
-      )}
-      <Pagination
-        totalNumberOfItems={totalNumberOfBookmarks}
-        numberOfItemsPerPage={numberOfBookmarksPerPage}
-        pagenum={pagenum}
-        setPagenum={setPagenum}
-      />
-    </div>
+    <button
+      className="bookmarks-list-item-remove-button"
+      onClick={() => props.removeBookmark(props.articleId)}
+    >
+      <img className="remove-bookmark-icon" src={removeIcon}></img>
+    </button>
   );
 }
