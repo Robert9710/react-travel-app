@@ -4,7 +4,6 @@ import { ArticleProps, ArticleDetails } from "../../application/types";
 import articleFactory from "../../factories/article-factory";
 import config from "./config.json";
 import { useQuery } from "@tanstack/react-query";
-import Loader from "../Loader/Loader";
 
 export default function RelatedArticlesList(props: ArticleProps) {
   const numberOfArticlesPerPage = config.numberOfArticlesPerPage;
@@ -19,9 +18,15 @@ export default function RelatedArticlesList(props: ArticleProps) {
   });
 
   if (isPending) {
-    return <Loader />;
-  }
-  if (relatedArticles && relatedArticles.articles.length > 0) {
+    return (
+      <div id="related-articles-list" className="placeholder-glow">
+        <h4>Related Articles</h4>
+        <div className="placeholder col-7"></div>
+        <div className="placeholder col-7"></div>
+        <div className="placeholder col-7"></div>
+      </div>
+    );
+  } else if (relatedArticles && relatedArticles.articles.length > 0) {
     return (
       <div id="related-articles-list">
         <h4>Related Articles</h4>

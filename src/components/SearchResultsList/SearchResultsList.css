@@ -19,6 +19,11 @@
   color: var(--color-2);
 }
 
+#search-results-list .search-results {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
 #search-results-list .search-results-item-container {
   margin-bottom: 20px;
 }
@@ -26,7 +31,6 @@
 #search-results-list .search-results-item {
   display: flex;
   width: auto;
-  margin: 10px 40px;
   padding-bottom: 10px;
   border-bottom: var(--border-1);
   white-space: nowrap;

@@ -3,11 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "nodemonConfig": {
-    "watch": [
-      "server/server.js"
-    ]
-  },
   "scripts": {
     "dev": "vite",
     "serv": "nodemon server/server.js",
@@ -26,7 +21,8 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.66.0",
     "react-router": "^7.5.0",
-    "react-select": "^5.10.2"
+    "react-select": "^5.10.2",
+    "react-spinners": "^0.17.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

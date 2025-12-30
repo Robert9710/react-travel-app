@@ -1,16 +1,30 @@
 import { Link } from "react-router";
-import { Topics } from "../../application/types";
-
 import "./TopicTree.css";
-import { useEffect, useState } from "react";
 import topicFactory from "../../factories/topic-factory";
+import { useQuery } from "@tanstack/react-query";
 
 export default function TopicTree() {
-  const [topics, setTopics] = useState<Topics>();
-  useEffect(() => {
-    topicFactory.getTopics().then((data) => setTopics(data));
-  }, []);
-  useEffect(() => {}, []);
+  const { isPending, data: topics } = useQuery({
+    queryKey: ["topicTreeData"],
+    queryFn: async () => await topicFactory.getTopics(),
+  });
+  if (isPending) {
+    return (
+      <div id="topic-tree">
+        <div className="heading-container">
+          <h3>Topics</h3>
+        </div>
+        <div className="placeholder-glow col-6">
+          <span className="topics-item-container placeholder col-12"></span>
+          <span className="topics-item-container placeholder col-12"></span>
+          <span className="topics-item-container placeholder col-12"></span>
+          <span className="topics-item-container placeholder col-12"></span>
+          <span className="topics-item-container placeholder col-12"></span>
+          <span className="topics-item-container placeholder col-12"></span>
+        </div>
+      </div>
+    );
+  }
   if (topics) {
     return (
       <div id="topic-tree">

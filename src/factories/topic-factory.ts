@@ -4,10 +4,7 @@ import { Topics } from "../application/types";
 class TopicFactory {
   #apiDomain;
   constructor() {
-    this.#apiDomain =
-      process.env.NODE_ENV === "development"
-        ? appConfig.DevVariables.apiDomain
-        : appConfig.ProdVariables.apiDomain;
+    this.#apiDomain = appConfig.apiDomain;
   }
   async getTopic(reqObj: { topicId: string }) {
     const response = await fetch(`${this.#apiDomain}/topic/${reqObj.topicId}`);

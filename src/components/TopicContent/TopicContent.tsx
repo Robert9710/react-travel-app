@@ -1,66 +1,122 @@
 import "./TopicContent.css";
 import { Link } from "react-router";
-import {
-  ArticleDetails,
-  PaginationInfo,
-  type Topic,
-} from "../../application/types";
-import { useEffect, useState } from "react";
 import articleFactory from "../../factories/article-factory";
 import config from "./config.json";
+import topicFactory from "../../factories/topic-factory";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 interface Props {
-  topic: Topic;
+  topicId: string;
 }
 
 export default function TopicContent(props: Props) {
   const numberOfArticlesToShow = config.numberOfArticlesToShow;
-  const [pagenum, setPagenum] = useState(1);
-  const [topicArticles, setTopicArticles] = useState<ArticleDetails[]>([]);
-  const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>();
-  useEffect(() => {
-    articleFactory
-      .getArticlesInTopic({
-        topicId: props.topic.id,
-        pagenum: pagenum,
+  const { isPending: isTopicDataPending, data: topicData } = useQuery({
+    queryKey: ["topic", props.topicId],
+    queryFn: async () =>
+      await topicFactory.getTopic({
+        topicId: props.topicId,
+      }),
+  });
+  const {
+    data: topicArticlesData,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["topicArticles", props.topicId],
+    queryFn: async ({ pageParam }) =>
+      await articleFactory.getArticlesInTopic({
+        topicId: props.topicId,
+        pagenum: pageParam,
         pagesize: numberOfArticlesToShow,
-      })
-      .then((data) => {
-        setTopicArticles((oldTopicArticles) =>
-          oldTopicArticles?.concat(data.articles)
-        );
-        setPaginationInfo(data.paginationInfo);
-      });
-  }, [numberOfArticlesToShow, pagenum, props.topic.id]);
-  if (topicArticles && topicArticles.length > 0) {
+      }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      console.log(
+        "Has more: ",
+        lastPage.paginationInfo.pagenum * lastPage.paginationInfo.pagesize <
+          lastPage.paginationInfo.count
+          ? lastPage.paginationInfo.pagenum + 1
+          : undefined
+      );
+      return lastPage.paginationInfo.pagenum *
+        lastPage.paginationInfo.pagesize <
+        lastPage.paginationInfo.count
+        ? lastPage.paginationInfo.pagenum + 1
+        : undefined;
+    },
+  });
+  const topicArticles = {
+    articles: topicArticlesData?.pages.flatMap((page) => page.articles) || [],
+    paginationInfo:
+      topicArticlesData?.pages[topicArticlesData.pages.length - 1]
+        .paginationInfo,
+  };
+  if (isTopicDataPending) {
     return (
-      <div id="topic-content">
-        <h2 className="topic-name">{props.topic && props.topic.name}</h2>
+      <div id="topic-content" className="placeholder-glow">
+        <h2 className="topic-name">
+          <span className="placeholder col-3"></span>
+        </h2>
         <h5 className="article-count">
-          {paginationInfo?.count}&nbsp;
-          {(paginationInfo && paginationInfo.count > 1
-            ? "articles"
-            : "article") + " in this topic"}
+          <span className="placeholder col-4"></span>
         </h5>
         <ul>
-          {topicArticles.map((article, index) => (
+          <li className="col-12">
+            <span className="placeholder col-2"></span>
+          </li>
+          <li className="col-12">
+            <span className="placeholder col-2"></span>
+          </li>
+          <li className="col-12">
+            <span className="placeholder col-2"></span>
+          </li>
+          <li className="col-12">
+            <span className="placeholder col-2"></span>
+          </li>
+          <li className="col-12">
+            <span className="placeholder col-2"></span>
+          </li>
+        </ul>
+      </div>
+    );
+  } else if (
+    !isTopicDataPending &&
+    !isFetchingNextPage &&
+    topicArticles.articles?.length > 0
+  ) {
+    return (
+      <div id="topic-content">
+        <h2 className="topic-name">{topicData.topic.name}</h2>
+        <h5 className="article-count">
+          {topicArticles.paginationInfo?.count}&nbsp;
+          {(topicArticles.paginationInfo?.count === 1
+            ? "article"
+            : "articles") + " in this topic"}
+        </h5>
+        <ul>
+          {topicArticles.articles.map((article, index) => (
             <li key={index}>
               <Link
-                to={`/topic/${props.topic.id}/article/${article.id}/${article.name}`}
+                to={`/topic/${topicData.topic.id}/article/${article.id}/${article.name}`}
               >
                 {article.name}
               </Link>
             </li>
           ))}
         </ul>
-        {paginationInfo && topicArticles.length < paginationInfo.count && (
-          <button
-            className="show-more-button"
-            onClick={() => setPagenum((oldPagenum) => oldPagenum + 1)}
-          >
-            Show More
-          </button>
-        )}
+        {topicArticles.paginationInfo &&
+          topicArticles.articles.length <
+            topicArticles.paginationInfo.count && (
+            <button
+              className="show-more-button"
+              onClick={() => {
+                fetchNextPage();
+              }}
+            >
+              Show More
+            </button>
+          )}
       </div>
     );
   }

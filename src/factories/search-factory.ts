@@ -4,10 +4,7 @@ import { SearchSuggestions } from "../application/types";
 class SearchFactory {
   #apiDomain;
   constructor() {
-    this.#apiDomain =
-      process.env.NODE_ENV === "development"
-        ? appConfig.DevVariables.apiDomain
-        : appConfig.ProdVariables.apiDomain;
+    this.#apiDomain = appConfig.apiDomain;
   }
   async getSearchSuggestions(reqObj: { query: string; maxCount: number }) {
     const response = await fetch(

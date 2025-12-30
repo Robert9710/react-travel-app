@@ -1,5 +1,5 @@
-import { topics } from "../server.js";
-import { paginateResults } from "../utils.js";
+import { topics } from "../server.mjs";
+import { paginateResults } from "../utils.mjs";
 
 class SearchFactory {
   getSearchSuggestions = (reqObj) => {

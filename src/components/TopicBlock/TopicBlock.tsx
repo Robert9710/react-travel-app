@@ -4,7 +4,6 @@ import { Topic } from "../../application/types";
 import articleFactory from "../../factories/article-factory";
 import config from "./config.json";
 import { useQuery } from "@tanstack/react-query";
-import Loader from "../Loader/Loader";
 
 export default function TopicBlock(props: { topic: Topic }) {
   const numberOfArticlesToShow = config.numberOfArticlesToShow;
@@ -17,7 +16,17 @@ export default function TopicBlock(props: { topic: Topic }) {
       }),
   });
   if (isPending) {
-    <Loader />;
+    return (
+      <div
+        id="topic-block"
+        className="placeholder-glow col-12 col-sm-5 col-lg-3"
+      >
+        <div className="topic-heading-container">
+          <h3>{props.topic.name}</h3>
+        </div>
+        <p className="article-count placeholder col-4"></p>
+      </div>
+    );
   }
   if (articles) {
     return (
@@ -38,12 +47,10 @@ export default function TopicBlock(props: { topic: Topic }) {
             </li>
           ))}
         </ul>
-        {
-          <p className="article-count">
-            {articles.paginationInfo.count}&nbsp;
-            {articles.paginationInfo.count > 1 ? "Articles" : "Article"}
-          </p>
-        }
+        <p className="article-count">
+          {articles.paginationInfo.count}&nbsp;
+          {articles.paginationInfo.count > 1 ? "Articles" : "Article"}
+        </p>
       </div>
     );
   }

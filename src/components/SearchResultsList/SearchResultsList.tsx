@@ -9,17 +9,11 @@ import searchFactory from "../../factories/search-factory";
 import config from "./config.json";
 import Pagination from "../Pagination/Pagination";
 import { useQuery } from "@tanstack/react-query";
-import Loader from "../Loader/Loader";
 
 export default function SearchResultsList(props: { query: string }) {
   const numberOfSearchResultsPerPage = config.numberOfSearchResultsPerPage;
   const [pagenum, setPagenum] = useState(1);
   const ref = useRef(props.query);
-  if (ref.current !== props.query) {
-    setPagenum(1);
-    ref.current = props.query;
-  }
-
   const { isPending, data: searchResults } = useQuery({
     queryKey: ["searchResultsData", props.query, pagenum],
     queryFn: async () =>
@@ -29,9 +23,26 @@ export default function SearchResultsList(props: { query: string }) {
         pagesize: numberOfSearchResultsPerPage,
       }),
   });
+  if (ref.current !== props.query) {
+    setPagenum(1);
+    ref.current = props.query;
+  }
 
   if (isPending) {
-    return <Loader />;
+    return (
+      <div id="search-results-list" className="placeholder-glow">
+        <div className="heading">
+          <h2 className="heading-text">Search results for {props.query}</h2>
+        </div>
+        <ul className="search-results">
+          <li className="search-results-item-container placeholder col-7"></li>
+          <li className="search-results-item-container placeholder col-7"></li>
+          <li className="search-results-item-container placeholder col-7"></li>
+          <li className="search-results-item-container placeholder col-7"></li>
+          <li className="search-results-item-container placeholder col-7"></li>
+        </ul>
+      </div>
+    );
   }
   if (searchResults) {
     return (

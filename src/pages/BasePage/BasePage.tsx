@@ -1,19 +1,22 @@
 import { Outlet } from "react-router";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-// import applicationService from "../../application/application-service";
+// import { ClipLoader } from "react-spinners";
 
 export default function BasePage() {
-  // const AppContext = createContext({});
   return (
-    // <AppContext.Provider value={applicationService}>
     <>
       <Header />
       <div id="body-container">
+        {/* {isPending && (
+          <div id="loader">
+            <p>Loading...Please wait, it may take up to 1 minute</p>
+            <ClipLoader />
+          </div>
+        )} */}
         <Outlet />
       </div>
       <Footer />
     </>
-    // </AppContext.Provider>
   );
 }
