@@ -8,7 +8,7 @@ export default function TopicBlocks() {
   const numberOfTopicsToShow = config.numberOfTopicsToShow;
   const placeholderBlocks = Array.from(
     { length: numberOfTopicsToShow },
-    (number, index) => <PlaceholderBlock key={index} />
+    (_, index) => <PlaceholderBlock key={index} />
   );
   const { isPending, data: topics } = useQuery({
     queryKey: ["topicsData"],
