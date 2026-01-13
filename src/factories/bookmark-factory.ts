@@ -13,12 +13,22 @@ class BookmarkFactory {
     this.bookmarksStorage({ bookmarks });
     return true;
   }
-  getBookmarks(reqObj: { pagenum?: number; pagesize: number }) {
+  getBookmarks(reqObj: {
+    queryParams: { pagenum?: string; pagesize: string } & Record<
+      string,
+      string
+    >;
+  }) {
     const bookmarks = this.bookmarksStorage();
+    if (!reqObj.queryParams.pagenum) {
+      reqObj.queryParams.pagenum = "1";
+    }
     return {
       bookmarks: bookmarks.slice(
-        ((reqObj.pagenum || 1) - 1) * reqObj.pagesize,
-        (reqObj.pagenum || 1) * reqObj.pagesize
+        (parseInt(reqObj.queryParams.pagenum) - 1) *
+          parseInt(reqObj.queryParams.pagesize),
+        parseInt(reqObj.queryParams.pagenum) *
+          parseInt(reqObj.queryParams.pagesize)
       ),
       bookmarksCount: bookmarks.length,
     };

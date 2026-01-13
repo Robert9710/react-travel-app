@@ -1,31 +1,27 @@
-import appConfig from "../application/config.json";
 import { SearchSuggestions } from "../application/types";
+import HttpService from "../services/http-service";
 
 class SearchFactory {
-  #apiDomain;
-  constructor() {
-    this.#apiDomain = appConfig.apiDomain;
-  }
-  async getSearchSuggestions(reqObj: { query: string; maxCount: number }) {
-    const response = await fetch(
-      `${this.#apiDomain}/search/suggestions?q=${reqObj.query}&maxCount=${
-        reqObj.maxCount
-      }`
-    );
-    return await response.json();
+  async getSearchSuggestions(reqObj: {
+    queryParams: { query: string; maxCount: string } & Record<string, string>;
+  }) {
+    const response = await HttpService.fetchData({
+      path: "/search/suggestions",
+      queryParams: reqObj.queryParams,
+    });
+    return response;
   }
   async getSearchResults(reqObj: {
-    query: string;
-    pagenum: number;
-    pagesize: number;
+    queryParams: { query: string; pagenum: string; pagesize: string } & Record<
+      string,
+      string
+    >;
   }): Promise<SearchSuggestions> {
-    let queryParams = "q=" + reqObj.query;
-    if (reqObj.pagesize) {
-      queryParams +=
-        "&pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
-    }
-    const response = await fetch(`${this.#apiDomain}/search?${queryParams}`);
-    return await response.json();
+    const response = await HttpService.fetchData({
+      path: "/search",
+      queryParams: reqObj.queryParams,
+    });
+    return response;
   }
 }
 

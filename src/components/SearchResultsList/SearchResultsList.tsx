@@ -18,9 +18,11 @@ export default function SearchResultsList(props: { query: string }) {
     queryKey: ["searchResultsData", props.query, pagenum],
     queryFn: async () =>
       await searchFactory.getSearchResults({
-        query: props.query,
-        pagenum: pagenum,
-        pagesize: numberOfSearchResultsPerPage,
+        queryParams: {
+          query: props.query,
+          pagenum: pagenum.toString(),
+          pagesize: numberOfSearchResultsPerPage.toString(),
+        },
       }),
   });
   if (ref.current !== props.query) {

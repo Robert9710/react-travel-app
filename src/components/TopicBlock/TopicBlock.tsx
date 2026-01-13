@@ -12,7 +12,7 @@ export default function TopicBlock(props: { topic: Topic }) {
     queryFn: async () =>
       await articleFactory.getArticlesInTopic({
         topicId: props.topic.id,
-        pagesize: numberOfArticlesToShow,
+        queryParams: { pagesize: numberOfArticlesToShow.toString() },
       }),
   });
   if (isPending) {

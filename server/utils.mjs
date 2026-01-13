@@ -1,12 +1,12 @@
-import fs from "fs";
+// import fs from "fs";
 
 export function init() {
-  return new Promise((resolve, reject) => {
-    fs.readFile(`./data/Topics.json`, (err, data) => {
-      const topics = JSON.parse(data);
-      resolve([topics]);
-    });
-  });
+  // return new Promise((resolve, reject) => {
+  //   fs.readFile(`./server/data/Topics.json`, (err, data) => {
+  //     const topics = JSON.parse(data);
+  //     resolve([topics]);
+  //   });
+  // });
 }
 
 export function paginateResults(reqObj) {

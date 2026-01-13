@@ -10,6 +10,10 @@ import ViewTopic from "./pages/ViewTopic/ViewTopic.tsx";
 import CreateArticle from "./pages/CreateArticle/CreateArticle.tsx";
 import SearchResults from "./pages/SearchResults/SearchResults.tsx";
 import Bookmarks from "./pages/Bookmarks/Bookmarks.tsx";
+import Register from "./pages/Register/Register.tsx";
+import Login from "./pages/Login/Login.tsx";
+import { AuthProvider } from "./contexts/AuthContext.tsx";
+import httpService from "./services/http-service.ts";
 
 const router = createBrowserRouter([
   {
@@ -39,14 +43,20 @@ const router = createBrowserRouter([
         Component: SearchResults,
       },
       { path: "/bookmarks", Component: Bookmarks },
+      { path: "/register", Component: Register },
+      { path: "/login", Component: Login },
     ],
   },
 ]);
 
 const queryClient = new QueryClient();
 
-createRoot(document.getElementById("root")!).render(
-  <QueryClientProvider client={queryClient}>
-    <RouterProvider router={router} />
-  </QueryClientProvider>
-);
+httpService.getToken().then(() => {
+  createRoot(document.getElementById("root")!).render(
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+});

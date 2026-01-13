@@ -1,55 +1,38 @@
 import { Article, Articles } from "../application/types";
-import appConfig from "../application/config.json";
+import HttpService from "../services/http-service";
 
 class ArticleFactory {
-  #apiDomain;
-  constructor() {
-    this.#apiDomain = appConfig.apiDomain;
-  }
   async getArticle(reqObj: {
     articleId: string;
     topicId?: string;
   }): Promise<Article> {
-    const response = await fetch(
-      `${this.#apiDomain}/topic/${reqObj.topicId || ""}/article/${
-        reqObj.articleId
-      }`
-    );
-    const article = (await response.json()).article;
-    return this.processArticleData(article);
+    const response = await HttpService.fetchData({
+      path: `/topic/${reqObj.topicId || ""}/article/${reqObj.articleId}`,
+    });
+    return this.processArticleData(response.article);
   }
   async getRelatedArticles(reqObj: {
     articleId: string;
     topicId?: string;
-    pagenum?: number;
-    pagesize?: number;
+    queryParams: Record<string, string>;
   }): Promise<Articles> {
-    let queryParams = "";
-    if (reqObj.pagesize) {
-      queryParams =
-        "pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
-    }
-    const response = await fetch(
-      `${this.#apiDomain}/topic/${reqObj.topicId || ""}/article/${
+    const response = await HttpService.fetchData({
+      path: `/topic/${reqObj.topicId || ""}/article/${
         reqObj.articleId
-      }/related?${queryParams}`
-    );
-    return await response.json();
+      }/related`,
+      queryParams: reqObj.queryParams,
+    });
+    return response;
   }
   async getArticlesInTopic(reqObj: {
     topicId: string;
-    pagenum?: number;
-    pagesize?: number;
+    queryParams: Record<string, string>;
   }): Promise<Articles> {
-    let queryParams = "";
-    if (reqObj.pagesize) {
-      queryParams +=
-        "pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
-    }
-    const response = await fetch(
-      `${this.#apiDomain}/topic/${reqObj.topicId}/articles?${queryParams}`
-    );
-    return await response.json();
+    const response = await HttpService.fetchData({
+      path: `/topic/${reqObj.topicId}/articles`,
+      queryParams: reqObj.queryParams,
+    });
+    return response;
   }
   async createArticle(reqObj: {
     topicName: string;
@@ -57,19 +40,20 @@ class ArticleFactory {
     recommendedMonths: string[];
     content: string;
   }) {
-    const response = await fetch(`${this.#apiDomain}/create/article`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        topicId: reqObj.topicName,
-        name: reqObj.articleName,
-        recommendedMonths: reqObj.recommendedMonths,
-        content: reqObj.content,
-      }),
-    });
-    response.json();
+    console.log(reqObj.topicName);
+    // const response = await fetch(`${this.#apiDomain}/create/article`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     topicId: reqObj.topicName,
+    //     name: reqObj.articleName,
+    //     recommendedMonths: reqObj.recommendedMonths,
+    //     content: reqObj.content,
+    //   }),
+    // });
+    // response.json();
   }
   processArticleData(article: Article): Article {
     if (Array.isArray(article?.recommendedMonths)) {

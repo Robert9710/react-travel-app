@@ -1,0 +1,15 @@
+#login-form .card {
+  align-items: center;
+  margin: auto;
+  padding: 40px 30px;
+  width: fit-content;
+}
+
+#login-form .card > * {
+  margin-top: 20px;
+}
+
+#login-form .card .password-group > input {
+  display: block;
+  margin-top: 5px;
+}

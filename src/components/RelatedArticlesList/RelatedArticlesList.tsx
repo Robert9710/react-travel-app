@@ -13,7 +13,9 @@ export default function RelatedArticlesList(props: ArticleProps) {
       await articleFactory.getRelatedArticles({
         articleId: props.articleId,
         topicId: props.topicId,
-        pagesize: numberOfArticlesPerPage,
+        queryParams: {
+          pagesize: numberOfArticlesPerPage.toString(),
+        },
       }),
   });
 

@@ -1,22 +1,21 @@
 import { Link, useNavigate } from "react-router";
-
 import homeIcon from "../../icons/home.svg";
-
 import menuIcon from "../../icons/menu.svg";
-
 import article from "../../icons/article.svg";
-
 import topic from "../../icons/topic.svg";
-
 import "./Header.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { SearchSuggestions } from "../../application/types";
 import searchFactory from "../../factories/search-factory";
 import config from "./config.json";
+import { AuthContext, AuthSetContext } from "../../contexts/AuthContext";
+import userFactory from "../../factories/user-factory";
 
 export default function Header() {
   const showBookmarksLink = config.showBookmarksLink;
   const showCreateArticleLink = config.showCreateArticleLink;
+  const user = useContext(AuthContext);
+  const setUser = useContext(AuthSetContext);
   return (
     <div id="header">
       {/* Home Link */}
@@ -40,12 +39,35 @@ export default function Header() {
           <li className="dropdown-item">
             <Link to="/">Home</Link>
           </li>
-          <li className="dropdown-item">
-            {showCreateArticleLink && <Link to="/create">Create Article</Link>}
-          </li>
+          {!user && (
+            <li className="dropdown-item">
+              <Link to="/login">Log In/Register</Link>
+            </li>
+          )}
+          {user && (
+            <li className="dropdown-item">
+              {showCreateArticleLink && (
+                <Link to="/create">Create Article</Link>
+              )}
+            </li>
+          )}
           <li className="dropdown-item">
             {showBookmarksLink && <Link to="/bookmarks">Bookmarks</Link>}
           </li>
+          {user && (
+            <li className="dropdown-item">
+              <Link
+                to=""
+                onClick={() => {
+                  userFactory.logout();
+                  sessionStorage.removeItem("username");
+                  setUser(null);
+                }}
+              >
+                Logout
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>
@@ -63,8 +85,7 @@ function SearchField() {
   async function getSearchSuggestions(query: string) {
     setSearchSuggestions(
       await searchFactory.getSearchSuggestions({
-        query,
-        maxCount: searchSuggestionsMaxCount,
+        queryParams: { query, maxCount: searchSuggestionsMaxCount.toString() },
       })
     );
   }

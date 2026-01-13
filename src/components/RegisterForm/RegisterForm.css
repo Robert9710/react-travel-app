@@ -1,0 +1,20 @@
+#register-form .card {
+  align-items: center;
+  margin: auto;
+  max-width: 20%;
+  padding: 40px 30px;
+}
+
+#register-form .card > * {
+  margin-top: 20px;
+}
+
+#register-form .card .password-group > input {
+  display: block;
+  margin-top: 5px;
+}
+
+#register-form .validation-error {
+  color: #ff3333;
+  font-size: 12px;
+}
