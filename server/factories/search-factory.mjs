@@ -1,8 +1,7 @@
-import { topics } from "../server.mjs";
 import { paginateResults } from "../utils.mjs";
 
 class SearchFactory {
-  getSearchSuggestions = (reqObj) => {
+  async getSearchSuggestions(reqObj) {
     let results = [];
     topics.forEach((topic) => {
       if (topic.name.includes(reqObj.query)) {
@@ -26,9 +25,9 @@ class SearchFactory {
       results = paginateResults({ results, pagesize: reqObj.maxCount });
     }
     return { suggestions: results };
-  };
+  }
 
-  search = (reqObj) => {
+  async search(reqObj) {
     let articlesFound = [];
     let topicsFound = [];
     let results = { articles: [], topics: [] };
@@ -84,8 +83,7 @@ class SearchFactory {
           reqObj.pagesize || results.articles.length + results.topics.length,
       },
     };
-  };
+  }
 }
 
-let searchFactory = new SearchFactory();
-export default searchFactory;
+export default new SearchFactory();

@@ -7,7 +7,7 @@ import { Link } from "react-router";
 export default function BookmarksPreviewList() {
   const numberOfBookmarksToShow = config.numberOfBookmarksToShow;
   const { bookmarks, bookmarksCount } = bookmarkFactory.getBookmarks({
-    pagesize: numberOfBookmarksToShow,
+    queryParams: { pagesize: numberOfBookmarksToShow.toString() },
   });
   return (
     <div id="bookmarks-preview-list">

@@ -1,69 +1,82 @@
-import { topics } from "../server.mjs";
 import topicFactory from "./topic-factory.mjs";
+import DBService from "../services/db-service.mjs";
 import { paginateResults } from "../utils.mjs";
-import fs from "fs";
 
 class ArticleFactory {
-  getArticle = (reqObj) => {
-    const topic = reqObj.topicId
-      ? topicFactory.getTopic({ topicId: reqObj.topicId })
-      : topicFactory.getTopicForArticle({ articleId: reqObj.articleId });
-    const article = topic.articles.find(
-      (article) => article.id === reqObj.articleId
-    );
-    article.topicSummary = { id: topic.id, name: topic.name };
+  async getArticle(reqObj) {
+    const res = await DBService.getItem({
+      tableName: "Articles",
+      key: {
+        Id: reqObj.articleId,
+      },
+    });
+    const topicSummary = (
+      await topicFactory.getTopic({ topicId: res?.TopicId })
+    ).topic;
     return {
-      article: article,
+      article: {
+        id: res?.Id,
+        name: res?.Name,
+        recommendedMonths: res?.RecommendedMonths,
+        content: res?.Content,
+        topicSummary,
+      },
     };
-  };
+  }
 
-  getRelatedArticles = (reqObj) => {
-    const topic = reqObj.topicId
-      ? topicFactory.getTopic({ topicId: reqObj.topicId })
-      : topicFactory.getTopicForArticle({ articleId: reqObj.articleId });
-    const relatedArticles = paginateResults({
-      results: topic.articles.filter(
-        (article) => article.id !== reqObj.articleId
-      ),
+  async getRelatedArticles(reqObj) {
+    let [items] = await DBService.getItems({
+      tableName: "Articles",
+      indexName: "TopicIdIndex",
+      conditionKey: "TopicId",
+      conditionValue: reqObj.topicId,
+      requestedAttributes: ["Id", "Name"],
+    });
+    items = items.filter((item) => item.Id !== reqObj.articleId);
+    const count = items.length;
+    const res = paginateResults({
+      results: items,
       pagenum: reqObj.pagenum,
       pagesize: reqObj.pagesize,
     });
     return {
-      articles: relatedArticles.map((article) => ({
-        id: article.id,
-        name: article.name,
-      })),
+      articles: res.map((article) => {
+        return { id: article.Id, name: article.Name };
+      }),
       paginationInfo: {
-        count: topic.articles.length - 1,
+        count: count,
         pagenum: reqObj.pagenum || 1,
-        pagesize: reqObj.pagesize || relatedArticles.length,
+        pagesize: reqObj.pagesize || res.length,
       },
     };
-  };
+  }
 
-  getArticlesInTopic = (reqObj) => {
-    const topic = topicFactory.getTopic({ topicId: reqObj.topicId });
-    const articles = paginateResults({
-      results: topic.articles.map((article) => ({
-        id: article.id,
-        name: article.name,
-      })),
+  async getArticlesInTopic(reqObj) {
+    let [items] = await DBService.getItems({
+      tableName: "Articles",
+      indexName: "TopicIdIndex",
+      conditionKey: "TopicId",
+      conditionValue: reqObj.topicId,
+      requestedAttributes: ["Id", "Name"],
+    });
+    const res = paginateResults({
+      results: items,
       pagenum: reqObj.pagenum,
       pagesize: reqObj.pagesize,
     });
-    reqObj.pagenum = parseInt(reqObj.pagenum);
-    reqObj.pagesize = parseInt(reqObj.pagesize);
     return {
-      articles: articles,
+      articles: res.map((article) => {
+        return { id: article.Id, name: article.Name };
+      }),
       paginationInfo: {
-        count: topic.articles.length,
+        count: items.length,
         pagenum: reqObj.pagenum || 1,
-        pagesize: reqObj.pagesize || articles.length,
+        pagesize: reqObj.pagesize || res.length,
       },
     };
-  };
+  }
 
-  createArticle = (reqObj) => {
+  async createArticle(reqObj) {
     const topic = topics.find((topic) => topic.id === reqObj.topicId);
     const isDuplicateArticle = !!topic.articles.find(
       (article) => article.name === reqObj.name
@@ -75,30 +88,16 @@ class ArticleFactory {
         recommendedMonths: reqObj.recommendedMonths,
         content: reqObj.content,
       });
-      fs.writeFile(
-        `./server/data/Topics.json`,
-        JSON.stringify(topics),
-        (err) => {}
-      );
-      return true;
+      //   fs.writeFile(
+      //     `./server/data/Topics.json`,
+      //     JSON.stringify(topics),
+      //     (err) => {}
+      //   );
+      //   return true;
     } else {
       return false;
     }
-  };
-
-  getNextArticleId = () => {
-    let nextArticleId = 100;
-    topics.forEach((topic) => {
-      topic.articles.forEach((article) => {
-        if (article.id > nextArticleId) {
-          nextArticleId = parseInt(article.id);
-        }
-      });
-    });
-    nextArticleId += 1;
-    return nextArticleId.toString();
-  };
+  }
 }
 
-let articleFactory = new ArticleFactory();
-export default articleFactory;
+export default new ArticleFactory();

@@ -14,8 +14,10 @@ export default function BookmarksList() {
     queryKey: ["bookmarksData", pagenum],
     queryFn: () =>
       bookmarkFactory.getBookmarks({
-        pagenum: pagenum,
-        pagesize: numberOfBookmarksPerPage,
+        queryParams: {
+          pagenum: pagenum.toString(),
+          pagesize: numberOfBookmarksPerPage.toString(),
+        },
       }),
   });
 

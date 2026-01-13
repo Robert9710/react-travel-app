@@ -27,18 +27,13 @@ export default function TopicContent(props: Props) {
     queryFn: async ({ pageParam }) =>
       await articleFactory.getArticlesInTopic({
         topicId: props.topicId,
-        pagenum: pageParam,
-        pagesize: numberOfArticlesToShow,
+        queryParams: {
+          pagenum: pageParam.toString(),
+          pagesize: numberOfArticlesToShow.toString(),
+        },
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      console.log(
-        "Has more: ",
-        lastPage.paginationInfo.pagenum * lastPage.paginationInfo.pagesize <
-          lastPage.paginationInfo.count
-          ? lastPage.paginationInfo.pagenum + 1
-          : undefined
-      );
       return lastPage.paginationInfo.pagenum *
         lastPage.paginationInfo.pagesize <
         lastPage.paginationInfo.count

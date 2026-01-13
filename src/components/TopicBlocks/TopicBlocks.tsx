@@ -13,7 +13,9 @@ export default function TopicBlocks() {
   const { isPending, data: topics } = useQuery({
     queryKey: ["topicsData"],
     queryFn: async () =>
-      await topicFactory.getTopics({ pagesize: numberOfTopicsToShow }),
+      await topicFactory.getTopics({
+        queryParams: { pagesize: numberOfTopicsToShow.toString() },
+      }),
   });
   return (
     <div id="topic-blocks">

@@ -12,14 +12,20 @@ export default function CreateArticleForm() {
     null
   );
   const [topicName, setTopicName] = useState("");
-  const topicNameRef = useRef<SelectInstance<{
-    value: string;
-    label: string;
-  }> | null>(null);
-  const recommendedMonthsRef = useRef<SelectInstance<{
-    value: string;
-    label: string;
-  }> | null>(null);
+  const topicNameRef = useRef<SelectInstance<
+    {
+      value: string;
+      label: string;
+    },
+    false
+  > | null>(null);
+  const recommendedMonthsRef = useRef<SelectInstance<
+    {
+      value: string;
+      label: string;
+    },
+    true
+  > | null>(null);
   const {
     register,
     handleSubmit,
@@ -147,7 +153,6 @@ export default function CreateArticleForm() {
           <Select
             options={months}
             isMulti
-            //@ts-ignore
             ref={recommendedMonthsRef}
             onChange={(selected) => {
               if (Array.isArray(selected)) {

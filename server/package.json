@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "nodemonConfig": {
     "watch": [
       "server.mjs"
@@ -15,14 +16,18 @@
   "dependencies": {
     "@types/node": "^24.9.1",
     "argon2": "^0.44.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.3",
     "serverless-http": "^4.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "dotenv": "^17.2.3",
     "globals": "^15.15.0",
+    "mongodb": "^7.0.0",
     "nodemon": "^3.1.9",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1"

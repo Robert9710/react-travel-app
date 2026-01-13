@@ -1,43 +1,46 @@
-import appConfig from "../application/config.json";
 import { Topics } from "../application/types";
+import HttpService from "../services/http-service";
 
 class TopicFactory {
-  #apiDomain;
-  constructor() {
-    this.#apiDomain = appConfig.apiDomain;
-  }
   async getTopic(reqObj: { topicId: string }) {
-    const response = await fetch(`${this.#apiDomain}/topic/${reqObj.topicId}`);
-    return await response.json();
+    const response = await HttpService.fetchData({
+      path: `/topic/${reqObj.topicId}`,
+    });
+    return response;
   }
+
   async getTopics(reqObj: {
-    pagenum?: number;
-    pagesize: number;
+    queryParams: { pagenum?: string; pagesize: string } & Record<
+      string,
+      string
+    >;
   }): Promise<Topics>;
   async getTopics(): Promise<Topics>;
   async getTopics(reqObj?: {
-    pagenum?: number;
-    pagesize: number;
+    queryParams: { pagenum?: string; pagesize: string } & Record<
+      string,
+      string
+    >;
   }): Promise<Topics> {
-    let queryParams = "";
-    if (reqObj?.pagesize) {
-      queryParams +=
-        "pagenum=" + reqObj.pagenum + "&pagesize=" + reqObj.pagesize;
-    }
-    const response = await fetch(`${this.#apiDomain}/topics?${queryParams}`);
-    return await response.json();
-  }
-  async createTopic(reqObj: { newTopicName: string }) {
-    const response = await fetch(`${this.#apiDomain}/create/topic`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        topicName: reqObj.newTopicName,
-      }),
+    const response = await HttpService.fetchData({
+      path: "/topics",
+      queryParams: reqObj?.queryParams,
     });
-    response.json();
+    return response;
+  }
+
+  async createTopic(reqObj: { newTopicName: string }) {
+    console.log(reqObj.newTopicName);
+    //   const response = await fetch(`${this.#apiDomain}/create/topic`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       topicName: reqObj.newTopicName,
+    //     }),
+    //   });
+    //   response.json();
   }
 }
 
