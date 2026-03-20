@@ -9,9 +9,9 @@ import CreateTopicModal from "../CreateTopicModal/CreateTopicModal";
 
 export default function CreateArticleForm() {
   const [recommendedMonths, setRecommendedMonths] = useState<null | string[]>(
-    null
+    null,
   );
-  const [topicName, setTopicName] = useState("");
+  const [topicId, setTopicId] = useState("");
   const topicNameRef = useRef<SelectInstance<
     {
       value: string;
@@ -94,7 +94,7 @@ export default function CreateArticleForm() {
     const articleName = formData.articleName;
     const content = formData.content;
     if (
-      topicName &&
+      topicId &&
       articleName &&
       recommendedMonths &&
       recommendedMonths.length > 0 &&
@@ -104,7 +104,7 @@ export default function CreateArticleForm() {
       topicNameRef.current?.clearValue();
       recommendedMonthsRef.current?.clearValue();
       articleFactory.createArticle({
-        topicName,
+        topicId,
         articleName,
         recommendedMonths,
         content,
@@ -120,7 +120,7 @@ export default function CreateArticleForm() {
             defaultOptions
             loadOptions={getTopics}
             ref={topicNameRef}
-            onChange={(selected) => selected && setTopicName(selected.value)}
+            onChange={(selected) => selected && setTopicId(selected.value)}
             styles={selectStyles}
           />
           <button

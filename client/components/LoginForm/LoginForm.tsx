@@ -57,7 +57,7 @@ export default function LoginForm() {
             onChange={handleShowPassword}
           />
         </div>
-        <button type="submit" className="btn create-article-button">
+        <button type="submit" className="btn login-button">
           Login
         </button>
       </form>

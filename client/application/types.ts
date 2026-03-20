@@ -4,15 +4,22 @@ export interface PaginationInfo {
   pagesize: number;
 }
 
+export type PaginationQueryParams = {
+  pagenum?: string;
+  pagesize: string;
+};
+
 export interface ArticleDetails {
   id: string;
   name: string;
 }
 
-export interface Article extends ArticleDetails {
-  recommendedMonths: string;
-  content: string;
-  topicSummary: { id: string; name: string };
+export interface Article {
+  article: ArticleDetails & {
+    recommendedMonths: string;
+    content: string;
+    topicSummary: { id: string; name: string; articleCount: number };
+  };
 }
 
 export interface Articles {
@@ -26,14 +33,19 @@ export interface ArticleProps {
 }
 
 export interface Topic {
-  id: string;
-  name: string;
-  articleCount: number;
+  topic: { id: string; name: string; articleCount: number };
 }
 
 export interface Topics {
-  topics: Topic[];
+  topics: Topic["topic"][];
   paginationInfo: PaginationInfo;
+}
+
+export interface ApiError {
+  error: {
+    message: string;
+    errorCode: string;
+  };
 }
 
 export type TopicSearchSuggestion = Topic;

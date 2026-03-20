@@ -22,5 +22,11 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "src/custom.d.ts"]
+  "include": [
+    "client",
+    "client/custom.d.ts",
+    "client/services/article-service.ts",
+    "client/services/search-service.ts",
+    "client/services/topic-service.ts"
+  ]
 }

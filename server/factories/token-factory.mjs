@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { InvalidTokenError } from "../errors.mjs";
 
 class TokenFactory {
   generateAccessToken(reqObj) {
@@ -16,17 +17,17 @@ class TokenFactory {
         process.env.REFRESH_TOKEN_SECRET,
         (err, user) => {
           if (err) {
-            // return res.sendStatus(403);
+            throw new InvalidTokenError("403-101");
           }
           accessToken = jwt.sign(
             { username: user.username, userId: user.userId },
             process.env.ACCESS_TOKEN_SECRET,
             {
               expiresIn: "15m",
-            }
+            },
           );
           // res.json({ accessToken });
-        }
+        },
       );
     } else if (reqObj?.user) {
       accessToken = jwt.sign(
@@ -34,14 +35,13 @@ class TokenFactory {
         process.env.ACCESS_TOKEN_SECRET,
         {
           expiresIn: "15m",
-        }
+        },
       );
     } else {
       accessToken = jwt.sign({}, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1h",
       });
     }
-    console.log(accessToken);
     return accessToken;
   }
 
@@ -53,7 +53,7 @@ class TokenFactory {
         process.env.ACCESS_TOKEN_SECRET,
         {
           expiresIn: "15m",
-        }
+        },
       );
     }
     return refreshToken;
@@ -64,12 +64,8 @@ class TokenFactory {
   }
 
   authenticateToken(req, res, next) {
-    if (
-      req.path !== "/register" &&
-      req.path !== "/login" &&
-      req.path !== "/token"
-    ) {
-      if (req.method !== "GET") {
+    if (req.path !== "/token") {
+      if (req.method !== "GET" && req.path !== "/login") {
         const csrfCookie = req.cookies.csrf_token;
         const csrfHeader = req.headers["csrf-token"];
 
@@ -83,38 +79,14 @@ class TokenFactory {
       }
       const token = req.cookies.access_token;
       if (!token) {
-        return res.sendStatus(401);
+        throw new InvalidTokenError("401-100", "", 401);
       }
-      // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      //   if (err) {
-      //     // if (err.name === "TokenExpiredError")
-      //     return res.sendStatus(403);
-      //   }
-      //   req.user = user;
-      //   next();
-      // });
       try {
         const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         req.user = user;
         next();
       } catch (err) {
-        // if (err.name === "TokenExpiredError")
-        /*
-        err = {
-        name: 'TokenExpiredError',
-        message: 'jwt expired',
-        expiredAt: 1408621000
-      }
-        err = {
-        name: 'JsonWebTokenError',
-        message: 'jwt malformed'
-      }
-        'invalid token' - the header or payload could not be parsed
-        'jwt malformed' - the token does not have three components (delimited by a .)
-        'jwt signature is required'
-        'invalid signature'
-        */
-        return res.sendStatus(403);
+        throw new InvalidTokenError("403-100");
       }
     } else if (req.path === "/token") {
       const token = req.cookies.access_token;
@@ -123,7 +95,7 @@ class TokenFactory {
       }
       try {
         const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        res.sendStatus(204);
+        res.sendStatus(304);
       } catch (err) {
         next();
       }

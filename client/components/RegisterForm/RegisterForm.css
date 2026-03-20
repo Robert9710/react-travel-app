@@ -18,3 +18,13 @@
   color: #ff3333;
   font-size: 12px;
 }
+
+#register-form .register-button {
+  background-color: var(--lagoon-color);
+  color: var(--color-2);
+}
+
+#register-form .register-button:hover {
+  background-color: var(--lagoon-color);
+  color: var(--color-2);
+}

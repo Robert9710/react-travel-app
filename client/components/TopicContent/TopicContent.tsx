@@ -4,6 +4,7 @@ import articleFactory from "../../factories/article-factory";
 import config from "./config.json";
 import topicFactory from "../../factories/topic-factory";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import ErrorHandler from "../ErrorHandler/ErrorHandler";
 
 interface Props {
   topicId: string;
@@ -11,7 +12,12 @@ interface Props {
 
 export default function TopicContent(props: Props) {
   const numberOfArticlesToShow = config.numberOfArticlesToShow;
-  const { isPending: isTopicDataPending, data: topicData } = useQuery({
+  const {
+    isPending: isTopicDataPending,
+    data: topicData,
+    isError: isGetTopicError,
+    error: getTopicError,
+  } = useQuery({
     queryKey: ["topic", props.topicId],
     queryFn: async () =>
       await topicFactory.getTopic({
@@ -22,6 +28,8 @@ export default function TopicContent(props: Props) {
     data: topicArticlesData,
     isFetchingNextPage,
     fetchNextPage,
+    isError: isGetArticlesError,
+    error: getArticlesError,
   } = useInfiniteQuery({
     queryKey: ["topicArticles", props.topicId],
     queryFn: async ({ pageParam }) =>
@@ -75,6 +83,10 @@ export default function TopicContent(props: Props) {
         </ul>
       </div>
     );
+  } else if (isGetTopicError) {
+    <ErrorHandler error={getTopicError} />;
+  } else if (isGetArticlesError) {
+    <ErrorHandler error={getArticlesError} />;
   } else if (
     !isTopicDataPending &&
     !isFetchingNextPage &&

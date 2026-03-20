@@ -9,12 +9,18 @@ import searchFactory from "../../factories/search-factory";
 import config from "./config.json";
 import Pagination from "../Pagination/Pagination";
 import { useQuery } from "@tanstack/react-query";
+import ErrorHandler from "../ErrorHandler/ErrorHandler";
 
 export default function SearchResultsList(props: { query: string }) {
   const numberOfSearchResultsPerPage = config.numberOfSearchResultsPerPage;
   const [pagenum, setPagenum] = useState(1);
   const ref = useRef(props.query);
-  const { isPending, data: searchResults } = useQuery({
+  const {
+    isPending,
+    data: searchResults,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["searchResultsData", props.query, pagenum],
     queryFn: async () =>
       await searchFactory.getSearchResults({
@@ -45,6 +51,9 @@ export default function SearchResultsList(props: { query: string }) {
         </ul>
       </div>
     );
+  }
+  if (isError) {
+    <ErrorHandler error={error} />;
   }
   if (searchResults) {
     return (

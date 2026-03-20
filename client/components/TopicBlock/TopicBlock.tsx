@@ -4,10 +4,16 @@ import { Topic } from "../../application/types";
 import articleFactory from "../../factories/article-factory";
 import config from "./config.json";
 import { useQuery } from "@tanstack/react-query";
+import ErrorHandler from "../ErrorHandler/ErrorHandler";
 
-export default function TopicBlock(props: { topic: Topic }) {
+export default function TopicBlock(props: Topic) {
   const numberOfArticlesToShow = config.numberOfArticlesToShow;
-  const { isPending, data: articles } = useQuery({
+  const {
+    isPending,
+    data: articles,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["topicArticlesData", props.topic.id],
     queryFn: async () =>
       await articleFactory.getArticlesInTopic({
@@ -27,6 +33,9 @@ export default function TopicBlock(props: { topic: Topic }) {
         <p className="article-count placeholder col-4"></p>
       </div>
     );
+  }
+  if (isError) {
+    <ErrorHandler error={error} />;
   }
   if (articles) {
     return (

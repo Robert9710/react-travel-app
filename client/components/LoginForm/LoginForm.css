@@ -13,3 +13,13 @@
   display: block;
   margin-top: 5px;
 }
+
+#login-form .login-button {
+  background-color: var(--lagoon-color);
+  color: var(--color-2);
+}
+
+#login-form .login-button:hover {
+  background-color: var(--lagoon-color);
+  color: var(--color-2);
+}

@@ -1,34 +1,24 @@
-import HttpService from "../services/http-service";
+import userService from "../services/user-service";
 
 class UserFactory {
   async registerUser(reqObj: { username: string; password: string }) {
-    const response = await HttpService.fetchData({
-      path: "/register",
-      method: "POST",
-      body: {
-        username: reqObj.username,
-        password: reqObj.password,
-      },
+    const response = await await userService.registerUser({
+      username: reqObj.username,
+      password: reqObj.password,
     });
     return response;
   }
+
   async login(reqObj: { username: string; password: string }) {
-    const response = await HttpService.fetchData({
-      path: "/login",
-      method: "POST",
-      body: {
-        username: reqObj.username,
-        password: reqObj.password,
-      },
+    const response = await userService.login({
+      username: reqObj.username,
+      password: reqObj.password,
     });
     return response;
   }
 
   async logout() {
-    const response = await HttpService.fetchData({
-      path: "/logout",
-      method: "POST",
-    });
+    const response = await userService.logout();
     return response;
   }
 }

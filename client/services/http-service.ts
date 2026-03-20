@@ -1,17 +1,18 @@
 import appConfig from "../application/config.json";
+import { ApiError } from "../utilities/error";
+import tokenService from "./token-service";
 
 class HttpService {
   #apiDomain;
   constructor() {
     this.#apiDomain = appConfig.apiDomain;
   }
-  async fetchData(reqObj: {
-    path: string;
+  async fetchData<T>(reqObj: {
+    relativeUrl: string;
     method?: string;
-    queryParams?: Record<string, string>;
-    body?: Record<string, string | number>;
-  }) {
-    let url = this.#apiDomain + reqObj.path;
+    body?: Record<string, string | number | string[]>;
+  }): Promise<T> {
+    const url = this.#apiDomain + reqObj.relativeUrl;
     const options: RequestInit = {
       method: reqObj.method || "GET",
       credentials: "include",
@@ -21,36 +22,33 @@ class HttpService {
       httpHeaders["CSRF-Token"] = this.#getCsrfToken();
     }
     options.headers = new Headers(httpHeaders);
-    if (reqObj.queryParams) {
-      url += "?" + new URLSearchParams(reqObj.queryParams);
-    }
     if (reqObj.body) {
       options.body = JSON.stringify(reqObj.body);
     }
     const response = await fetch(url, options);
-    if (response.status === 403) {
-      await this.getToken({ url, options });
-      // return await this.fetchData(reqObj);
+    if (response.status === 204 || response.status === 304) {
+      return undefined as T;
     } else {
-      if (response.status !== 204) {
-        const res = await response.json();
-        console.log("Fetched res: ", res);
-        return res;
+      let parsedResponse;
+      try {
+        parsedResponse = await response.json();
+      } catch {
+        throw new Error("Error while parsing response");
       }
-      return {};
-    }
-    // return await response.json();
-  }
-
-  async getToken(reqObj?: { url: string; options: RequestInit }) {
-    await this.fetchData({ path: "/token", method: "POST" });
-    // await fetch(`${this.#apiDomain}/token`, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   credentials: "include",
-    // });
-    if (reqObj) {
-      fetch(reqObj.url, reqObj.options);
+      if (parsedResponse?.error) {
+        switch (parsedResponse.error.errorCode) {
+          case "401-100":
+          case "403-100": {
+            await tokenService.getToken();
+            const retry = await fetch(url, options);
+            return await retry.json();
+          }
+          default: {
+            throw new ApiError(parsedResponse.error.errorCode);
+          }
+        }
+      }
+      return parsedResponse;
     }
   }
 

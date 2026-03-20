@@ -1,25 +1,28 @@
+import dbService from "../services/db-service.mjs";
 import { paginateResults } from "../utils.mjs";
 
 class SearchFactory {
   async getSearchSuggestions(reqObj) {
     let results = [];
+    const topics = await this.#getTopics(reqObj.userId);
+    const articles = await this.#getArticles(reqObj.userId);
     topics.forEach((topic) => {
-      if (topic.name.includes(reqObj.query)) {
-        results.push({ resultType: "Topic", id: topic.id, name: topic.name });
+      if (topic.Name.includes(reqObj.query)) {
+        results.push({ resultType: "Topic", id: topic.Id, name: topic.Name });
       }
-      topic.articles.forEach((article) => {
-        if (
-          article.name.includes(reqObj.query) ||
-          article.content.includes(reqObj.query)
-        ) {
-          results.push({
-            resultType: "Article",
-            id: article.id,
-            name: article.name,
-            topicId: topic.id,
-          });
-        }
-      });
+    });
+    articles.forEach((article) => {
+      if (
+        article.Name.includes(reqObj.query) ||
+        article.Content.includes(reqObj.query)
+      ) {
+        results.push({
+          resultType: "Article",
+          id: article.Id,
+          name: article.Name,
+          topicId: article.TopicId,
+        });
+      }
     });
     if (reqObj.maxCount) {
       results = paginateResults({ results, pagesize: reqObj.maxCount });
@@ -34,27 +37,32 @@ class SearchFactory {
     if (reqObj.maxCount) {
       reqObj.pagesize = reqObj.maxCount;
     }
+    const topics = await this.#getTopics(reqObj.userId);
+    const articles = await this.#getArticles(reqObj.userId);
     topics.forEach((topic) => {
-      if (topic.name.includes(reqObj.query)) {
+      if (topic.Name.toLowerCase().includes(reqObj.query.toLowerCase())) {
         topicsFound.push({
-          id: topic.id,
-          name: topic.name,
-          articleCount: topic.articles.length,
+          id: topic.Id,
+          name: topic.Name,
+          // articleCount: topic.articles.length,
         });
       }
-      topic.articles.forEach((article) => {
-        if (
-          article.name.includes(reqObj.query) ||
-          article.content.includes(reqObj.query)
-        ) {
-          articlesFound.push({
-            id: article.id,
-            name: article.name,
-            topicId: topic.id,
-          });
-        }
-      });
     });
+    articles.forEach((article) => {
+      if (
+        article.Name.toLowerCase().includes(reqObj.query.toLowerCase()) ||
+        article.Content.includes(reqObj.query)
+      ) {
+        articlesFound.push({
+          resultType: "Article",
+          id: article.Id,
+          name: article.Name,
+          topicId: article.TopicId,
+        });
+      }
+    });
+    // console.log(articlesFound);
+    // console.log(topicsFound);
     if (articlesFound.length > 0) {
       results.articles = paginateResults({
         results: articlesFound,
@@ -64,7 +72,7 @@ class SearchFactory {
     }
     if (
       (!reqObj.pagesize ||
-        results.articles.length < reqObj.pagesize * reqObj.pagenum) &&
+        results.articles.length < reqObj.pagesize * (reqObj.pagenum || 1)) &&
       topicsFound.length > 0
     ) {
       results.topics = paginateResults({
@@ -83,6 +91,48 @@ class SearchFactory {
           reqObj.pagesize || results.articles.length + results.topics.length,
       },
     };
+  }
+
+  async #getArticles(userId) {
+    let [articles] = await dbService.getItems({
+      tableName: "Articles",
+      indexName: "UserIdIndex",
+      conditionKey: "UserId",
+      conditionValue: "0",
+      requestedAttributes: ["Id", "Name", "Content", "TopicId"],
+    });
+    if (userId) {
+      let [userArticles] = await dbService.getItems({
+        tableName: "Articles",
+        indexName: "UserIdIndex",
+        conditionKey: "UserId",
+        conditionValue: userId,
+        requestedAttributes: ["Id", "Name", "Content", "TopicId"],
+      });
+      articles = articles.concat(userArticles);
+    }
+    return articles;
+  }
+
+  async #getTopics(userId) {
+    let [topics] = await dbService.getItems({
+      tableName: "Topics",
+      indexName: "UserIdIndex",
+      conditionKey: "UserId",
+      conditionValue: "0",
+      requestedAttributes: ["Id", "Name"],
+    });
+    if (userId) {
+      let [userTopics] = await dbService.getItems({
+        tableName: "Topics",
+        indexName: "UserIdIndex",
+        conditionKey: "UserId",
+        conditionValue: userId,
+        requestedAttributes: ["Id", "Name"],
+      });
+      topics = topics.concat(userTopics);
+    }
+    return topics;
   }
 }
 

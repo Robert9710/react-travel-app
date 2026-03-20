@@ -58,7 +58,7 @@ export default function RegisterForm() {
             onChange={handleShowPassword}
           />
         </div>
-        <button type="submit" className="btn create-article-button">
+        <button type="submit" className="btn register-button">
           Register
         </button>
       </form>

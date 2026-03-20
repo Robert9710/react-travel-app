@@ -1,46 +1,23 @@
-import { Topics } from "../application/types";
-import HttpService from "../services/http-service";
+import { PaginationQueryParams } from "../application/types";
+import topicService from "../services/topic-service";
 
 class TopicFactory {
   async getTopic(reqObj: { topicId: string }) {
-    const response = await HttpService.fetchData({
-      path: `/topic/${reqObj.topicId}`,
-    });
+    const response = topicService.getTopic({ topicId: reqObj.topicId });
     return response;
   }
 
-  async getTopics(reqObj: {
-    queryParams: { pagenum?: string; pagesize: string } & Record<
-      string,
-      string
-    >;
-  }): Promise<Topics>;
-  async getTopics(): Promise<Topics>;
-  async getTopics(reqObj?: {
-    queryParams: { pagenum?: string; pagesize: string } & Record<
-      string,
-      string
-    >;
-  }): Promise<Topics> {
-    const response = await HttpService.fetchData({
-      path: "/topics",
+  async getTopics(reqObj?: { queryParams: PaginationQueryParams }) {
+    const response = await topicService.getTopics({
       queryParams: reqObj?.queryParams,
     });
     return response;
   }
 
   async createTopic(reqObj: { newTopicName: string }) {
-    console.log(reqObj.newTopicName);
-    //   const response = await fetch(`${this.#apiDomain}/create/topic`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       topicName: reqObj.newTopicName,
-    //     }),
-    //   });
-    //   response.json();
+    return await topicService.createTopic({
+      newTopicName: reqObj.newTopicName,
+    });
   }
 }
 

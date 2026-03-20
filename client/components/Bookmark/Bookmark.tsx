@@ -1,12 +1,18 @@
 import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import articleFactory from "../../factories/article-factory";
+import ErrorHandler from "../ErrorHandler/ErrorHandler";
 
 export default function Bookmark(props: {
   children?: React.ReactNode;
   articleId: string;
 }) {
-  const { isPending, data: bookmarkDetails } = useQuery({
+  const {
+    isPending,
+    data: bookmarkDetails,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["bookmarkData", props.articleId],
     queryFn: async () => {
       return await articleFactory.getArticle({ articleId: props.articleId });
@@ -19,6 +25,9 @@ export default function Bookmark(props: {
         <span className="placeholder col-3"></span>
       </div>
     );
+  }
+  if (isError) {
+    <ErrorHandler error={error} />;
   }
   if (bookmarkDetails) {
     return (

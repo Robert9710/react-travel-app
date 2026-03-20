@@ -11,6 +11,7 @@
 #topic-block .topic-heading-container h3 {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #topic-block .topic-articles {
@@ -23,7 +24,9 @@
   height: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: opacity 2s, height 0.5s;
+  transition:
+    opacity 2s,
+    height 0.5s;
   opacity: 0;
 }
 

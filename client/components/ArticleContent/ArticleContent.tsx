@@ -2,12 +2,18 @@ import "./ArticleContent.css";
 import ArticleActions from "../ArticleActions/ArticleActions";
 import articleFactory from "../../factories/article-factory";
 import { useQuery } from "@tanstack/react-query";
+import ErrorHandler from "../ErrorHandler/ErrorHandler";
 
 export default function ArticleContent(props: {
   topicId: string;
   articleId: string;
 }) {
-  const { isFetching, data: articleData } = useQuery({
+  const {
+    isFetching,
+    data: articleData,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["article", props.articleId, props.topicId],
     queryFn: async () =>
       await articleFactory.getArticle({
@@ -33,6 +39,9 @@ export default function ArticleContent(props: {
         </div>
       </div>
     );
+  }
+  if (isError) {
+    <ErrorHandler error={error} />;
   }
   if (articleData) {
     return (

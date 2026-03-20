@@ -3,20 +3,30 @@ import TopicBlock from "../TopicBlock/TopicBlock";
 import topicFactory from "../../factories/topic-factory";
 import config from "./config.json";
 import { useQuery } from "@tanstack/react-query";
+import ErrorHandler from "../ErrorHandler/ErrorHandler";
 
 export default function TopicBlocks() {
   const numberOfTopicsToShow = config.numberOfTopicsToShow;
   const placeholderBlocks = Array.from(
     { length: numberOfTopicsToShow },
-    (_, index) => <PlaceholderBlock key={index} />
+    (_, index) => <PlaceholderBlock key={index} />,
   );
-  const { isPending, data: topics } = useQuery({
+  const {
+    isPending,
+    data: topics,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["topicsData"],
     queryFn: async () =>
       await topicFactory.getTopics({
         queryParams: { pagesize: numberOfTopicsToShow.toString() },
       }),
   });
+  console.log("Tops: ", topics);
+  if (isError) {
+    <ErrorHandler error={error} />;
+  }
   return (
     <div id="topic-blocks">
       {isPending ? (
@@ -26,7 +36,7 @@ export default function TopicBlocks() {
           (topic) =>
             topic.articleCount > 0 && (
               <TopicBlock key={topic.id} topic={topic} />
-            )
+            ),
         )
       ) : (
         <p>No Topics</p>

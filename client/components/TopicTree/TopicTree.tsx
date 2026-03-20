@@ -2,9 +2,15 @@ import { Link } from "react-router";
 import "./TopicTree.css";
 import topicFactory from "../../factories/topic-factory";
 import { useQuery } from "@tanstack/react-query";
+import ErrorHandler from "../ErrorHandler/ErrorHandler";
 
 export default function TopicTree() {
-  const { isPending, data: topics } = useQuery({
+  const {
+    isPending,
+    data: topics,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["topicTreeData"],
     queryFn: async () => await topicFactory.getTopics(),
   });
@@ -25,6 +31,9 @@ export default function TopicTree() {
       </div>
     );
   }
+  if (isError) {
+    <ErrorHandler error={error} />;
+  }
   if (topics) {
     return (
       <div id="topic-tree">
@@ -40,7 +49,7 @@ export default function TopicTree() {
                     <p className="topics-item-text">{topic.name}</p>
                   </Link>
                 </li>
-              )
+              ),
           )}
         </ul>
       </div>

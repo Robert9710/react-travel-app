@@ -4,10 +4,16 @@ import { ArticleProps, ArticleDetails } from "../../application/types";
 import articleFactory from "../../factories/article-factory";
 import config from "./config.json";
 import { useQuery } from "@tanstack/react-query";
+import ErrorHandler from "../ErrorHandler/ErrorHandler";
 
 export default function RelatedArticlesList(props: ArticleProps) {
   const numberOfArticlesPerPage = config.numberOfArticlesPerPage;
-  const { isPending, data: relatedArticles } = useQuery({
+  const {
+    isPending,
+    data: relatedArticles,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["relatedArticlesData", props.articleId, props.topicId],
     queryFn: async () =>
       await articleFactory.getRelatedArticles({
@@ -28,6 +34,8 @@ export default function RelatedArticlesList(props: ArticleProps) {
         <div className="placeholder col-7"></div>
       </div>
     );
+  } else if (isError) {
+    <ErrorHandler error={error} />;
   } else if (relatedArticles && relatedArticles.articles.length > 0) {
     return (
       <div id="related-articles-list">

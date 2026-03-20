@@ -1,3 +1,5 @@
+import { PaginationQueryParams } from "../application/types";
+
 class BookmarkFactory {
   addBookmark(reqObj: { bookmarkId: string }) {
     const bookmarks = this.bookmarksStorage();
@@ -13,12 +15,7 @@ class BookmarkFactory {
     this.bookmarksStorage({ bookmarks });
     return true;
   }
-  getBookmarks(reqObj: {
-    queryParams: { pagenum?: string; pagesize: string } & Record<
-      string,
-      string
-    >;
-  }) {
+  getBookmarks(reqObj: { queryParams: PaginationQueryParams }) {
     const bookmarks = this.bookmarksStorage();
     if (!reqObj.queryParams.pagenum) {
       reqObj.queryParams.pagenum = "1";
@@ -28,7 +25,7 @@ class BookmarkFactory {
         (parseInt(reqObj.queryParams.pagenum) - 1) *
           parseInt(reqObj.queryParams.pagesize),
         parseInt(reqObj.queryParams.pagenum) *
-          parseInt(reqObj.queryParams.pagesize)
+          parseInt(reqObj.queryParams.pagesize),
       ),
       bookmarksCount: bookmarks.length,
     };

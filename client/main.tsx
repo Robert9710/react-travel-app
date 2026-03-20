@@ -13,7 +13,7 @@ import Bookmarks from "./pages/Bookmarks/Bookmarks.tsx";
 import Register from "./pages/Register/Register.tsx";
 import Login from "./pages/Login/Login.tsx";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
-import httpService from "./services/http-service.ts";
+import Error from "./pages/Error/Error.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +21,7 @@ const router = createBrowserRouter([
     Component: BasePage,
     children: [
       { index: true, Component: Home },
+      { path: "/error", Component: Error },
       {
         path: "/topic/:topicId",
         children: [
@@ -51,12 +52,10 @@ const router = createBrowserRouter([
 
 const queryClient = new QueryClient();
 
-httpService.getToken().then(() => {
-  createRoot(document.getElementById("root")!).render(
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </QueryClientProvider>
-  );
-});
+createRoot(document.getElementById("root")!).render(
+  <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </QueryClientProvider>,
+);

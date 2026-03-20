@@ -1,24 +1,19 @@
-import { SearchSuggestions } from "../application/types";
-import HttpService from "../services/http-service";
+import { PaginationQueryParams } from "../application/types";
+import searchService from "../services/search-service";
 
 class SearchFactory {
   async getSearchSuggestions(reqObj: {
-    queryParams: { query: string; maxCount: string } & Record<string, string>;
+    queryParams: { query: string; maxCount: string };
   }) {
-    const response = await HttpService.fetchData({
-      path: "/search/suggestions",
+    const response = await searchService.getSearchSuggestions({
       queryParams: reqObj.queryParams,
     });
     return response;
   }
   async getSearchResults(reqObj: {
-    queryParams: { query: string; pagenum: string; pagesize: string } & Record<
-      string,
-      string
-    >;
-  }): Promise<SearchSuggestions> {
-    const response = await HttpService.fetchData({
-      path: "/search",
+    queryParams: { query: string } & PaginationQueryParams;
+  }) {
+    const response = await searchService.getSearchResults({
       queryParams: reqObj.queryParams,
     });
     return response;
