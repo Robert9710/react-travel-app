@@ -7,6 +7,7 @@ import {
   UpdateCommand,
   DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
+import { AppError } from "../errors.mjs";
 
 class DynamoDBService {
   constructor() {
@@ -14,13 +15,17 @@ class DynamoDBService {
     this.dynamo = DynamoDBDocumentClient.from(this.client);
   }
   async insertItem(reqObj) {
-    const response = await this.dynamo.send(
-      new PutCommand({
-        TableName: reqObj.tableName,
-        Item: reqObj.item,
-      })
-    );
-    return response;
+    try {
+      const response = await this.dynamo.send(
+        new PutCommand({
+          TableName: reqObj.tableName,
+          Item: reqObj.item,
+        }),
+      );
+      return response;
+    } catch (error) {
+      throw new AppError("Database error", 500);
+    }
   }
   async getItem(reqObj) {
     try {
@@ -28,11 +33,11 @@ class DynamoDBService {
         new GetCommand({
           TableName: reqObj.tableName,
           Key: reqObj.key,
-        })
+        }),
       );
       return response.Item;
     } catch (err) {
-      return { err, mes: err.message };
+      throw new AppError("Database error", 500);
     }
   }
   async getItems(reqObj) {
@@ -49,7 +54,7 @@ class DynamoDBService {
             attribute = `#${attribute}`;
           }
           return attribute;
-        }
+        },
       );
       reqObj.requestedAttributes.forEach((attribute, index) => {
         projectionExpressionValue += attribute;
@@ -73,20 +78,25 @@ class DynamoDBService {
         queryObj.ExpressionAttributeNames = reservedValues;
       }
     }
-    do {
-      const response = await this.dynamo.send(new QueryCommand(queryObj));
-      items.push(...response.Items);
-      count += response.Count;
-      ExclusiveStartKey = response.LastEvaluatedKey;
-    } while (ExclusiveStartKey);
-    return [items, count];
+    try {
+      do {
+        const response = await this.dynamo.send(new QueryCommand(queryObj));
+        items.push(...response.Items);
+        count += response.Count;
+        ExclusiveStartKey = response.LastEvaluatedKey;
+      } while (ExclusiveStartKey);
+      return [items, count];
+    } catch (error) {
+      throw new AppError("Database error", 500);
+    }
   }
   async updateItem(reqObj) {
-    const response = await this.dynamo.send(
-      new UpdateCommand({
-        TableName: reqObj.tableName,
-        Key: reqObj.key,
-        /*
+    try {
+      const response = await this.dynamo.send(
+        new UpdateCommand({
+          TableName: reqObj.tableName,
+          Key: reqObj.key,
+          /*
         ToDo
         UpdateExpression: `
         SET #name = :name
@@ -96,16 +106,19 @@ class DynamoDBService {
       },
       },
         */
-        UpdateExpression: `
+          UpdateExpression: `
                   SET ${reqObj.expressionKey} = :value
                 `,
-        ExpressionAttributeValues: {
-          ":value": reqObj.expressionValue,
-        },
-        ReturnValues: "ALL_NEW",
-      })
-    );
-    return response;
+          ExpressionAttributeValues: {
+            ":value": reqObj.expressionValue,
+          },
+          ReturnValues: "ALL_NEW",
+        }),
+      );
+      return response;
+    } catch (error) {
+      throw new AppError("Database error", 500);
+    }
   }
   async deleteItem(reqObj) {}
 }

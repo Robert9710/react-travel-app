@@ -1,14 +1,18 @@
-import DBService from "../services/db-service.mjs";
+import { AccessDeniedError, ValidationError } from "../errors.mjs";
+import dbService from "../services/db-service.mjs";
 import { paginateResults } from "../utils.mjs";
 
 class TopicFactory {
   async getTopics(reqObj) {
-    const [res] = await DBService.getItems({
+    let [res] = await dbService.getItems({
       tableName: "Topics",
       indexName: "UserIdIndex",
       conditionKey: "UserId",
       conditionValue: "0",
     });
+    res = res.filter(
+      (topic) => topic.UserId === "0" || topic.UserId === reqObj.userId,
+    );
     let topics = paginateResults({
       results: res,
       pagenum: reqObj.pagenum,
@@ -17,6 +21,7 @@ class TopicFactory {
     for (let topic of topics) {
       topic.articleCount = await this.getArticleCountForTopic({
         topicId: topic.Id,
+        userId: reqObj.userId,
       });
     }
     topics = topics.map((topic) => {
@@ -37,13 +42,19 @@ class TopicFactory {
   }
 
   async getArticleCountForTopic(reqObj) {
-    const [, count] = await DBService.getItems({
+    if (!reqObj.topicId) {
+      throw new ValidationError("400-200");
+    }
+    let [articles] = await dbService.getItems({
       tableName: "Articles",
       indexName: "TopicIdIndex",
       conditionKey: "TopicId",
       conditionValue: reqObj.topicId,
     });
-    return count;
+    articles = articles.filter(
+      (article) => article.UserId === "0" || article.UserId === reqObj.userId,
+    );
+    return articles.length;
   }
 
   // getTopicForArticle = async (reqObj) => {
@@ -57,34 +68,58 @@ class TopicFactory {
   // };
 
   async getTopic(reqObj) {
-    const res = await DBService.getItem({
+    if (!reqObj.topicId) {
+      throw new ValidationError("400-200");
+    }
+    const res = await dbService.getItem({
       tableName: "Topics",
       key: {
         Id: reqObj.topicId,
       },
     });
-    return { topic: { id: res?.Id, name: res?.Name } };
+    if (res.UserId !== "0" && res.UserId !== reqObj.userId) {
+      throw AccessDeniedError("403-200");
+    }
+    const articleCount = await this.getArticleCountForTopic({
+      topicId: res?.Id,
+      userId: reqObj.userId,
+    });
+    return { topic: { id: res?.Id, name: res?.Name, articleCount } };
   }
 
   async createTopic(reqObj) {
-    const isDuplicateTopic = !!topics.find(
-      (topic) => topic.name === reqObj.topicName
-    );
-    if (!isDuplicateTopic) {
-      topics.push({
-        id: this.getNextTopicId(),
-        name: reqObj.topicName,
-        articles: [],
-      });
-      // fs.writeFile(
-      //   `./server/data/Topics.json`,
-      //   JSON.stringify(topics),
-      //   (err) => {}
-      // );
-      return true;
-    } else {
-      return false;
+    if (!reqObj.userId) {
+      throw AccessDeniedError("401-200", "", 401);
     }
+    if (!reqObj.topicName) {
+      throw new ValidationError("400-201");
+    }
+    const isDuplicateTopic = !!topics.find(
+      (topic) => topic.name === reqObj.topicName,
+    );
+    if (isDuplicateTopic) {
+      throw new ValidationError("400-102");
+    }
+    let data = await dbService.getItem({
+      tableName: "Ids",
+      key: {
+        Resource: "Topic",
+      },
+    });
+    const newTopicId = (parseInt(data.LastId) + 1).toString();
+    const newTopic = {
+      id: newTopicId,
+      name: reqObj.topicName,
+    };
+    await dbService.insertItem({ tableName: "Topics", item: newTopic });
+    const resp = await dbService.updateItem({
+      tableName: "Ids",
+      key: {
+        Resource: "Topic",
+      },
+      expressionKey: "LastId",
+      expressionValue: newTopicId,
+    });
   }
 }
 

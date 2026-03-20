@@ -1,0 +1,9 @@
+#error-window {
+  background-color: #ddd;
+  padding: 10px;
+  width: fit-content;
+}
+
+#error-window .home-page-link {
+  color: var(--lagoon-color);
+}
