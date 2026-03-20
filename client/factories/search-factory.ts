@@ -10,6 +10,7 @@ class SearchFactory {
     });
     return response;
   }
+
   async getSearchResults(reqObj: {
     queryParams: { query: string } & PaginationQueryParams;
   }) {

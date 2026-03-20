@@ -1,4 +1,4 @@
-import { PaginationQueryParams } from "../application/types";
+import { PaginationQueryParams, SearchSuggestions } from "../application/types";
 import httpService from "./http-service";
 
 class SearchService {
@@ -9,7 +9,7 @@ class SearchService {
     if (reqObj.queryParams) {
       relativeUrl += "?" + new URLSearchParams(reqObj.queryParams);
     }
-    const response = await httpService.fetchData({
+    const response = await httpService.fetchData<SearchSuggestions>({
       relativeUrl,
     });
     return this.#handleResponse(response);
@@ -22,7 +22,7 @@ class SearchService {
     if (reqObj.queryParams) {
       relativeUrl += "?" + new URLSearchParams(reqObj.queryParams);
     }
-    const response = await httpService.fetchData({
+    const response = await httpService.fetchData<SearchSuggestions>({
       relativeUrl,
     });
     return this.#handleResponse(response);

@@ -48,7 +48,7 @@ export interface ApiError {
   };
 }
 
-export type TopicSearchSuggestion = Topic;
+export type TopicSearchSuggestion = Topic["topic"];
 
 export type ArticleSearchSuggestion = {
   id: string;
